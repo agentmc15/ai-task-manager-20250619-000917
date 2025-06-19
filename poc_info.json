@@ -1,0 +1,44 @@
+{
+  "generated_for": {
+    "job_title": "Full-time or Contract to Hire - 100% Remote Opportunity",
+    "company": "Unknown",
+    "date": "2025-06-19T00:09:19.164913"
+  },
+  "specification": {
+    "repository_name": "ai-task-manager",
+    "title": "AI-powered task management system",
+    "description": "** AI-Task-Manager is an AI-powered task management system designed to help individuals and teams manage their tasks efficiently by leveraging machine learning to provide smart task prioritization and intelligent suggestions. The system integrates seamless real-time updates and insightful analytics to enhance productivity and streamline workflows.",
+    "features": [
+      "GET /tasks/prioritize**: Auto-prioritize tasks based on AI analysis.",
+      "POST /tasks/suggest**: Get AI-generated suggestions for task management.",
+      "WebSocket /updates**: Establish a WebSocket connection for real-time task updates.",
+      "GET /analytics**: Retrieve analytical insights and reports.",
+      "POST /nlp/command**: Process natural language commands for task creation and updates."
+    ],
+    "tech_stack": [
+      "Python",
+      "FastAPI",
+      "React",
+      "TypeScript",
+      "OpenAI"
+    ],
+    "architecture": {
+      "frontend": null,
+      "backend": null,
+      "database": null,
+      "ai_integration": null
+    },
+    "api_endpoints": [
+      "POST /tasks**: Create a new task.",
+      "GET /tasks**: Retrieve a list of tasks with filters for priority and status.",
+      "PUT /tasks/{task_id}**: Update a specific task.",
+      "DELETE /tasks/{task_id}**: Delete a specific task."
+    ],
+    "unique_aspects": [
+      "AI-Driven Insights:** Leverage state-of-the-art machine learning models to provide personalized task management experiences and actionable insights.",
+      "Real-time Collaboration:** Foster seamless collaboration with instant updates and notifications across devices.",
+      "Natural Language Interface:** Simplify task management with an intuitive NLP-based interface, reducing the learning curve and enhancing user engagement."
+    ]
+  },
+  "generated_by": "TestApp-AI"
+}
