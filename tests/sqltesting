@@ -1,0 +1,83 @@
+import pandas as pd
+import pyodbc
+
+# Connection parameters
+server = 'YOUR_SERVER_NAME'  # e.g., 'localhost' or 'SERVER\INSTANCE'
+database = 'YOUR_DATABASE_NAME'
+username = 'YOUR_USERNAME'  # Leave empty for Windows Authentication
+password = 'YOUR_PASSWORD'  # Leave empty for Windows Authentication
+
+# Connection string for Windows Authentication
+conn_str = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};Trusted_Connection=yes;'
+
+# Connection string for SQL Authentication
+# conn_str = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
+
+# Establish connection
+conn = pyodbc.connect(conn_str)
+
+# Query data
+query = """
+SELECT *
+FROM YourTableName
+WHERE SomeColumn = 'SomeValue'
+"""
+
+# Load data into pandas DataFrame
+df = pd.read_sql(query, conn)
+
+# Close connection
+conn.close()
+
+# The DataFrame 'df' will automatically be available in Power BI
+print(f"Loaded {len(df)} rows")
+
+
+import pandas as pd
+from sqlalchemy import create_engine
+
+# Connection parameters
+server = 'YOUR_SERVER_NAME'
+database = 'YOUR_DATABASE_NAME'
+username = 'YOUR_USERNAME'
+password = 'YOUR_PASSWORD'
+
+# Create connection string for Windows Authentication
+engine = create_engine(f'mssql+pyodbc://{server}/{database}?driver=ODBC+Driver+17+for+SQL+Server&trusted_connection=yes')
+
+# For SQL Authentication
+# engine = create_engine(f'mssql+pyodbc://{username}:{password}@{server}/{database}?driver=ODBC+Driver+17+for+SQL+Server')
+
+# Query data
+query = """
+SELECT *
+FROM YourTableName
+"""
+
+# Load data into DataFrame
+df = pd.read_sql(query, engine)
+
+# The DataFrame 'df' will automatically be available in Power BI
+print(f"Loaded {len(df)} rows")
+
+import pandas as pd
+import pyodbc
+
+# Connection setup
+server = 'YOUR_SERVER_NAME'
+database = 'YOUR_DATABASE_NAME'
+conn_str = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};Trusted_Connection=yes;'
+conn = pyodbc.connect(conn_str)
+
+# Load multiple tables
+customers_df = pd.read_sql("SELECT * FROM Customers", conn)
+orders_df = pd.read_sql("SELECT * FROM Orders", conn)
+products_df = pd.read_sql("SELECT * FROM Products", conn)
+
+# Merge/join tables if needed
+df = orders_df.merge(customers_df, on='CustomerID', how='left')
+df = df.merge(products_df, on='ProductID', how='left')
+
+conn.close()
+
+# Power BI will use the last DataFrame created (df)
