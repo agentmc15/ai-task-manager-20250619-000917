@@ -1,0 +1,451 @@
+{
+  "framework": {
+    "name": "LOE A Control Implementation Decision Framework",
+    "version": "1.0",
+    "purpose": "Determine if system qualifies for LOE A (20 controls) or requires higher LOE",
+    "metadata": {
+      "tags": ["security", "controls", "LOE", "risk-assessment", "decision-tree", "pilot-systems", "DFARS", "CUI", "ITAR", "compliance", "RTX", "classification"],
+      "created": "2025-01-01",
+      "domain": "cybersecurity-compliance"
+    }
+  },
+  "control_levels": {
+    "LOE_A": {
+      "controls": 20,
+      "risk_level": "LOW",
+      "description": "Short duration pilot, test, demo systems"
+    },
+    "LOE_B": {
+      "controls": 38,
+      "risk_level": "MEDIUM",
+      "description": "Public data systems with external connectivity"
+    },
+    "LOE_C": {
+      "controls": 56,
+      "risk_level": "HIGH",
+      "description": "Internal RTX (Non-DFARS, Commercial, LTD)"
+    },
+    "LOE_D": {
+      "controls": 70,
+      "risk_level": "HIGH",
+      "description": "External RTX (Non-DFARS, Commercial, LTD)"
+    },
+    "DFARS": {
+      "controls": 110,
+      "risk_level": "HIGHEST",
+      "description": "CUI, CDI, ITAR, EAR systems requiring DFARS compliance"
+    }
+  },
+  "decision_rules": [
+    {
+      "rule_id": "R001",
+      "rule_name": "DFARS Check",
+      "question": "Is this a DFARS system?",
+      "priority": 1,
+      "conditions": {
+        "YES": {
+          "action": "DISQUALIFY",
+          "result": "LOE_C",
+          "minimum_controls": 56,
+          "reason": "DFARS systems require minimum LOE C controls"
+        },
+        "NO": {
+          "action": "CONTINUE",
+          "next_rule": "R002"
+        }
+      }
+    },
+    {
+      "rule_id": "R002",
+      "rule_name": "CUI Classification",
+      "question": "Is it CUI (Controlled Unclassified Information) non-CDI?",
+      "priority": 2,
+      "conditions": {
+        "YES": {
+          "action": "CONTINUE",
+          "next_rule": "R003"
+        },
+        "NO": {
+          "action": "CONTINUE",
+          "next_rule": "R004"
+        }
+      }
+    },
+    {
+      "rule_id": "R003",
+      "rule_name": "Competition Sensitive",
+      "question": "Is the data Competition Sensitive?",
+      "priority": 3,
+      "parent_condition": "CUI=YES",
+      "conditions": {
+        "YES": {
+          "action": "DISQUALIFY",
+          "result": "LOE_B",
+          "minimum_controls": 38,
+          "reason": "Competition sensitive data requires medium risk controls"
+        },
+        "NO": {
+          "action": "CONTINUE",
+          "next_rule": "R005"
+        }
+      }
+    },
+    {
+      "rule_id": "R004",
+      "rule_name": "Public Data Check",
+      "question": "Is it Public Data?",
+      "priority": 3,
+      "parent_condition": "CUI=NO",
+      "conditions": {
+        "YES": {
+          "action": "CONTINUE",
+          "next_rule": "R006"
+        },
+        "NO": {
+          "action": "CONTINUE",
+          "next_rule": "R007"
+        }
+      }
+    },
+    {
+      "rule_id": "R005",
+      "rule_name": "ITAR/EAR Check",
+      "question": "Is the system subject to ITAR/EAR regulations?",
+      "priority": 4,
+      "conditions": {
+        "YES": {
+          "action": "DISQUALIFY",
+          "result": "LOE_B",
+          "minimum_controls": 38,
+          "reason": "ITAR/EAR regulated systems require enhanced controls"
+        },
+        "NO": {
+          "action": "CONTINUE",
+          "next_rule": "R007"
+        }
+      }
+    },
+    {
+      "rule_id": "R006",
+      "rule_name": "External Connectivity",
+      "question": "Does the system have External Connectivity?",
+      "priority": 4,
+      "parent_condition": "PUBLIC_DATA=YES",
+      "conditions": {
+        "YES": {
+          "action": "CONTINUE",
+          "next_rule": "R006A"
+        },
+        "NO": {
+          "action": "CONTINUE",
+          "next_rule": "R008"
+        }
+      }
+    },
+    {
+      "rule_id": "R006A",
+      "rule_name": "Internet Facing",
+      "question": "Is the system Internet Facing?",
+      "priority": 5,
+      "parent_rule": "R006",
+      "conditions": {
+        "YES": {
+          "action": "DISQUALIFY",
+          "result": "LOE_B",
+          "minimum_controls": 38,
+          "reason": "Internet facing systems require additional security controls"
+        },
+        "NO": {
+          "action": "CONTINUE",
+          "next_rule": "R008"
+        }
+      }
+    },
+    {
+      "rule_id": "R007",
+      "rule_name": "Proprietary Information",
+      "question": "Does the system contain Proprietary information?",
+      "priority": 4,
+      "conditions": {
+        "YES": {
+          "action": "CONTINUE",
+          "next_rule": "R007A"
+        },
+        "NO": {
+          "action": "CONTINUE",
+          "next_rule": "R009"
+        }
+      }
+    },
+    {
+      "rule_id": "R007A",
+      "rule_name": "Personal Information Check",
+      "question": "Does the system contain Personal Information (PI)?",
+      "priority": 5,
+      "parent_rule": "R007",
+      "conditions": {
+        "YES": {
+          "action": "DISQUALIFY",
+          "result": "LOE_B",
+          "minimum_controls": 38,
+          "reason": "Systems with PI require privacy controls"
+        },
+        "NO": {
+          "action": "CONTINUE",
+          "next_rule": "R009"
+        }
+      }
+    },
+    {
+      "rule_id": "R008",
+      "rule_name": "Internal Use Only",
+      "question": "Is the system marked Internal Use Only?",
+      "priority": 5,
+      "conditions": {
+        "YES": {
+          "action": "CONTINUE",
+          "next_rule": "R009"
+        },
+        "NO": {
+          "action": "CONTINUE",
+          "next_rule": "R009"
+        }
+      }
+    },
+    {
+      "rule_id": "R009",
+      "rule_name": "Connectivity Assessment",
+      "question": "Is connectivity Internal Only?",
+      "priority": 6,
+      "conditions": {
+        "YES": {
+          "action": "CONTINUE",
+          "next_rule": "R010"
+        },
+        "NO": {
+          "action": "CONTINUE",
+          "next_rule": "R011"
+        }
+      }
+    },
+    {
+      "rule_id": "R010",
+      "rule_name": "LAN/WAN/MAN Check",
+      "question": "Is the system on LAN/WAN/MAN?",
+      "priority": 7,
+      "parent_condition": "INTERNAL_ONLY=YES",
+      "conditions": {
+        "YES": {
+          "action": "CONTINUE",
+          "next_rule": "R010A"
+        },
+        "NO": {
+          "action": "CONTINUE",
+          "next_rule": "R012"
+        }
+      }
+    },
+    {
+      "rule_id": "R010A",
+      "rule_name": "Network Segregation",
+      "question": "Is the network segregated?",
+      "priority": 8,
+      "parent_rule": "R010",
+      "conditions": {
+        "YES": {
+          "action": "CONTINUE",
+          "next_rule": "R012"
+        },
+        "NO": {
+          "action": "CONTINUE",
+          "next_rule": "R010B"
+        }
+      }
+    },
+    {
+      "rule_id": "R010B",
+      "rule_name": "Government C2G Interconnection",
+      "question": "Is it interconnected to Government C2G?",
+      "priority": 9,
+      "parent_rule": "R010A",
+      "conditions": {
+        "YES": {
+          "action": "DISQUALIFY",
+          "result": "LOE_B",
+          "minimum_controls": 38,
+          "reason": "C2G interconnected systems require additional controls"
+        },
+        "NO": {
+          "action": "CONTINUE",
+          "next_rule": "R012"
+        }
+      }
+    },
+    {
+      "rule_id": "R011",
+      "rule_name": "Externally Accessible Systems",
+      "question": "Are there Externally Accessible Systems?",
+      "priority": 7,
+      "parent_condition": "INTERNAL_ONLY=NO",
+      "conditions": {
+        "YES": {
+          "action": "DISQUALIFY",
+          "result": "LOE_B",
+          "minimum_controls": 38,
+          "reason": "Externally accessible systems require enhanced controls"
+        },
+        "NO": {
+          "action": "CONTINUE",
+          "next_rule": "R011A"
+        }
+      }
+    },
+    {
+      "rule_id": "R011A",
+      "rule_name": "Internet/ORION Connection",
+      "question": "Is there Internet/ORION connectivity?",
+      "priority": 8,
+      "parent_rule": "R011",
+      "conditions": {
+        "YES": {
+          "action": "DISQUALIFY",
+          "result": "LOE_B",
+          "minimum_controls": 38,
+          "reason": "Internet/ORION connectivity requires additional controls"
+        },
+        "NO": {
+          "action": "CONTINUE",
+          "next_rule": "R012"
+        }
+      }
+    },
+    {
+      "rule_id": "R012",
+      "rule_name": "Major Application",
+      "question": "Is this classified as a Major Application?",
+      "priority": 10,
+      "conditions": {
+        "YES": {
+          "action": "DISQUALIFY",
+          "result": "LOE_B",
+          "minimum_controls": 38,
+          "reason": "Major Applications require comprehensive controls"
+        },
+        "NO": {
+          "action": "CONTINUE",
+          "next_rule": "R013"
+        }
+      }
+    },
+    {
+      "rule_id": "R013",
+      "rule_name": "RTX Managed",
+      "question": "Is the system RTX Managed?",
+      "priority": 11,
+      "conditions": {
+        "YES": {
+          "action": "CONTINUE",
+          "next_rule": "R014"
+        },
+        "NO": {
+          "action": "DISQUALIFY",
+          "result": "LOE_B",
+          "minimum_controls": 38,
+          "reason": "Non-RTX managed systems require additional oversight controls"
+        }
+      }
+    },
+    {
+      "rule_id": "R014",
+      "rule_name": "Pilot/Test/Demo Verification",
+      "question": "Is this truly a Pilot/Test/Demo with short duration?",
+      "priority": 12,
+      "conditions": {
+        "YES": {
+          "action": "CONTINUE",
+          "next_rule": "R015"
+        },
+        "NO": {
+          "action": "DISQUALIFY",
+          "result": "LOE_B",
+          "minimum_controls": 38,
+          "reason": "Production systems require full control sets"
+        }
+      }
+    },
+    {
+      "rule_id": "R015",
+      "rule_name": "Duration Check",
+      "question": "Is the duration less than 6 months?",
+      "priority": 13,
+      "conditions": {
+        "YES": {
+          "action": "APPROVE",
+          "result": "LOE_A",
+          "controls": 20,
+          "status": "APPROVED",
+          "message": "System qualifies for LOE A baseline (20 controls)"
+        },
+        "NO": {
+          "action": "CONTINUE",
+          "next_rule": "R015A"
+        }
+      }
+    },
+    {
+      "rule_id": "R015A",
+      "rule_name": "Extended Duration",
+      "question": "Is the duration less than 1 year?",
+      "priority": 14,
+      "parent_rule": "R015",
+      "conditions": {
+        "YES": {
+          "action": "CONDITIONAL",
+          "result": "LOE_A",
+          "controls": 20,
+          "status": "CONDITIONAL_APPROVAL",
+          "requirements": "Quarterly review required, may escalate to LOE B",
+          "message": "Conditional LOE A approval with periodic reassessment"
+        },
+        "NO": {
+          "action": "DISQUALIFY",
+          "result": "LOE_B",
+          "minimum_controls": 38,
+          "reason": "Systems lasting over 1 year require permanent control baselines"
+        }
+      }
+    }
+  ],
+  "quick_reference": {
+    "automatic_disqualifiers": [
+      "DFARS system",
+      "Competition Sensitive",
+      "ITAR/EAR regulated",
+      "Personal Information (PI)",
+      "Internet facing",
+      "Government C2G interconnected",
+      "Externally accessible systems",
+      "Major Application",
+      "Non-RTX managed",
+      "Duration > 1 year"
+    ],
+    "loe_a_qualifiers": [
+      "Non-DFARS",
+      "Pilot/Test/Demo purpose",
+      "Short duration (< 6 months ideal)",
+      "RTX managed",
+      "Internal only connectivity",
+      "Network segregated",
+      "No sensitive data classifications",
+      "Not a Major Application"
+    ]
+  },
+  "search_keywords": {
+    "systems": ["DFARS", "CUI", "CDI", "ITAR", "EAR", "RTX", "Major Application"],
+    "data_types": ["Public", "Proprietary", "Competition Sensitive", "Personal Information", "PI", "Internal Use Only"],
+    "connectivity": ["LAN", "WAN", "MAN", "Internet", "ORION", "C2G", "Network Segregated", "Externally Accessible"],
+    "controls": ["LOE A", "LOE B", "LOE C", "LOE D", "20 controls", "38 controls", "56 controls", "70 controls", "110 controls"],
+    "risk_levels": ["LOW", "MEDIUM", "HIGH", "HIGHEST"],
+    "purposes": ["Pilot", "Test", "Demo", "Short Duration", "Production"]
+  }
+}
