@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot System Architecture & Flow</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .slide-container {
+            width: 1920px;
+            height: 1080px;
+            background: white;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 60px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .slide-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .slide-title {
+            font-size: 48px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .slide-subtitle {
+            font-size: 24px;
+            color: #7f8c8d;
+        }
+        
+        svg {
+            width: 100%;
+            height: calc(100% - 140px);
+        }
+        
+        .component-box {
+            fill: #ffffff;
+            stroke-width: 3;
+            filter: drop-shadow(3px 3px 10px rgba(0,0,0,0.1));
+        }
+        
+        .user-interface {
+            stroke: #3498db;
+            fill: #ebf5fb;
+        }
+        
+        .ai-engine {
+            stroke: #9b59b6;
+            fill: #f4ecf7;
+        }
+        
+        .database {
+            stroke: #e67e22;
+            fill: #fef5e7;
+        }
+        
+        .api-system {
+            stroke: #e74c3c;
+            fill: #fdedec;
+        }
+        
+        .dashboard {
+            stroke: #16a085;
+            fill: #e8f8f5;
+        }
+        
+        .archer-system {
+            stroke: #34495e;
+            fill: #f8f9f9;
+        }
+        
+        .ato-output {
+            stroke: #27ae60;
+            fill: #e8f8f5;
+        }
+        
+        .flow-arrow {
+            stroke: #34495e;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+        
+        .data-flow {
+            stroke: #3498db;
+            stroke-width: 2;
+            stroke-dasharray: 5,5;
+            fill: none;
+            marker-end: url(#data-arrowhead);
+        }
+        
+        .component-label {
+            font-size: 18px;
+            font-weight: bold;
+            fill: #2c3e50;
+        }
+        
+        .component-desc {
+            font-size: 14px;
+            fill: #7f8c8d;
+        }
+        
+        .status-indicator {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        
+        .legend {
+            position: absolute;
+            bottom: 40px;
+            right: 60px;
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ecf0f1;
+        }
+        
+        .legend-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        
+        .legend-color {
+            width: 30px;
+            height: 3px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="slide-header">
+            <div class="slide-title">XetaAI Chatbot System Architecture</div>
+            <div class="slide-subtitle">Conversation Flow & Continuous ATO Generation Process</div>
+        </div>
+        
+        <svg viewBox="0 0 1800 800" xmlns="http://www.w3.org/2000/svg">
+            <!-- Define markers for arrows -->
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                    <polygon points="0 0, 10 3, 0 6" fill="#34495e" />
+                </marker>
+                <marker id="data-arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                    <polygon points="0 0, 10 3, 0 6" fill="#3498db" />
+                </marker>
+                
+                <!-- Database cylinder shape -->
+                <g id="db-shape">
+                    <ellipse cx="50" cy="10" rx="50" ry="10" />
+                    <rect x="0" y="10" width="100" height="60" />
+                    <ellipse cx="50" cy="70" rx="50" ry="10" />
+                </g>
+            </defs>
+            
+            <!-- User Interface -->
+            <rect x="50" y="350" width="200" height="100" rx="10" class="component-box user-interface" />
+            <text x="150" y="385" text-anchor="middle" class="component-label">User Interface</text>
+            <text x="150" y="410" text-anchor="middle" class="component-desc">Web/Mobile Chat</text>
+            <text x="150" y="430" text-anchor="middle" class="component-desc">Input/Output</text>
+            
+            <!-- Clarity Chatbot Engine -->
+            <rect x="350" y="320" width="250" height="160" rx="10" class="component-box ai-engine" />
+            <text x="475" y="355" text-anchor="middle" class="component-label">Clarity Engine</text>
+            <text x="475" y="380" text-anchor="middle" class="component-desc">Powered by XetaAI</text>
+            <text x="475" y="400" text-anchor="middle" class="component-desc">NLP & Context Management</text>
+            <text x="475" y="420" text-anchor="middle" class="component-desc">Dynamic Question Logic</text>
+            <text x="475" y="440" text-anchor="middle" class="component-desc">Response Generation</text>
+            <circle cx="475" cy="460" r="5" fill="#27ae60" class="status-indicator" />
+            <text x="490" y="465" font-size="12" fill="#27ae60">Active</text>
+            
+            <!-- RAG Database -->
+            <g transform="translate(400, 100)">
+                <use href="#db-shape" class="component-box database" />
+                <text x="50" y="45" text-anchor="middle" class="component-label">RAG Database</text>
+                <text x="50" y="65" text-anchor="middle" class="component-desc">JSON Format</text>
+            </g>
+            
+            <!-- Vector Database -->
+            <g transform="translate(550, 100)">
+                <use href="#db-shape" class="component-box database" />
+                <text x="50" y="45" text-anchor="middle" class="component-label">VectorDB</text>
+                <text x="50" y="65" text-anchor="middle" class="component-desc">Embeddings</text>
+            </g>
+            
+            <!-- Dynamic JSON Document -->
+            <rect x="700" y="350" width="200" height="100" rx="10" class="component-box database" />
+            <text x="800" y="385" text-anchor="middle" class="component-label">Dynamic JSON</text>
+            <text x="800" y="410" text-anchor="middle" class="component-desc">Question Flow Logic</text>
+            <text x="800" y="430" text-anchor="middle" class="component-desc">Decision Trees</text>
+            
+            <!-- API Gateway -->
+            <rect x="1000" y="350" width="180" height="100" rx="10" class="component-box api-system" />
+            <text x="1090" y="385" text-anchor="middle" class="component-label">API Gateway</text>
+            <text x="1090" y="410" text-anchor="middle" class="component-desc">Archer Connector</text>
+            <text x="1090" y="430" text-anchor="middle" class="component-desc">Data Exchange</text>
+            
+            <!-- C2S Dashboard -->
+            <rect x="1000" y="200" width="180" height="100" rx="10" class="component-box dashboard" />
+            <text x="1090" y="235" text-anchor="middle" class="component-label">C2S Dashboard</text>
+            <text x="1090" y="260" text-anchor="middle" class="component-desc">Monitoring</text>
+            <text x="1090" y="280" text-anchor="middle" class="component-desc">Analytics</text>
+            
+            <!-- Archer System -->
+            <rect x="1280" y="250" width="400" height="300" rx="10" class="component-box archer-system" />
+            <text x="1480" y="285" text-anchor="middle" class="component-label">Archer GRC System</text>
+            <text x="1480" y="310" text-anchor="middle" class="component-desc">Compliance Management</text>
+            
+            <!-- Status Indicators Grid -->
+            <g transform="translate(1320, 340)">
+                <!-- Row 1 -->
+                <circle cx="0" cy="0" r="15" fill="#27ae60" />
+                <circle cx="40" cy="0" r="15" fill="#27ae60" />
+                <circle cx="80" cy="0" r="15" fill="#e74c3c" />
+                <circle cx="120" cy="0" r="15" fill="#27ae60" />
+                <circle cx="160" cy="0" r="15" fill="#27ae60" />
+                <circle cx="200" cy="0" r="15" fill="#e74c3c" />
+                <circle cx="240" cy="0" r="15" fill="#27ae60" />
+                
+                <!-- Row 2 -->
+                <circle cx="0" cy="40" r="15" fill="#27ae60" />
+                <circle cx="40" cy="40" r="15" fill="#e74c3c" />
+                <circle cx="80" cy="40" r="15" fill="#27ae60" />
+                <circle cx="120" cy="40" r="15" fill="#27ae60" />
+                <circle cx="160" cy="40" r="15" fill="#e74c3c" />
+                <circle cx="200" cy="40" r="15" fill="#27ae60" />
+                
+                <!-- Row 3 -->
+                <circle cx="0" cy="80" r="15" fill="#e74c3c" />
+                <circle cx="40" cy="80" r="15" fill="#27ae60" />
+                <circle cx="80" cy="80" r="15" fill="#27ae60" />
+                <circle cx="120" cy="80" r="15" fill="#e74c3c" />
+                <circle cx="160" cy="80" r="15" fill="#e74c3c" />
+                <circle cx="200" cy="80" r="15" fill="#27ae60" />
+            </g>
+            
+            <text x="1480" y="460" text-anchor="middle" font-size="16" font-weight="bold" fill="#2c3e50">19 Control Indicators</text>
+            <text x="1480" y="480" text-anchor="middle" font-size="14" fill="#27ae60">✓ 12 Green (Compliant)</text>
+            <text x="1480" y="500" text-anchor="middle" font-size="14" fill="#e74c3c">✗ 7 Red (Non-Compliant)</text>
+            <text x="1480" y="525" text-anchor="middle" font-size="14" font-weight="bold" fill="#27ae60">Threshold Met: ≥10 Green</text>
+            
+            <!-- Continuous ATO Output -->
+            <rect x="1380" y="620" width="200" height="120" rx="10" class="component-box ato-output" />
+            <text x="1480" y="660" text-anchor="middle" class="component-label">Continuous ATO</text>
+            <text x="1480" y="685" text-anchor="middle" class="component-desc">Generated Package</text>
+            <text x="1480" y="705" text-anchor="middle" class="component-desc">Authority to Operate</text>
+            <circle cx="1480" cy="720" r="5" fill="#27ae60" class="status-indicator" />
+            <text x="1495" y="725" font-size="12" fill="#27ae60">Ready</text>
+            
+            <!-- Flow Arrows -->
+            <!-- User to Chatbot -->
+            <path d="M 250 400 L 350 400" class="flow-arrow" />
+            
+            <!-- Chatbot to RAG DB -->
+            <path d="M 475 320 L 475 170" class="data-flow" />
+            
+            <!-- Chatbot to VectorDB -->
+            <path d="M 525 320 L 600 170" class="data-flow" />
+            
+            <!-- Chatbot to Dynamic JSON -->
+            <path d="M 600 400 L 700 400" class="flow-arrow" />
+            
+            <!-- Dynamic JSON back to Chatbot -->
+            <path d="M 700 420 L 600 420" class="data-flow" />
+            
+            <!-- Chatbot to API -->
+            <path d="M 600 400 L 1000 400" class="flow-arrow" />
+            
+            <!-- API to C2S Dashboard -->
+            <path d="M 1090 350 L 1090 300" class="data-flow" />
+            
+            <!-- API to Archer -->
+            <path d="M 1180 400 L 1280 400" class="flow-arrow" />
+            
+            <!-- Archer to ATO -->
+            <path d="M 1480 550 L 1480 620" class="flow-arrow" />
+            <text x="1500" y="585" font-size="14" fill="#27ae60">Threshold Met</text>
+            
+            <!-- Add bidirectional arrow for user feedback -->
+            <path d="M 350 420 L 250 420" class="data-flow" />
+            
+            <!-- Data flow labels -->
+            <text x="300" y="395" font-size="12" fill="#7f8c8d">Questions</text>
+            <text x="300" y="435" font-size="12" fill="#7f8c8d">Responses</text>
+            <text x="650" y="395" font-size="12" fill="#7f8c8d">Next Question</text>
+            <text x="650" y="435" font-size="12" fill="#7f8c8d">Answer Context</text>
+            <text x="850" y="395" font-size="12" fill="#7f8c8d">Process Data</text>
+            <text x="1230" y="395" font-size="12" fill="#7f8c8d">Compliance Check</text>
+        </svg>
+        
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-title">Legend</div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #34495e;"></div>
+                <span>Process Flow</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #3498db; border-style: dashed;"></div>
+                <span>Data Exchange</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #27ae60; border-radius: 50%; width: 15px; height: 15px;"></div>
+                <span>Compliant Control</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #e74c3c; border-radius: 50%; width: 15px; height: 15px;"></div>
+                <span>Non-Compliant Control</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
