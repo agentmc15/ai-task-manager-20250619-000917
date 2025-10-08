@@ -1,0 +1,216 @@
+{
+  "content": {
+    "phases": [
+      {
+        "nodes": [
+          {
+            "id": "Methodology:",
+            "subphase": "General",
+            "title": "Methodology:",
+            "text": "In most cases this response will be the default response of NIST RMF. If not, select the appropriate authorization package methodology||This selection will drive which control assessment baseline required for the system (NIST RMF has different requirements than the FedRAMP methodology).",
+            "description": "TBA",
+            "type": "MultiChoice - single select",
+            "options": [
+              "NIST RMF"
+            ]
+          },
+          {
+            "id": "Entity:",
+            "subphase": "General",
+            "title": "Entity:",
+            "text": "Select the business entity/program/function that owns the authorization package.",
+            "description": "TBA",
+            "type": "MultiChoice - single select",
+            "options": [
+              "No Selection",
+              "Advanced Concepts and Technology (hRIS)",
+              "Advanced Missile Systems (NMWS)"
+            ]
+          },
+          {
+            "id": "Requested Authorization Type:",
+            "subphase": "General",
+            "title": "Requested Authorization Type:",
+            "text": "Select ATC (Authorization to Connect) if system will be used for short duration, non-operational testing/exploration, otherwise select ATO (Authorization to Operate). Select Re-Authorization only if the system requires an ATO reauthorization. If ATC is selected then enter the requested ATC duration.",
+            "description": "TBA",
+            "type": "MultiChoice - single select",
+            "options": [
+              "ATO",
+              "Re-Authorization",
+              "ATC"
+            ]
+          },
+          {
+            "id": "Authorization Package Name:",
+            "subphase": "General",
+            "title": "Authorization Package Name:",
+            "text": "Enter the name of the authorization package.",
+            "description": "TBA",
+            "type": "free-text",
+            "options": null
+          },
+          {
+            "id": "Control Set Version Number:",
+            "subphase": "General",
+            "title": "Control Set Version Number:",
+            "text": "Select the appropriate control set version for the authorization package.",
+            "description": "TBA",
+            "type": "MultiChoice - single select",
+            "options": [
+              "NIST 800-171 Rev 1",
+              "CMMC Model Version 1.02",
+              "NIST 800-53 Rev 4",
+              "FedRAMP Rev 4",
+              "ICS Rev 4",
+              "NIST 800-171 (G5 Labs) Rev 1",
+              "NIST 800-171 Rev 4X",
+              "FedRAMP 1.1",
+              "DODI 8500.2"
+            ]
+          },
+          {
+            "id": "Clara ID:",
+            "subphase": "General",
+            "title": "Clara ID:",
+            "text": "Enter the Clara ID for the system.",
+            "description": "TBA",
+            "type": "free-text",
+            "options": null
+          },
+          {
+            "id": "Mission/Purpose:",
+            "subphase": "General",
+            "title": "Mission/Purpose:",
+            "text": "Describe the mission and purpose of the system.",
+            "description": "TBA",
+            "type": "free-text",
+            "options": null
+          },
+          {
+            "id": "Information Classification:",
+            "subphase": "Information System Details",
+            "title": "Information Classification:",
+            "text": "Select all applicable information classifications for data processed by the system.",
+            "description": "TBA",
+            "type": "MultiChoice - multiple select",
+            "options": [
+              "CDI/CUI (DFARS)",
+              "Competition Sensitive",
+              "CUI (non-CDI)",
+              "EXIM (ITAR, EAR)",
+              "Internal Use Only",
+              "Most Private",
+              "Personal Information (PI)",
+              "Proprietary",
+              "Public",
+              "Other (Specify)"
+            ]
+          },
+          {
+            "id": "Information System Type:",
+            "subphase": "Information System Details",
+            "title": "Information System Type:",
+            "text": "Select the type of information system.",
+            "description": "TBA",
+            "type": "MultiChoice - single select",
+            "options": [
+              "No Selection",
+              "General Support System",
+              "B.PARC (Outsourced)",
+              "SCADA/ICS",
+              "Major Application",
+              "Cloud",
+              "General IS",
+              "Laboratory/Pilot System",
+              "Application",
+              "Infrastructure",
+              "Commercial Cloud",
+              "Gov-Cloud",
+              "Manufacturing",
+              "3rd Party",
+              "Other"
+            ]
+          },
+          {
+            "id": "Managed By:",
+            "subphase": "Information System Details",
+            "title": "Managed By:",
+            "text": "Enter the organization or team responsible for managing the system.",
+            "description": "TBA",
+            "type": "free-text",
+            "options": null
+          },
+          {
+            "id": "System Hosting Environment:",
+            "subphase": "Information System Details",
+            "title": "System Hosting Environment:",
+            "text": "Select the hosting environment where the system resides.",
+            "description": "TBA",
+            "type": "MultiChoice - single select",
+            "options": [
+              "PDC1",
+              "PDC2",
+              "Newington",
+              "Commercial Cloud",
+              "Gov Cloud",
+              "Other",
+              "Other (Specify)"
+            ]
+          },
+          {
+            "id": "User Access Requirements:",
+            "subphase": "Information System Details",
+            "title": "User Access Requirements:",
+            "text": "Describe user access requirements including authentication methods, user types, and access levels.",
+            "description": "TBA",
+            "type": "free-text",
+            "options": null
+          },
+          {
+            "id": "Connectivity:",
+            "subphase": "Information System Details",
+            "title": "Connectivity:",
+            "text": "Select all applicable network connectivity types for the system.",
+            "description": "TBA",
+            "type": "MultiChoice - multiple select",
+            "options": [
+              "External",
+              "Global - iORION",
+              "Interconnected System - Contractor-to-Government (C2G)",
+              "Internal Only",
+              "International",
+              "LAN/WAN/MAN",
+              "Network Segregated",
+              "Networked",
+              "Networked - Internal within ORION",
+              "Other",
+              "Other - Zscaler-owned/managed Government Cloud",
+              "Printer/Scanner",
+              "Public",
+              "Standalone",
+              "Stand-alone"
+            ]
+          },
+          {
+            "id": "Authorization Boundary Description:",
+            "subphase": "Information System Details",
+            "title": "Authorization Boundary Description:",
+            "text": "Provide a detailed description of the authorization boundary including all components within scope.",
+            "description": "TBA",
+            "type": "free-text",
+            "options": null
+          },
+          {
+            "id": "List of HW:",
+            "subphase": "Information System Details",
+            "title": "List of HW:",
+            "text": "List all hardware components within the authorization boundary.",
+            "description": "TBA",
+            "type": "free-text",
+            "options": null
+          }
+        ]
+      }
+    ]
+  }
+}
