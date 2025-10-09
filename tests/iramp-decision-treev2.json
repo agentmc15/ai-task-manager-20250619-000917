@@ -1,0 +1,235 @@
+{
+  "content": {
+    "phases": [
+      {
+        "nodes": [
+          {
+            "id": "methodology",
+            "subphase": "General",
+            "title": "Methodology",
+            "text": "In most cases this response will be the default response of NIST RMF. If not, select the appropriate authorization package methodology||This selection will drive which control assessment baseline required for the system (NIST RMF has different requirements than the FedRAMP methodology).",
+            "type": "choose-one",
+            "options": [
+              "NIST RMF",
+              "ICS",
+              "CNSS (includes DoD RMF)",
+              "FedRAMP",
+              "DIACAP"
+            ],
+            "justification_reqd": false,
+            "review": false
+          },
+          {
+            "id": "entity",
+            "subphase": "General",
+            "title": "Entity",
+            "text": "Select the business entity/program/function that owns the authorization package.",
+            "type": "single-select",
+            "options": [
+              "No Selection",
+              "Advanced Concepts and Technology (hRIS)",
+              "Advanced Missile Systems (NMWS)"
+            ],
+            "justification_reqd": false,
+            "review": false
+          },
+          {
+            "id": "requested_authorization_type",
+            "subphase": "General",
+            "title": "Requested Authorization Type",
+            "text": "Select ATC (Authorization to Connect) if system will be used for short duration, non-operational testing/exploration, otherwise select ATO (Authorization to Operate). Select Re-Authorization only if the system requires an ATO reauthorization.",
+            "type": "single-select",
+            "options": [
+              "ATO",
+              "Re-Authorization",
+              "ATC"
+            ],
+            "justification_reqd": false,
+            "review": false
+          },
+          {
+            "id": "authorization_package_name",
+            "subphase": "General",
+            "title": "Authorization Package Name",
+            "text": "Enter the name of the authorization package.",
+            "type": "text",
+            "options": null,
+            "justification_reqd": false,
+            "review": false
+          },
+          {
+            "id": "control_set_version_number",
+            "subphase": "General",
+            "title": "Control Set Version Number",
+            "text": "Select the appropriate control set version for the authorization package.",
+            "type": "single-select",
+            "options": [
+              "NIST 800-171 Rev 1",
+              "CMMC Model Version 1.02",
+              "NIST 800-53 Rev 4",
+              "FedRAMP Rev 4",
+              "ICS Rev 4",
+              "NIST 800-171 (G5 Labs) Rev 1",
+              "NIST 800-171 Rev 4X",
+              "FedRAMP 1.1",
+              "DODI 8500.2"
+            ],
+            "justification_reqd": false,
+            "review": false
+          },
+          {
+            "id": "clara_id",
+            "subphase": "General",
+            "title": "Clara ID",
+            "text": "Enter the Clara ID for the system.",
+            "type": "text",
+            "options": null,
+            "justification_reqd": false,
+            "review": false
+          },
+          {
+            "id": "mission_purpose",
+            "subphase": "General",
+            "title": "Mission/Purpose",
+            "text": "Describe the mission and purpose of the system.",
+            "type": "text",
+            "options": null,
+            "justification_reqd": false,
+            "review": false
+          },
+          {
+            "id": "information_classification",
+            "subphase": "Information System Details",
+            "title": "Information Classification",
+            "text": "Select all applicable information classifications for data processed by the system.",
+            "type": "choose-many",
+            "options": [
+              "CDI/CUI (DFARS)",
+              "Competition Sensitive",
+              "CUI (non-CDI)",
+              "EXIM (ITAR, EAR)",
+              "Internal Use Only",
+              "Most Private",
+              "Personal Information (PI)",
+              "Proprietary",
+              "Public",
+              "Other (Specify)"
+            ],
+            "justification_reqd": false,
+            "review": false
+          },
+          {
+            "id": "information_system_type",
+            "subphase": "Information System Details",
+            "title": "Information System Type",
+            "text": "Select the type of information system.",
+            "type": "single-select",
+            "options": [
+              "No Selection",
+              "General Support System",
+              "B.PARC (Outsourced)",
+              "SCADA/ICS",
+              "Major Application",
+              "Cloud",
+              "General IS",
+              "Laboratory/Pilot System",
+              "Application",
+              "Infrastructure",
+              "Commercial Cloud",
+              "Gov-Cloud",
+              "Manufacturing",
+              "3rd Party",
+              "Other"
+            ],
+            "justification_reqd": false,
+            "review": false
+          },
+          {
+            "id": "managed_by",
+            "subphase": "Information System Details",
+            "title": "Managed By",
+            "text": "Enter the organization or team responsible for managing the system.",
+            "type": "text",
+            "options": null,
+            "justification_reqd": false,
+            "review": false
+          },
+          {
+            "id": "system_hosting_environment",
+            "subphase": "Information System Details",
+            "title": "System Hosting Environment",
+            "text": "Select the hosting environment where the system resides.",
+            "type": "single-select",
+            "options": [
+              "PDC1",
+              "PDC2",
+              "Newington",
+              "Commercial Cloud",
+              "Gov Cloud",
+              "Other",
+              "Other (Specify)"
+            ],
+            "justification_reqd": false,
+            "review": false
+          },
+          {
+            "id": "user_access_requirements",
+            "subphase": "Information System Details",
+            "title": "User Access Requirements",
+            "text": "Describe user access requirements including authentication methods, user types, and access levels.",
+            "type": "text",
+            "options": null,
+            "justification_reqd": false,
+            "review": false
+          },
+          {
+            "id": "connectivity",
+            "subphase": "Information System Details",
+            "title": "Connectivity",
+            "text": "Select all applicable network connectivity types for the system.",
+            "type": "multi-select",
+            "options": [
+              "External",
+              "Global - iORION",
+              "Interconnected System - Contractor-to-Government (C2G)",
+              "Internal Only",
+              "International",
+              "LAN/WAN/MAN",
+              "Network Segregated",
+              "Networked",
+              "Networked - Internal within ORION",
+              "Other",
+              "Other - Zscaler-owned/managed Government Cloud",
+              "Printer/Scanner",
+              "Public",
+              "Standalone",
+              "Stand-alone"
+            ],
+            "justification_reqd": false,
+            "review": false
+          },
+          {
+            "id": "authorization_boundary_description",
+            "subphase": "Information System Details",
+            "title": "Authorization Boundary Description",
+            "text": "Provide a detailed description of the authorization boundary including all components within scope.",
+            "type": "text",
+            "options": null,
+            "justification_reqd": false,
+            "review": false
+          },
+          {
+            "id": "list_of_hw",
+            "subphase": "Information System Details",
+            "title": "List of HW",
+            "text": "List all hardware components within the authorization boundary.",
+            "type": "text",
+            "options": null,
+            "justification_reqd": false,
+            "review": false
+          }
+        ]
+      }
+    ]
+  }
+}
