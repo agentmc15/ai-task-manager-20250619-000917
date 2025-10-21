@@ -1,0 +1,113 @@
+[
+  {
+    "id": "entity",
+    "subphase": "General",
+    "title": "Entity",
+    "text": "Select the business entity/program/function that owns the authorization package.",
+    "type": "choose-one",
+    "options": [
+      "No Selection",
+      "Advanced Concepts and Technology (hRIS)",
+      "Advanced Missile Systems (NMWS)"
+    ],
+    "justificationRequired": false,
+    "review": false
+  },
+  {
+    "id": "system_administrator_sa",
+    "subphase": "Personnel",
+    "title": "System Administrator (SA)",
+    "text": "Enter the Employee ID or name of the System Administrator.",
+    "type": "text",
+    "options": null,
+    "justificationRequired": false,
+    "review": false
+  },
+  {
+    "id": "information_classification",
+    "subphase": "Information System Details",
+    "title": "Information Classification",
+    "text": "Select all applicable information classifications for data processed by the system.",
+    "type": "choose-many",
+    "options": [
+      "CDI/CUI (DFARS)",
+      "Competition Sensitive",
+      "CUI (non-CDI)",
+      "EXIM (ITAR, EAR)",
+      "Internal Use Only",
+      "Most Private",
+      "Personal Information (PI)",
+      "Proprietary",
+      "Public",
+      "Other (Specify)"
+    ],
+    "justificationRequired": false,
+    "review": false
+  },
+  {
+    "id": "connectivity",
+    "subphase": "Information System Details",
+    "title": "Connectivity",
+    "text": "Select all applicable network connectivity types for the system.",
+    "type": "choose-many",
+    "options": [
+      "External",
+      "Global - iORION",
+      "Interconnected System - Contractor-to-Government (C2G)",
+      "Internal Only",
+      "International",
+      "LAN/WAN/MAN",
+      "Network Segregated",
+      "Networked",
+      "Networked - Internal within ORION",
+      "Other",
+      "Other - Zscaler-owned/managed Government Cloud",
+      "Printer/Scanner",
+      "Public",
+      "Standalone",
+      "Stand-alone"
+    ],
+    "justificationRequired": false,
+    "review": false
+  },
+  {
+    "id": "authorization_package_name",
+    "subphase": "General",
+    "title": "Authorization Package Name",
+    "text": "Enter the name of the authorization package.",
+    "type": "text",
+    "options": null,
+    "justificationRequired": false,
+    "review": false
+  },
+  {
+    "id": "clara_id",
+    "subphase": "General",
+    "title": "Clara ID",
+    "text": "Enter the Clara ID for the system.",
+    "type": "text",
+    "options": null,
+    "justificationRequired": false,
+    "review": false
+  },
+  {
+    "id": "mission_purpose",
+    "subphase": "General",
+    "title": "Mission/Purpose",
+    "text": "Describe the mission and purpose of the system.",
+    "type": "text",
+    "options": null,
+    "justificationRequired": false,
+    "review": false
+  },
+  {
+    "id": "authorization_boundary_description",
+    "subphase": "Information System Details",
+    "title": "Authorization Boundary Description",
+    "text": "Provide a detailed description of the authorization boundary including all components within scope.",
+    "type": "text",
+    "options": null,
+    "justificationRequired": false,
+    "review": false
+  }
+]
