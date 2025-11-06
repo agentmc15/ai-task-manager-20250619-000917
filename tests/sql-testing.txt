@@ -28,3 +28,21 @@ try:
         print(result.fetchone())
 except Exception as e:
     print(f"Connection failed: {e}")
+
+
+## test_connection1.py
+
+import pyodbc
+import pandas as pd
+
+def fetch_data():
+    dsn = 'SQL Server C2S'
+    
+    with pyodbc.connect(f'DSN={dsn}') as conn:
+        query = "SELECT sap_id_rtn, Acronym FROM dimAuthorizationPackage"
+        df = pd.read_sql(query, conn)
+        return df
+
+# Usage
+df = fetch_data()
+print(df)
