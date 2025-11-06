@@ -1,0 +1,13 @@
+py -c "import pyodbc; print('Available ODBC drivers:'); [print(f'  - {driver}') for driver in pyodbc.drivers()]"
+
+from sqlalchemy import create_engine
+
+# Using your existing DSN
+dsn = 'SQL Server C2S'
+engine = create_engine(f'mssql+pyodbc://{dsn}')
+
+# Test connection
+with engine.connect() as conn:
+    result = conn.execute("SELECT sap_id_rtn, Acronym FROM dimAuthorizationPackage")
+    for row in result:
+        print(row)
