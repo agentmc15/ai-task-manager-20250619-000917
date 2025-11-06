@@ -99,3 +99,238 @@ try:
     conn.close()
 except Exception as e:
     print(f"✗ Connection failed: {e}")
+
+
+test_connection4.py
+
+import pyodbc
+import pandas as pd
+from datetime import datetime
+
+class DatabaseExplorer:
+    def __init__(self, server, database):
+        self.server = server
+        self.database = database
+        self.connection_string = (
+            f'DRIVER={{ODBC Driver 17 for SQL Server}};'
+            f'SERVER={server};'
+            f'DATABASE={database};'
+            f'Trusted_Connection=yes;'
+            f'TrustServerCertificate=yes;'
+        )
+    
+    def get_connection(self):
+        return pyodbc.connect(self.connection_string)
+    
+    def get_all_tables(self):
+        """Get all tables with row counts"""
+        query = """
+        SELECT 
+            t.TABLE_SCHEMA,
+            t.TABLE_NAME,
+            p.rows as RowCount
+        FROM INFORMATION_SCHEMA.TABLES t
+        LEFT JOIN sys.tables st ON t.TABLE_NAME = st.name
+        LEFT JOIN sys.partitions p ON st.object_id = p.object_id
+        WHERE t.TABLE_TYPE = 'BASE TABLE' 
+            AND p.index_id IN (0,1)
+        ORDER BY t.TABLE_SCHEMA, t.TABLE_NAME
+        """
+        with self.get_connection() as conn:
+            df = pd.read_sql(query, conn)
+        return df
+    
+    def get_table_columns(self, schema, table_name):
+        """Get detailed column information for a specific table"""
+        query = f"""
+        SELECT 
+            COLUMN_NAME,
+            DATA_TYPE,
+            CHARACTER_MAXIMUM_LENGTH,
+            IS_NULLABLE,
+            COLUMN_DEFAULT,
+            ORDINAL_POSITION
+        FROM INFORMATION_SCHEMA.COLUMNS
+        WHERE TABLE_SCHEMA = '{schema}' 
+            AND TABLE_NAME = '{table_name}'
+        ORDER BY ORDINAL_POSITION
+        """
+        with self.get_connection() as conn:
+            df = pd.read_sql(query, conn)
+        return df
+    
+    def get_primary_keys(self, schema, table_name):
+        """Get primary key columns"""
+        query = f"""
+        SELECT 
+            COLUMN_NAME,
+            CONSTRAINT_NAME
+        FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+        WHERE OBJECTPROPERTY(OBJECT_ID(CONSTRAINT_SCHEMA + '.' + CONSTRAINT_NAME), 'IsPrimaryKey') = 1
+            AND TABLE_SCHEMA = '{schema}'
+            AND TABLE_NAME = '{table_name}'
+        ORDER BY ORDINAL_POSITION
+        """
+        with self.get_connection() as conn:
+            df = pd.read_sql(query, conn)
+        return df
+    
+    def get_foreign_keys(self, schema, table_name):
+        """Get foreign key relationships"""
+        query = f"""
+        SELECT 
+            fk.name AS FK_Name,
+            tp.name AS Parent_Table,
+            cp.name AS Parent_Column,
+            tr.name AS Referenced_Table,
+            cr.name AS Referenced_Column
+        FROM sys.foreign_keys AS fk
+        INNER JOIN sys.tables AS tp ON fk.parent_object_id = tp.object_id
+        INNER JOIN sys.tables AS tr ON fk.referenced_object_id = tr.object_id
+        INNER JOIN sys.foreign_key_columns AS fkc ON fk.object_id = fkc.constraint_object_id
+        INNER JOIN sys.columns AS cp ON fkc.parent_column_id = cp.column_id AND fkc.parent_object_id = cp.object_id
+        INNER JOIN sys.columns AS cr ON fkc.referenced_column_id = cr.column_id AND fkc.referenced_object_id = cr.object_id
+        WHERE SCHEMA_NAME(tp.schema_id) = '{schema}' 
+            AND tp.name = '{table_name}'
+        """
+        with self.get_connection() as conn:
+            df = pd.read_sql(query, conn)
+        return df
+    
+    def preview_table_data(self, schema, table_name, limit=5):
+        """Get sample rows from table"""
+        query = f"SELECT TOP {limit} * FROM [{schema}].[{table_name}]"
+        with self.get_connection() as conn:
+            df = pd.read_sql(query, conn)
+        return df
+    
+    def get_table_indexes(self, schema, table_name):
+        """Get indexes on a table"""
+        query = f"""
+        SELECT 
+            i.name AS Index_Name,
+            i.type_desc AS Index_Type,
+            i.is_unique AS Is_Unique,
+            COL_NAME(ic.object_id, ic.column_id) AS Column_Name
+        FROM sys.indexes i
+        INNER JOIN sys.index_columns ic ON i.object_id = ic.object_id AND i.index_id = ic.index_id
+        INNER JOIN sys.tables t ON i.object_id = t.object_id
+        WHERE SCHEMA_NAME(t.schema_id) = '{schema}' 
+            AND t.name = '{table_name}'
+        ORDER BY i.name, ic.key_ordinal
+        """
+        with self.get_connection() as conn:
+            df = pd.read_sql(query, conn)
+        return df
+    
+    def generate_full_report(self, output_file='database_report.txt'):
+        """Generate comprehensive database report"""
+        print(f"\n{'='*80}")
+        print(f"Database Exploration Report: {self.database}")
+        print(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+        print(f"{'='*80}\n")
+        
+        with open(output_file, 'w', encoding='utf-8') as f:
+            f.write(f"{'='*80}\n")
+            f.write(f"Database Exploration Report: {self.database}\n")
+            f.write(f"Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+            f.write(f"{'='*80}\n\n")
+            
+            # Get all tables
+            print("Fetching all tables...")
+            tables = self.get_all_tables()
+            
+            print(f"\nFound {len(tables)} tables:\n")
+            print(tables.to_string(index=False))
+            
+            f.write(f"\n{'='*80}\n")
+            f.write(f"ALL TABLES ({len(tables)} total)\n")
+            f.write(f"{'='*80}\n\n")
+            f.write(tables.to_string(index=False))
+            f.write("\n\n")
+            
+            # Detailed analysis for each table
+            for idx, row in tables.iterrows():
+                schema = row['TABLE_SCHEMA']
+                table_name = row['TABLE_NAME']
+                row_count = row['RowCount']
+                
+                print(f"\n{'-'*80}")
+                print(f"Analyzing: [{schema}].[{table_name}] ({row_count} rows)")
+                print(f"{'-'*80}")
+                
+                f.write(f"\n{'='*80}\n")
+                f.write(f"TABLE: [{schema}].[{table_name}]\n")
+                f.write(f"Row Count: {row_count}\n")
+                f.write(f"{'='*80}\n\n")
+                
+                # Columns
+                print("  - Fetching columns...")
+                columns = self.get_table_columns(schema, table_name)
+                f.write("COLUMNS:\n")
+                f.write(columns.to_string(index=False))
+                f.write("\n\n")
+                
+                # Primary Keys
+                print("  - Fetching primary keys...")
+                pks = self.get_primary_keys(schema, table_name)
+                if not pks.empty:
+                    f.write("PRIMARY KEYS:\n")
+                    f.write(pks.to_string(index=False))
+                    f.write("\n\n")
+                
+                # Foreign Keys
+                print("  - Fetching foreign keys...")
+                fks = self.get_foreign_keys(schema, table_name)
+                if not fks.empty:
+                    f.write("FOREIGN KEYS:\n")
+                    f.write(fks.to_string(index=False))
+                    f.write("\n\n")
+                
+                # Indexes
+                print("  - Fetching indexes...")
+                indexes = self.get_table_indexes(schema, table_name)
+                if not indexes.empty:
+                    f.write("INDEXES:\n")
+                    f.write(indexes.to_string(index=False))
+                    f.write("\n\n")
+                
+                # Sample Data (if table has rows)
+                if row_count > 0:
+                    print("  - Fetching sample data...")
+                    try:
+                        sample = self.preview_table_data(schema, table_name, limit=5)
+                        f.write("SAMPLE DATA (Top 5 rows):\n")
+                        f.write(sample.to_string(index=False))
+                        f.write("\n\n")
+                    except Exception as e:
+                        f.write(f"Could not fetch sample data: {e}\n\n")
+                
+                f.write("\n")
+            
+            print(f"\n{'='*80}")
+            print(f"Report saved to: {output_file}")
+            print(f"{'='*80}\n")
+
+
+def main():
+    # Initialize explorer
+    explorer = DatabaseExplorer(
+        server='xusrtx180dp004.device.adxrt.com',
+        database='ProofOfConceptC2S'
+    )
+    
+    # Generate full report
+    explorer.generate_full_report(output_file='ProofOfConceptC2S_report.txt')
+    
+    # Optional: Quick table summary
+    print("\nQuick Summary:")
+    tables = explorer.get_all_tables()
+    print(f"\nTotal Tables: {len(tables)}")
+    print(f"Total Rows: {tables['RowCount'].sum():,}")
+    print(f"\nTables with most rows:")
+    print(tables.nlargest(10, 'RowCount')[['TABLE_SCHEMA', 'TABLE_NAME', 'RowCount']].to_string(index=False))
+
+
+if __name__ == '__main__':
+    main()
