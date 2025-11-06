@@ -11,3 +11,20 @@ with engine.connect() as conn:
     result = conn.execute("SELECT sap_id_rtn, Acronym FROM dimAuthorizationPackage")
     for row in result:
         print(row)
+
+
+from sqlalchemy import create_engine, text
+import pandas as pd
+
+# Using your existing DSN
+dsn = 'SQL Server C2S'
+engine = create_engine(f'mssql+pyodbc://@{dsn}')
+
+# Test connection
+try:
+    with engine.connect() as conn:
+        result = conn.execute(text("SELECT @@VERSION"))
+        print("Connection successful!")
+        print(result.fetchone())
+except Exception as e:
+    print(f"Connection failed: {e}")
