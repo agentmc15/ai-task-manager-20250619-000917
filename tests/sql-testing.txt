@@ -46,3 +46,24 @@ def fetch_data():
 # Usage
 df = fetch_data()
 print(df)
+
+## test_connection2.py
+
+import pandas as pd
+
+# Connect using DSN
+dsn = 'SQL Server C2S'
+conn = pyodbc.connect(f'DSN={dsn}')
+
+# Execute query
+cursor = conn.cursor()
+cursor.execute("SELECT sap_id_rtn, Acronym FROM dimAuthorizationPackage")
+
+# Fetch results
+rows = cursor.fetchall()
+for row in rows:
+    print(row)
+
+# Close connection
+cursor.close()
+conn.close()
