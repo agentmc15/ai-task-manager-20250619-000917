@@ -67,3 +67,35 @@ for row in rows:
 # Close connection
 cursor.close()
 conn.close()
+
+## test_connection3.py
+
+import pyodbc
+import pandas as pd
+
+# Connection parameters
+server = 'xusrtx180dp004.device.adxrt.com'
+database = 'C2S'  # or 'C2S_Development', 'C2S_Testing', etc.
+
+# Windows Authentication connection string
+connection_string = (
+    f'DRIVER={{ODBC Driver 17 for SQL Server}};'
+    f'SERVER={server};'
+    f'DATABASE={database};'
+    f'Trusted_Connection=yes;'  # This uses your Windows credentials
+    f'TrustServerCertificate=yes;'
+)
+
+try:
+    conn = pyodbc.connect(connection_string)
+    print("✓ Connection successful!")
+    
+    # Test query
+    cursor = conn.cursor()
+    cursor.execute("SELECT DB_NAME() as CurrentDatabase, @@VERSION as SQLVersion")
+    row = cursor.fetchone()
+    print(f"Connected to database: {row[0]}")
+    
+    conn.close()
+except Exception as e:
+    print(f"✗ Connection failed: {e}")
