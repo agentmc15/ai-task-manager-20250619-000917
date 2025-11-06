@@ -75,14 +75,14 @@ import pandas as pd
 
 # Connection parameters
 server = 'xusrtx180dp004.device.adxrt.com'
-database = 'C2S'  # or 'C2S_Development', 'C2S_Testing', etc.
+database = 'ProofOfConceptC2S'
 
 # Windows Authentication connection string
 connection_string = (
     f'DRIVER={{ODBC Driver 17 for SQL Server}};'
     f'SERVER={server};'
     f'DATABASE={database};'
-    f'Trusted_Connection=yes;'  # This uses your Windows credentials
+    f'Trusted_Connection=yes;'
     f'TrustServerCertificate=yes;'
 )
 
@@ -92,7 +92,7 @@ try:
     
     # Test query
     cursor = conn.cursor()
-    cursor.execute("SELECT DB_NAME() as CurrentDatabase, @@VERSION as SQLVersion")
+    cursor.execute("SELECT DB_NAME() as CurrentDatabase")
     row = cursor.fetchone()
     print(f"Connected to database: {row[0]}")
     
