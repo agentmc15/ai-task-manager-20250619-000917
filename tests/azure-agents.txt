@@ -1,0 +1,201 @@
+“Azure + Copilot Studio Agent Builder (Step-by-Step, No Drag & Drop)”
+
+Claude, act as my technical system designer for building production-grade AI agents in Azure, using Copilot Studio as the front-end Copilot, but NOT using the slow drag-and-drop UI.
+
+I want a fast, precise, code-driven workflow that outputs everything I need to build agents, their backends, integrations, and RAG components as text, schemas, and configuration, which I will manually add to Copilot Studio.
+
+Your job is to generate:
+
+Step-by-step implementation plan
+
+Code for actions, plugins, and connectors
+
+JSON/YAML for agent definitions
+
+Schemas for tools/actions
+
+RAG wiring (Azure AI Search + Blob)
+
+Azure OpenAI model call patterns
+
+Security considerations (Entra ID, permissions)
+
+Diagram(s) of agent architecture
+
+Testing & evaluation plan
+
+Deployment plan (Dev → Test → Prod)
+
+I am building multiple Copilot Studio agents that rely on:
+
+Azure OpenAI (GPT-4.1, GPT-4.1-mini, Phi-3, o-series)
+
+Azure AI Search (vector + keyword)
+
+Azure Blob for knowledge sources
+
+Custom REST APIs
+
+Azure Functions
+
+Microsoft Graph
+
+MCP servers (optional)
+
+Tool schemas (OpenAPI or JSON Schema)
+
+I want you to produce a repeatable scaffold so I can build any new agent in Copilot Studio using the same blueprint.
+
+🔧 AGENT TYPE(S) TO BUILD
+
+Start with producing a “universal agent blueprint” for:
+
+Research Agent
+
+Searches online sources (arXiv, Bing, internal docs)
+
+Retrieves & ranks passages
+
+Summarizes with citations
+
+Document Intelligence Agent
+
+Uses Azure AI Search
+
+Summarizes docs
+
+Extracts structured data
+
+Task Execution Agent
+
+Dynamic tool calling
+
+Calls REST APIs
+
+Writes to internal systems
+
+Fact-Checker Agent
+
+Verifies claims
+
+Pulls evidence from RAG
+
+Outputs annotated answers
+
+These will be installed into Copilot Studio by pasting your generated content directly into:
+
+Actions
+
+Topics
+
+Agent instructions
+
+Plugins
+
+🧩 OUTPUT FORMAT REQUIREMENTS
+
+Give me everything in clean, ready-to-paste blocks, including:
+
+1. MASTER BLUEPRINT
+
+A complete method for building agents in Azure with Copilot Studio, including:
+
+High-level architecture
+
+Core components
+
+Execution flow
+
+Copilot Studio configuration strategy
+
+2. COPILOT STUDIO INPUTS
+
+Provide explicit paste-ready content:
+
+Agent System Prompt
+
+Agent Behavior Rules
+
+Agent Tool Schemas
+
+Agent Capabilities Definition
+
+Agent Memory (design plan)
+
+Agent Knowledge Sources (RAG plan)
+
+3. AZURE BACKEND IMPLEMENTATION
+
+Paste-ready blocks for:
+
+Azure Function (C# or Python) for tools
+
+OpenAPI definition for each tool
+
+Example JSON schema for Copilot Studio “Actions”
+
+Azure AI Search index definition
+
+Embedding pipeline for knowledge ingestion
+
+4. AGENT CALLING PATTERNS
+
+Provide:
+
+Tool-call JSON
+
+Example RAG invocation
+
+Example orchestration response
+
+5. SECURITY & GOVERNANCE
+
+Include:
+
+Entra ID scopes & permissions
+
+Managed identity setup
+
+Data boundary rules
+
+Logging patterns (App Insights)
+
+Audit logging suggestions
+
+6. DIAGRAMS
+
+Generate at least 2 diagrams:
+
+Overall multi-agent architecture (Azure)
+
+Copilot Studio → Tools → Azure backend flow
+
+Use Mermaid.
+
+7. END-TO-END BUILD CHECKLIST
+
+A concise, ordered checklist so I can reproduce everything quickly.
+
+🎯 STYLE REQUIREMENTS
+
+Be very direct & procedural
+
+Provide copy-ready JSON, YAML, and code
+
+Use Azure-native terminology
+
+Use Copilot Studio-specific vocabulary (Actions, Plugins, Topics, Authoring Canvas)
+
+Avoid unnecessary explanations
+
+No drag-and-drop UI instructions unless absolutely required
+
+Structure everything for speed and automation
+
+▶️ BEGIN NOW
+
+Start by outputting the Master Blueprint, then wait for me to say continue.
+
+Do not skip steps.
+Do not summarize.
+Deliver full detail.
