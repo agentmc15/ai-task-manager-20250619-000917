@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clarity System Architecture & Flow</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .slide-container {
+            width: 1920px;
+            height: 1080px;
+            background: white;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 60px;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .slide-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .slide-title {
+            font-size: 48px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .slide-subtitle {
+            font-size: 24px;
+            color: #7f8c8d;
+        }
+        
+        svg {
+            width: 100%;
+            height: calc(100% - 140px);
+        }
+        
+        .component-box {
+            fill: #ffffff;
+            stroke-width: 3;
+            filter: drop-shadow(3px 3px 10px rgba(0,0,0,0.1));
+        }
+        
+        .user-interface {
+            stroke: #3498db;
+            fill: #ebf5fb;
+        }
+        
+        .ai-engine {
+            stroke: #9b59b6;
+            fill: #f4ecf7;
+        }
+        
+        .database {
+            stroke: #e67e22;
+            fill: #fef5e7;
+        }
+        
+        .api-system {
+            stroke: #e74c3c;
+            fill: #fdedec;
+        }
+        
+        .dashboard {
+            stroke: #16a085;
+            fill: #e8f8f5;
+        }
+        
+        .archer-system {
+            stroke: #34495e;
+            fill: #f8f9f9;
+        }
+        
+        .ato-output {
+            stroke: #27ae60;
+            fill: #e8f8f5;
+        }
+        
+        .flow-arrow {
+            stroke: #34495e;
+            stroke-width: 2;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+        
+        .data-flow {
+            stroke: #3498db;
+            stroke-width: 2;
+            stroke-dasharray: 5,5;
+            fill: none;
+            marker-end: url(#data-arrowhead);
+        }
+        
+        .component-label {
+            font-size: 18px;
+            font-weight: bold;
+            fill: #2c3e50;
+        }
+        
+        .component-desc {
+            font-size: 14px;
+            fill: #7f8c8d;
+        }
+        
+        .explainer-text {
+            font-size: 11px;
+            fill: #34495e;
+            font-style: italic;
+        }
+        
+        .explainer-line {
+            stroke: #95a5a6;
+            stroke-width: 1;
+            stroke-dasharray: 2,2;
+            fill: none;
+        }
+        
+        .explainer-box {
+            fill: #fffbf0;
+            stroke: #f39c12;
+            stroke-width: 1;
+            rx: 5;
+        }
+        
+        .status-indicator {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        
+        .legend {
+            position: absolute;
+            bottom: 40px;
+            right: 60px;
+            background: rgba(255,255,255,0.95);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ecf0f1;
+        }
+        
+        .legend-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        
+        .legend-color {
+            width: 30px;
+            height: 3px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <div class="slide-header">
+            <div class="slide-title">Clarity System Architecture</div>
+            <div class="slide-subtitle">AI-Powered Conversation Flow & Continuous ATO Generation Process</div>
+        </div>
+        
+        <svg viewBox="0 0 2150 850" xmlns="http://www.w3.org/2000/svg">
+            <!-- Define markers for arrows -->
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                    <polygon points="0 0, 10 3, 0 6" fill="#34495e" />
+                </marker>
+                <marker id="data-arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                    <polygon points="0 0, 10 3, 0 6" fill="#3498db" />
+                </marker>
+                
+                <!-- Database cylinder shape -->
+                <g id="db-shape">
+                    <ellipse cx="50" cy="10" rx="50" ry="10" />
+                    <rect x="0" y="10" width="100" height="60" />
+                    <ellipse cx="50" cy="70" rx="50" ry="10" />
+                </g>
+            </defs>
+            
+            <!-- User Interface -->
+            <rect x="50" y="350" width="200" height="100" rx="10" class="component-box user-interface" />
+            <text x="150" y="385" text-anchor="middle" class="component-label">User Interface</text>
+            <text x="150" y="410" text-anchor="middle" class="component-desc">Web/Mobile Chat</text>
+            <text x="150" y="430" text-anchor="middle" class="component-desc">Input/Output</text>
+            
+            <!-- UI Explainer -->
+            <line x1="150" y1="450" x2="150" y2="500" class="explainer-line" />
+            <rect x="60" y="500" width="180" height="45" class="explainer-box" />
+            <text x="150" y="515" text-anchor="middle" class="explainer-text">Where users interact with</text>
+            <text x="150" y="530" text-anchor="middle" class="explainer-text">Clarity through natural</text>
+            <text x="150" y="540" text-anchor="middle" class="explainer-text">language conversations</text>
+            
+            <!-- Feature Flag Controller -->
+            <rect x="280" y="280" width="180" height="100" rx="10" class="component-box" style="stroke: #f39c12; fill: #fcf3cf;" />
+            <text x="370" y="310" text-anchor="middle" class="component-label" font-size="16">Feature Flag</text>
+            <text x="370" y="330" text-anchor="middle" class="component-desc" font-size="14">FastTrack ATO</text>
+            <text x="370" y="350" text-anchor="middle" class="component-desc" font-size="12" fill="#27ae60">ON: Minimal Path</text>
+            <text x="370" y="365" text-anchor="middle" class="component-desc" font-size="12" fill="#e67e22">OFF: Full Path</text>
+            
+            <!-- Template Engine (FastTrack Path) -->
+            <rect x="500" y="180" width="200" height="80" rx="10" class="component-box" style="stroke: #27ae60; fill: #e8f8f5;" />
+            <text x="600" y="205" text-anchor="middle" class="component-label">Template Engine</text>
+            <text x="600" y="225" text-anchor="middle" class="component-desc">Pre-approved Baselines</text>
+            <text x="600" y="245" text-anchor="middle" class="component-desc">8 Fields Only</text>
+            
+            <!-- Template Engine Explainer -->
+            <line x1="700" y1="220" x2="750" y2="220" class="explainer-line" />
+            <rect x="750" y="195" width="180" height="50" class="explainer-box" />
+            <text x="840" y="210" text-anchor="middle" class="explainer-text">FastTrack: Collects only</text>
+            <text x="840" y="225" text-anchor="middle" class="explainer-text">essential info & uses</text>
+            <text x="840" y="240" text-anchor="middle" class="explainer-text">standard templates</text>
+            
+            <!-- Clarity Chatbot Engine -->
+            <rect x="500" y="320" width="250" height="160" rx="10" class="component-box ai-engine" />
+            <text x="625" y="355" text-anchor="middle" class="component-label">Clarity Engine</text>
+            <text x="625" y="380" text-anchor="middle" class="component-desc">Powered by XetaAI</text>
+            <text x="625" y="400" text-anchor="middle" class="component-desc">NLP & Context Management</text>
+            <text x="625" y="420" text-anchor="middle" class="component-desc">Dynamic Question Logic</text>
+            <text x="625" y="440" text-anchor="middle" class="component-desc">Response Generation</text>
+            <circle cx="625" cy="460" r="5" fill="#27ae60" class="status-indicator" />
+            <text x="640" y="465" font-size="12" fill="#27ae60">Active</text>
+            
+            <!-- LLM Details Box -->
+            <rect x="750" y="500" width="250" height="140" rx="10" class="component-box" style="stroke: #8e44ad; fill: #f8f3ff;" />
+            <text x="875" y="525" text-anchor="middle" font-size="14" font-weight="bold" fill="#8e44ad">LLM Architecture Details</text>
+            <text x="760" y="545" font-size="12" fill="#2c3e50">• Transformer Neural Network</text>
+            <text x="760" y="565" font-size="12" fill="#2c3e50">• Tokenization & Embeddings</text>
+            <text x="760" y="585" font-size="12" fill="#2c3e50">• Attention Mechanisms</text>
+            <text x="760" y="605" font-size="12" fill="#2c3e50">• Context Window: 128K tokens</text>
+            <text x="760" y="625" font-size="12" fill="#2c3e50">• Fine-tuned for compliance domain</text>
+            
+            <!-- Clarity Explainer -->
+            <line x1="875" y1="640" x2="875" y2="680" class="explainer-line" />
+            <rect x="765" y="680" width="220" height="45" class="explainer-box" />
+            <text x="875" y="695" text-anchor="middle" class="explainer-text">AI brain that understands questions,</text>
+            <text x="875" y="710" text-anchor="middle" class="explainer-text">determines next steps, and generates</text>
+            <text x="875" y="720" text-anchor="middle" class="explainer-text">intelligent compliance responses</text>
+            
+            <!-- RAG Database -->
+            <g transform="translate(400, 550)">
+                <use href="#db-shape" class="component-box database" />
+                <text x="50" y="35" text-anchor="middle" class="component-label">RAG Database</text>
+                <text x="50" y="55" text-anchor="middle" class="component-desc">Question Context</text>
+                <text x="50" y="70" text-anchor="middle" class="component-desc">Embeddings</text>
+            </g>
+            
+            <!-- RAG Explainer -->
+            <line x1="450" y1="620" x2="450" y2="660" class="explainer-line" />
+            <rect x="360" y="660" width="180" height="35" class="explainer-box" />
+            <text x="450" y="673" text-anchor="middle" class="explainer-text">Stores all compliance</text>
+            <text x="450" y="688" text-anchor="middle" class="explainer-text">knowledge & regulations</text>
+            
+            <!-- Questionnaire Database -->
+            <g transform="translate(550, 550)">
+                <use href="#db-shape" class="component-box database" />
+                <text x="50" y="35" text-anchor="middle" class="component-label">Questionnaire DB</text>
+                <text x="50" y="55" text-anchor="middle" class="component-desc">SQL-based</text>
+                <text x="50" y="70" text-anchor="middle" class="component-desc">Version History</text>
+            </g>
+            
+            <!-- Questionnaire DB Explainer -->
+            <line x1="650" y1="620" x2="700" y2="660" class="explainer-line" />
+            <rect x="700" y="645" width="180" height="35" class="explainer-box" />
+            <text x="790" y="658" text-anchor="middle" class="explainer-text">Stores questionnaire</text>
+            <text x="790" y="673" text-anchor="middle" class="explainer-text">versions & JSON encoding</text>
+            
+            <!-- Dynamic JSON Document -->
+            <rect x="850" y="350" width="200" height="100" rx="10" class="component-box database" />
+            <text x="950" y="385" text-anchor="middle" class="component-label">Dynamic JSON</text>
+            <text x="950" y="410" text-anchor="middle" class="component-desc">Question Flow Logic</text>
+            <text x="950" y="430" text-anchor="middle" class="component-desc">Decision Trees</text>
+            
+            <!-- Dynamic JSON Explainer -->
+            <line x1="1050" y1="400" x2="1100" y2="400" class="explainer-line" />
+            <rect x="1100" y="383" width="220" height="35" class="explainer-box" />
+            <text x="1210" y="396" text-anchor="middle" class="explainer-text">Full Path: Determines which</text>
+            <text x="1210" y="411" text-anchor="middle" class="explainer-text">question to ask next</text>
+            
+            <!-- API Gateway -->
+            <rect x="1100" y="350" width="180" height="100" rx="10" class="component-box api-system" />
+            <text x="1190" y="385" text-anchor="middle" class="component-label">API Gateway</text>
+            <text x="1190" y="410" text-anchor="middle" class="component-desc">Archer Connector</text>
+            <text x="1190" y="430" text-anchor="middle" class="component-desc">Data Exchange</text>
+            
+            <!-- API Explainer -->
+            <line x1="1190" y1="450" x2="1190" y2="490" class="explainer-line" />
+            <rect x="1080" y="490" width="220" height="35" class="explainer-box" />
+            <text x="1190" y="503" text-anchor="middle" class="explainer-text">Secure bridge connecting Clarity</text>
+            <text x="1190" y="518" text-anchor="middle" class="explainer-text">to external compliance systems</text>
+            
+            <!-- Snowflake Data Lake -->
+            <g transform="translate(1250, 50)">
+                <use href="#db-shape" class="component-box database" style="stroke: #00c7e6; fill: #e6f9ff;" />
+                <text x="50" y="35" text-anchor="middle" class="component-label">Snowflake</text>
+                <text x="50" y="55" text-anchor="middle" class="component-desc">Data Lake</text>
+                <text x="50" y="70" text-anchor="middle" class="component-desc">Centralized Storage</text>
+            </g>
+            
+            <!-- Snowflake Explainer -->
+            <line x1="1250" y1="80" x2="1200" y2="50" class="explainer-line" />
+            <rect x="1020" y="25" width="180" height="35" class="explainer-box" />
+            <text x="1110" y="38" text-anchor="middle" class="explainer-text">Cloud warehouse storing</text>
+            <text x="1110" y="53" text-anchor="middle" class="explainer-text">all organizational data</text>
+            
+            <!-- Cortex Integration Layer -->
+            <rect x="1400" y="120" width="200" height="80" rx="10" class="component-box api-system" style="stroke: #00c7e6; fill: #e6f9ff;" />
+            <text x="1500" y="150" text-anchor="middle" class="component-label">Cortex</text>
+            <text x="1500" y="170" text-anchor="middle" class="component-desc">Integration Layer</text>
+            <text x="1500" y="188" text-anchor="middle" class="component-desc">AI/ML Pipeline</text>
+            
+            <!-- Cortex Explainer -->
+            <line x1="1600" y1="160" x2="1650" y2="160" class="explainer-line" />
+            <rect x="1650" y="135" width="140" height="50" class="explainer-box" />
+            <text x="1720" y="150" text-anchor="middle" class="explainer-text">AI layer that</text>
+            <text x="1720" y="165" text-anchor="middle" class="explainer-text">processes data for</text>
+            <text x="1720" y="180" text-anchor="middle" class="explainer-text">dashboards & GRC</text>
+            
+            <!-- C2S Dashboard -->
+            <rect x="1100" y="200" width="180" height="100" rx="10" class="component-box dashboard" />
+            <text x="1190" y="235" text-anchor="middle" class="component-label">C2S Dashboard</text>
+            <text x="1190" y="260" text-anchor="middle" class="component-desc">Monitoring</text>
+            <text x="1190" y="280" text-anchor="middle" class="component-desc">Analytics</text>
+            
+            <!-- C2S Explainer -->
+            <line x1="1100" y1="250" x2="1050" y2="250" class="explainer-line" />
+            <rect x="870" y="233" width="180" height="35" class="explainer-box" />
+            <text x="960" y="246" text-anchor="middle" class="explainer-text">Real-time compliance</text>
+            <text x="960" y="261" text-anchor="middle" class="explainer-text">status & metrics view</text>
+            
+            <!-- Archer System (with Package info) -->
+            <rect x="1380" y="250" width="200" height="300" rx="10" class="component-box archer-system" />
+            <text x="1480" y="285" text-anchor="middle" class="component-label">Archer GRC System</text>
+            <text x="1480" y="310" text-anchor="middle" class="component-desc">Compliance Management</text>
+            <text x="1480" y="400" text-anchor="middle" class="component-desc" font-size="16">Package Created</text>
+            <text x="1480" y="520" text-anchor="middle" class="component-desc" font-size="16" font-weight="bold">Auth to Operate</text>
+            
+            <!-- C2S/CMMC Box -->
+            <rect x="1620" y="250" width="320" height="300" rx="10" class="component-box archer-system" />
+            <text x="1780" y="285" text-anchor="middle" class="component-label">C2S/CMMC</text>
+            <text x="1780" y="310" text-anchor="middle" class="component-desc">Control Validation</text>
+            
+            <!-- 10 Controls Section -->
+            <rect x="1640" y="330" width="280" height="100" rx="5" style="fill: #f0f8ff; stroke: #3498db; stroke-width: 2;" />
+            <text x="1780" y="350" text-anchor="middle" font-size="14" font-weight="bold" fill="#2c3e50">10 Controls Validated</text>
+            <text x="1780" y="370" text-anchor="middle" font-size="12" fill="#34495e">Through 5 Key Metrics:</text>
+            
+            <!-- 5 Metric Indicators -->
+            <g transform="translate(1670, 380)">
+                <rect x="0" y="0" width="40" height="30" rx="3" fill="#27ae60" />
+                <text x="20" y="20" text-anchor="middle" font-size="10" fill="white">M1</text>
+                
+                <rect x="45" y="0" width="40" height="30" rx="3" fill="#27ae60" />
+                <text x="65" y="20" text-anchor="middle" font-size="10" fill="white">M2</text>
+                
+                <rect x="90" y="0" width="40" height="30" rx="3" fill="#27ae60" />
+                <text x="110" y="20" text-anchor="middle" font-size="10" fill="white">M3</text>
+                
+                <rect x="135" y="0" width="40" height="30" rx="3" fill="#27ae60" />
+                <text x="155" y="20" text-anchor="middle" font-size="10" fill="white">M4</text>
+                
+                <rect x="180" y="0" width="40" height="30" rx="3" fill="#27ae60" />
+                <text x="200" y="20" text-anchor="middle" font-size="10" fill="white">M5</text>
+            </g>
+            
+            <!-- 9 Inherited Controls Section -->
+            <rect x="1640" y="440" width="280" height="85" rx="5" style="fill: #e8f8f5; stroke: #16a085; stroke-width: 2;" />
+            <text x="1780" y="460" text-anchor="middle" font-size="14" font-weight="bold" fill="#2c3e50">9 Controls Inherited</text>
+            <text x="1780" y="478" text-anchor="middle" font-size="12" fill="#34495e">Auto-approved based on:</text>
+            <text x="1780" y="495" text-anchor="middle" font-size="11" fill="#34495e">• FedRAMP CSP Authorization</text>
+            <text x="1780" y="510" text-anchor="middle" font-size="11" fill="#34495e">• Organizational Baselines</text>
+            
+            <!-- Archer Explainer -->
+            <line x1="1480" y1="550" x2="1480" y2="590" class="explainer-line" />
+            <rect x="1390" y="590" width="180" height="35" class="explainer-box" />
+            <text x="1480" y="603" text-anchor="middle" class="explainer-text">Enterprise GRC platform</text>
+            <text x="1480" y="618" text-anchor="middle" class="explainer-text">for risk management</text>
+            
+            <!-- C2S/CMMC Explainer -->
+            <line x1="1940" y1="400" x2="1980" y2="400" class="explainer-line" />
+            <rect x="1980" y="360" width="160" height="80" class="explainer-box" />
+            <text x="2060" y="375" text-anchor="middle" class="explainer-text">Total: 19 controls</text>
+            <text x="2060" y="390" text-anchor="middle" class="explainer-text">10 validated via metrics</text>
+            <text x="2060" y="405" text-anchor="middle" class="explainer-text">9 inherited automatically</text>
+            <text x="2060" y="420" text-anchor="middle" class="explainer-text">Threshold: ≥10 green</text>
+            <text x="2060" y="435" text-anchor="middle" class="explainer-text">for ATO approval</text>
+            
+            <!-- Flow Arrows -->
+            <!-- User to Feature Flag -->
+            <path d="M 250 400 L 280 380" class="flow-arrow" />
+            <path d="M 250 350 L 280 330" class="flow-arrow" />
+            
+            <!-- Feature Flag to Template Engine (FastTrack ON - green path) -->
+            <path d="M 460 280 L 500 220" style="stroke: #27ae60; stroke-width: 3; fill: none; marker-end: url(#arrowhead);" />
+            <text x="480" y="250" font-size="11" fill="#27ae60" font-weight="bold">FastTrack</text>
+            
+            <!-- Feature Flag to Clarity (Traditional OFF - orange path) -->
+            <path d="M 460 350 L 500 380" style="stroke: #e67e22; stroke-width: 3; fill: none; marker-end: url(#arrowhead);" />
+            <text x="480" y="370" font-size="11" fill="#e67e22" font-weight="bold">Traditional</text>
+            
+            <!-- Template Engine to Clarity -->
+            <path d="M 600 260 L 600 320" style="stroke: #27ae60; stroke-width: 2; fill: none; marker-end: url(#arrowhead);" />
+            
+            <!-- Chatbot to RAG DB -->
+            <path d="M 550 480 L 475 550" class="data-flow" />
+            
+            <!-- Chatbot to Questionnaire DB -->
+            <path d="M 650 480 L 600 550" class="data-flow" />
+            
+            <!-- Chatbot to Dynamic JSON (Traditional path only) -->
+            <path d="M 750 400 L 850 400" style="stroke: #e67e22; stroke-width: 2; stroke-dasharray: 5,5; fill: none; marker-end: url(#arrowhead);" />
+            
+            <!-- Dynamic JSON back to Chatbot -->
+            <path d="M 850 420 L 750 420" class="data-flow" />
+            
+            <!-- Chatbot to API (both paths converge) -->
+            <path d="M 750 400 L 1100 400" class="flow-arrow" />
+            
+            <!-- API to C2S Dashboard -->
+            <path d="M 1190 350 L 1190 300" class="data-flow" />
+            
+            <!-- C2S Dashboard to Archer GRC -->
+            <path d="M 1280 250 L 1380 250" class="flow-arrow" />
+            
+            <!-- Archer GRC to C2S Dashboard (curved around far left) -->
+            <path d="M 1380 530 Q 1050 700 1100 300" class="flow-arrow" />
+            
+            <!-- Snowflake to Cortex -->
+            <path d="M 1350 120 L 1400 160" class="data-flow" />
+            
+            <!-- Cortex to C2S Dashboard -->
+            <path d="M 1500 180 L 1280 250" class="data-flow" />
+            
+            <!-- Cortex to Archer -->
+            <path d="M 1600 200 L 1480 250" class="data-flow" />
+            
+            <!-- API to Archer -->
+            <path d="M 1280 400 L 1380 400" class="flow-arrow" />
+            
+            <!-- Archer to C2S/CMMC (bidirectional) -->
+            <path d="M 1580 380 L 1620 380" class="flow-arrow" />
+            <path d="M 1620 420 L 1580 420" class="flow-arrow" />
+            <text x="1600" y="375" font-size="12" fill="#7f8c8d">Compliance Check</text>
+            
+            <!-- Add bidirectional arrow for user feedback -->
+            <path d="M 280 420 L 250 420" class="data-flow" />
+            
+            <!-- Data flow labels -->
+            <text x="260" y="395" font-size="12" fill="#7f8c8d">Input</text>
+            <text x="260" y="345" font-size="12" fill="#7f8c8d">8 Fields</text>
+            <text x="260" y="435" font-size="12" fill="#7f8c8d">Response</text>
+            <text x="800" y="395" font-size="12" fill="#e67e22">Full Questions</text>
+            <text x="800" y="435" font-size="12" fill="#7f8c8d">Answer Context</text>
+            <text x="950" y="395" font-size="12" fill="#7f8c8d">Process Data</text>
+            <text x="1470" y="140" font-size="12" fill="#7f8c8d">Data Pipeline</text>
+            <text x="1450" y="220" font-size="12" fill="#7f8c8d">AI/ML Processing</text>
+        </svg>
+        
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-title">Legend</div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #34495e;"></div>
+                <span>Process Flow</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #3498db; border-style: dashed;"></div>
+                <span>Data Exchange (Future State)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #27ae60; border-radius: 50%; width: 15px; height: 15px;"></div>
+                <span>Compliant Control</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color" style="background: #e74c3c; border-radius: 50%; width: 15px; height: 15px;"></div>
+                <span>Non-Compliant Control</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
