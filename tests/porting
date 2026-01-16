@@ -1,0 +1,8 @@
+Docker Desktop Not Running - Had to start Docker Desktop first
+Line Endings (CRLF vs LF) - Windows Git converted Unix line endings, breaking shell scripts. Fixed with sed -i 's/\r$//' in Dockerfile
+Docker Image Caching - Old broken files were cached. Fixed with docker rmi -f and --no-cache rebuilds
+Shebang Interpreter Issues - Changed ENTRYPOINT from ["scripts/start.sh"] to ["/bin/sh", "scripts/start.sh"] to bypass shebang problems
+Inconsistent Script Paths - start.sh mixed /scripts/ and /app/scripts/ paths. Fixed to use /app/scripts/ consistently and explicit /bin/sh calls
+Dockerfile COPY Line Uncommented - Line 26 was causing build failures. Commented it out
+Missing Environment Variable - Added CLARITY_KC_NUXT_CLIENT_SECRET to docker-compose.yaml and .env
+Missing Seed Data - Set SEED_DATA=false to skip the missing data.json file
