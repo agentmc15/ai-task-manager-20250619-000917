@@ -1,0 +1,169 @@
+================================================================================
+CLARITY APPLICATION - WINDOWS STARTUP GUIDE
+================================================================================
+
+This guide walks through starting the Clarity backend (API) and frontend (Nuxt.js)
+on a Windows machine.
+
+================================================================================
+PART 1: START THE BACKEND
+================================================================================
+
+STEP 1: Open Docker Desktop
+---------------------------
+- Search "Docker Desktop" in Windows Start menu
+- Launch it and wait for the whale icon to stop animating (fully started)
+
+
+STEP 2: Open VS Code Terminal
+-----------------------------
+- Open VS Code
+- Open the ART-clarity-api folder
+- Open terminal (Ctrl + `)
+
+
+STEP 3: Navigate to Backend Folder
+----------------------------------
+cd C:\Users\C95063223\Desktop\repos\ART-clarity-api
+
+
+STEP 4: Start the Backend Containers
+------------------------------------
+docker compose up -d
+
+
+STEP 5: Verify Backend is Running
+---------------------------------
+docker compose ps
+
+You should see 3 containers running:
+  - db (PostgreSQL) - port 5432
+  - keycloak - port 8080
+  - clarity-api - port 4000
+
+
+STEP 6: Check Backend Logs (Optional)
+-------------------------------------
+docker compose logs clarity-api
+
+Look for: "Uvicorn running on http://0.0.0.0:4000"
+
+
+STEP 7: Test Backend URLs
+-------------------------
+Open in browser:
+  - API Docs:  http://localhost:4000/docs
+  - Keycloak:  http://localhost:8080
+
+
+================================================================================
+PART 2: START THE FRONTEND
+================================================================================
+
+STEP 8: Open New Terminal
+-------------------------
+Keep the backend terminal open, open a new terminal tab/window
+
+
+STEP 9: Navigate to Frontend Folder
+-----------------------------------
+cd C:\Users\C95063223\Desktop\repos\<frontend-folder-name>
+
+(Replace <frontend-folder-name> with actual folder name)
+
+
+STEP 10: Install Dependencies (First Time Only)
+-----------------------------------------------
+npm install
+
+
+STEP 11: Create .env File (First Time Only)
+-------------------------------------------
+Create a file named ".env" in the frontend root with this content:
+
+NUXT_OAUTH_KEYCLOAK_REALM=clarity
+NUXT_OAUTH_KEYCLOAK_CLIENT_ID=nuxt-frontend
+NUXT_OAUTH_KEYCLOAK_CLIENT_SECRET=PE1JjykdiIq0XAg8W68u0MzL5USMBua
+NUXT_OAUTH_KEYCLOAK_SERVER_URL=http://localhost:8080
+NUXT_OAUTH_KEYCLOAK_REDIRECT_URL=http://localhost:3000/auth/sso/callback
+NUXT_PUBLIC_KEYCLOAK_REDIRECT_URL=http://localhost:3000/auth/sso/callback
+NUXT_SESSION_PASSWORD=<run command in Step 12 to generate>
+APIM_SUBSCRIPTION_KEY=863ee69d5cae4327aef715bf0e0de5d9
+XETA_GPT4_URL=https://model-hub-gateway.apim.xeta.rtx.com/openai/deployments/gpt-4o/chat/completions?api-version=2024-10-21
+
+
+STEP 12: Generate Session Password (First Time Only)
+----------------------------------------------------
+Run this command to generate a random password:
+
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+
+Copy the output and paste it as the NUXT_SESSION_PASSWORD value in .env
+
+
+STEP 13: Start the Frontend
+---------------------------
+npm run dev
+
+
+STEP 14: Test Frontend URL
+--------------------------
+Open in browser:
+  - Frontend:  http://localhost:3000
+
+
+================================================================================
+QUICK START (After Initial Setup)
+================================================================================
+
+Once everything is set up, daily startup is simple:
+
+Terminal 1 - Backend:
+  cd C:\Users\C95063223\Desktop\repos\ART-clarity-api
+  docker compose up -d
+
+Terminal 2 - Frontend:
+  cd C:\Users\C95063223\Desktop\repos\<frontend-folder-name>
+  npm run dev
+
+URLs:
+  - Frontend:   http://localhost:3000
+  - API Docs:   http://localhost:4000/docs
+  - Keycloak:   http://localhost:8080
+
+
+================================================================================
+SHUTDOWN
+================================================================================
+
+Stop Frontend:
+  Press Ctrl+C in the frontend terminal
+
+Stop Backend:
+  cd C:\Users\C95063223\Desktop\repos\ART-clarity-api
+  docker compose down
+
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+Backend won't start:
+  - Make sure Docker Desktop is running
+  - Run: docker compose down
+  - Run: docker compose up -d --build
+
+Frontend won't start:
+  - Make sure Node.js is installed: node --version
+  - Delete node_modules and reinstall: 
+      Remove-Item -Recurse node_modules
+      npm install
+
+Can't connect to API from frontend:
+  - Verify backend is running: docker compose ps
+  - Check if port 4000 is accessible: http://localhost:4000/docs
+
+Keycloak authentication issues:
+  - Verify NUXT_OAUTH_KEYCLOAK_CLIENT_SECRET matches the backend
+  - Check Keycloak is running: http://localhost:8080
+
