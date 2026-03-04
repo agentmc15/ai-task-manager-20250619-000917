@@ -1,0 +1,597 @@
+RTX / ART
+
+CLARITY
+
+Product Requirements Document
+
+Production Deployment on Microsoft Azure
+
+  ---------------------------- ------------------------------------------
+  Document Version             1.0
+
+  Date                         March 3, 2026
+
+  Author                       Michael Cave
+
+  Organization                 RTX Advanced Research & Technology
+
+  Classification               RTX Internal – Restricted
+
+  Status                       Draft
+  ---------------------------- ------------------------------------------
+
+1. Executive Summary
+
+Clarity is RTX’s AI-powered Governance, Risk, and Compliance (GRC) platform designed to streamline the Information Risk Assessment and Management Process (IRAMP). The platform connects AI interfaces to a common data model, automating GRC workflows that currently require extensive manual effort across RTX’s four business units: hRTN, hUTC, Collins Aerospace, and Pratt & Whitney.
+
+This PRD defines the requirements for migrating Clarity from its current local Docker-based development environment to a production-grade deployment on Microsoft Azure, with full enterprise authentication, high availability, compliance with NIST 800-37, DFARS, ITAR, and FedRAMP standards, and integration with RTX’s XETA Model Hub Gateway for AI model access.
+
+1.1 Product Vision
+
+Clarity aims to reduce IRAMP assessment intake time by 75%, decrease incorrect service and control selection from 40% to below 6%, and provide a unified AI-assisted interface for navigating complex GRC requirements across all RTX business units.
+
+1.2 Key Business Outcomes
+
+-   Reduce average assessment intake from 45–60 minutes to under 10 minutes
+
+-   Automate LOE classification (A through D) and DFARS control selection using AI decision trees
+
+-   Provide a single pane of glass connecting Archer, CMDB, Active Directory, and data catalogs
+
+-   Deliver estimated annual savings of $380K through automation and error reduction
+
+-   Support continuous compliance monitoring and real-time risk scoring
+
+2. System Architecture
+
+2.1 Recommended Hosting Model: Azure Container Apps
+
+After evaluating Azure Kubernetes Service (AKS), Azure Container Apps (ACA), and Azure App Service, Azure Container Apps is recommended as the production hosting model for the following reasons:
+
+-   Native Docker container support aligns with Clarity’s existing containerized architecture without requiring Kubernetes expertise
+
+-   Built-in autoscaling (scale-to-zero capable) optimizes cost for variable GRC workloads
+
+-   Integrated Dapr sidecar support for service-to-service invocation, state management, and pub/sub messaging
+
+-   Managed HTTPS ingress with custom domains and TLS termination
+
+-   Seamless integration with Azure Container Registry, Azure Monitor, and Azure Key Vault
+
+-   Lower operational overhead than AKS while providing more flexibility than App Service
+
+2.2 High-Level Architecture
+
+The production architecture consists of five tiers:
+
+  ---------------- ----------------------------------------------- -----------------------------------------------------
+  Tier             Azure Service                                   Purpose
+
+  Presentation     Azure Container Apps + Azure CDN                Nuxt.js frontend with SSR, static asset delivery
+
+  API              Azure Container Apps                            FastAPI backend (Clarity API), Swagger/OpenAPI docs
+
+  AI/ML            XETA Model Hub Gateway (APIM)                   GPT-4o access via RTX managed API gateway
+
+  Data             Azure Database for PostgreSQL Flexible Server   Primary data store, replacing Docker PostgreSQL
+
+  Identity         Azure AD / Entra ID                             Enterprise SSO, replacing local Keycloak
+  ---------------- ----------------------------------------------- -----------------------------------------------------
+
+2.3 Network Architecture
+
+All services deploy within an Azure Virtual Network with the following isolation:
+
+-   Azure Container Apps Environment within a dedicated subnet with NSG rules
+
+-   Azure Database for PostgreSQL on a private endpoint (no public access)
+
+-   XETA Model Hub Gateway accessed via Azure API Management private link
+
+-   Azure Front Door for global edge delivery with WAF policies
+
+-   All east-west traffic encrypted via mTLS between container apps
+
+2.4 Repository and CI/CD
+
+Source code is hosted on the RTX GitHub Enterprise instance (github.devops.utc.com) under the Type-C-Lite organization. The two primary repositories are ART-clarity-api (FastAPI backend) and ART-CLARA-Copilot (Nuxt.js frontend).
+
+-   CI/CD via GitHub Actions with self-hosted runners inside the RTX network
+
+-   Container images pushed to Azure Container Registry (ACR) with vulnerability scanning via Microsoft Defender for Containers
+
+-   Environment promotion: dev, staging, production with manual approval gates
+
+-   Infrastructure as Code using Terraform with state stored in Azure Storage Account
+
+3. Functional Requirements
+
+3.1 IRAMP/GRC Decision Automation
+
+The core value proposition of Clarity is automating the IRAMP intake and LOE classification process. The system must support the full NIST 800-37 lifecycle: Categorize, Select, Implement, Assess, Authorize, and Monitor.
+
+3.1.1 AI-Powered LOE Classification
+
+-   Implement a conversational intake flow that guides users through system categorization questions
+
+-   Automatically determine the appropriate Level of Effort classification based on user responses:
+
+    -   LOE A (Pilot Systems): 20 controls
+
+    -   LOE B (Public Data): 38 controls
+
+    -   LOE C (Internal RTX Data): 56 controls
+
+    -   LOE D (Externally Accessible): 70 controls
+
+    -   DFARS (CUI/CDI/ITAR/EAR): 110 controls
+
+-   Generate the appropriate control checklist and pre-populate fields from connected data sources
+
+-   Provide confidence scoring for each classification recommendation with explainability
+
+3.1.2 Automated Intake Form Population
+
+-   Query CMDB, Active Directory, Archer GRC, and Data Catalog upon system name entry
+
+-   Auto-populate a minimum of 85% of intake form fields from existing enterprise data
+
+-   Present pre-filled form for user review and completion of remaining fields
+
+-   Validate all fields against business rules before submission
+
+3.1.3 Decision Tree Engine
+
+-   Implement the RTX IRAMP decision tree: Pilot System check, RTX Managed check, Connectivity type (Internal/External), and Data Type (Public/RTX/DFARS)
+
+-   Support branching logic with 500+ decision rules derived from historical assessments
+
+-   Allow GRC administrators to update decision rules without code deployment
+
+3.2 XETA Model Hub AI Integration
+
+Clarity must integrate with the RTX XETA Model Hub Gateway for access to enterprise-approved AI models.
+
+3.2.1 Model Access
+
+-   Connect to the XETA APIM gateway at model-hub-gateway.apim.xeta.rtx.com
+
+-   Support GPT-4o as the primary model for conversational AI and classification tasks
+
+-   Authenticate using JWT tokens acquired from the RTX Azure AD tenant (login.microsoftonline.us)
+
+-   Include APIM subscription key in all requests via the Ocp-Apim-Subscription-Key header
+
+-   Handle 60-minute JWT token expiration with automatic refresh
+
+3.2.2 AI Capabilities
+
+-   Natural language understanding for GRC intake questions
+
+-   Control recommendation generation based on system categorization
+
+-   Document summarization for uploaded compliance artifacts
+
+-   Risk scoring and narrative generation for assessment reports
+
+-   Anomaly detection in continuous monitoring data streams
+
+3.3 Authentication and Authorization
+
+The production system must migrate from local Keycloak to Azure AD / Entra ID for enterprise single sign-on.
+
+3.3.1 Keycloak to Azure AD Migration
+
+-   Replace local Keycloak with Azure AD as the OIDC identity provider
+
+-   Map existing Keycloak realm “clarity” roles and permissions to Azure AD groups
+
+-   Support the existing NUXT OAuth flow using Azure AD endpoints (authorization, token, JWKS, userinfo)
+
+-   Maintain backward compatibility with the nuxt-frontend client ID pattern
+
+-   Implement CORP_OIDC configuration using RTX’s Azure AD tenant discovery endpoint
+
+3.3.2 Role-Based Access Control
+
+  --------------- --------------------------------------------------------- ---------------------------
+  Role            Permissions                                               Azure AD Group
+
+  Viewer          View assessments, dashboards, reports                     SG-Clarity-Viewers
+
+  Analyst         Create/edit assessments, run AI classification            SG-Clarity-Analysts
+
+  Assessor        Approve assessments, issue ATOs, manage POAMs             SG-Clarity-Assessors
+
+  Admin           Manage users, configure decision rules, system settings   SG-Clarity-Admins
+  --------------- --------------------------------------------------------- ---------------------------
+
+3.4 Archer API Integration
+
+Clarity must integrate bidirectionally with RSA Archer for assessment and authorization data exchange.
+
+-   Connect to Archer REST APIs (SOAP fallback via ARCHER_SOAP_GENERAL_URI for legacy endpoints)
+
+-   Synchronize assessment records, control responses, and artifact metadata
+
+-   Push completed assessments and ATO decisions back to Archer for system of record
+
+-   Pull existing control inheritance mappings (SSO/AD, SIEM/SOC, Network Services)
+
+-   Implement retry logic with exponential backoff for Archer API rate limits
+
+3.5 RAG / Document Ingestion Pipeline
+
+Clarity requires a Retrieval-Augmented Generation pipeline to provide contextual AI responses grounded in RTX GRC documentation.
+
+3.5.1 Document Processing
+
+-   Ingest IRAMP policy documents, control frameworks, and historical assessment reports
+
+-   Support PDF, DOCX, XLSX, and plain text file formats
+
+-   Chunk documents using semantic boundaries with configurable overlap
+
+-   Generate embeddings using the XETA Model Hub embedding model
+
+-   Store vector embeddings in Azure AI Search (formerly Azure Cognitive Search) or pgvector extension on PostgreSQL
+
+3.5.2 Retrieval and Context
+
+-   Perform hybrid search (semantic + keyword) for user queries
+
+-   Apply confidence thresholds: high confidence (above 0.4) returns KB response; moderate confidence (0.2 to 0.4) blends KB with general knowledge
+
+-   Include source attribution for all RAG-generated responses
+
+-   Support document-scoped search (e.g., search only within DFARS controls)
+
+4. Non-Functional Requirements
+
+4.1 Performance
+
+  --------------------------- ---------------------------- ----------------------------
+  Metric                      Target                       Measurement Method
+
+  API Response Time (p95)     < 500ms (non-AI endpoints)   Azure Application Insights
+
+  AI Classification Latency   < 8 seconds end-to-end       Custom telemetry
+
+  Page Load Time (LCP)        < 2.5 seconds                Azure Front Door analytics
+
+  Concurrent Users            500+ simultaneous            Load testing (k6/Locust)
+
+  Database Query Time (p95)   < 100ms                      PostgreSQL slow query log
+  --------------------------- ---------------------------- ----------------------------
+
+4.2 Availability and Reliability
+
+-   Target uptime: 99.9% (approximately 8.7 hours downtime per year)
+
+-   Multi-zone deployment within a single Azure region (East US / Azure Gov Virginia)
+
+-   Automated health probes and container restart policies
+
+-   Recovery Time Objective (RTO): less than 15 minutes
+
+-   Recovery Point Objective (RPO): less than 5 minutes via PostgreSQL point-in-time restore
+
+-   Circuit breaker pattern for XETA Model Hub and Archer API dependencies
+
+4.3 Scalability
+
+-   Horizontal autoscaling based on HTTP request concurrency (min 2, max 10 replicas)
+
+-   Azure Container Apps revision-based scaling with zero-downtime deployments
+
+-   Database connection pooling via PgBouncer sidecar (max 100 connections per replica)
+
+-   CDN caching for static frontend assets with 24-hour TTL
+
+4.4 Security
+
+-   All data encrypted at rest using Azure Storage Service Encryption (AES-256)
+
+-   All data encrypted in transit using TLS 1.3
+
+-   Secrets managed via Azure Key Vault with managed identity access (no hardcoded credentials)
+
+-   Network isolation using Azure Virtual Network with private endpoints for all data services
+
+-   Azure Sentinel integration for SIEM and threat detection
+
+-   Vulnerability scanning of container images via Microsoft Defender for Containers
+
+-   Penetration testing required before production go-live
+
+5. Compliance Requirements
+
+5.1 NIST 800-37 / IRAMP Alignment
+
+Clarity itself must be assessed through the IRAMP process it automates. As a system processing internal RTX data with external accessibility, Clarity is categorized as LOE D, requiring 70 controls.
+
+-   Complete IRAMP LOE D assessment for Clarity as a production system
+
+-   Maintain current ATO with continuous monitoring integration
+
+-   Implement all 70 LOE D controls with evidence artifacts stored in Archer
+
+-   Support the six-step IRAMP lifecycle natively within the platform
+
+5.2 DFARS / ITAR Data Handling
+
+Clarity must support assessments involving Controlled Unclassified Information (CUI), Controlled Defense Information (CDI), and ITAR/EAR data, even if Clarity itself does not store this data directly.
+
+-   Implement data classification tagging for all assessment records
+
+-   Enforce DFARS 252.204-7012 requirements for systems that handle CUI
+
+-   Support 110-control DFARS assessments with full audit trail
+
+-   Ensure no CUI/CDI/ITAR data is transmitted to external AI models without explicit approval and data loss prevention controls
+
+-   Maintain separation of assessment data by classification level
+
+5.3 FedRAMP (Azure Government)
+
+If deployed to Azure Government regions, Clarity must align with FedRAMP High baseline controls.
+
+-   Deploy to Azure Government (e.g., USGov Virginia) if required by RTX security policy
+
+-   Use FedRAMP-authorized Azure services exclusively
+
+-   The XETA Model Hub token endpoint (login.microsoftonline.us) already uses the US government Azure AD tenant, supporting this path
+
+-   Implement continuous monitoring per FedRAMP ConMon requirements
+
+-   Maintain System Security Plan (SSP) and Plan of Action and Milestones (POA&M)
+
+5.4 RTX Internal Security Standards
+
+-   Comply with RTX Cybersecurity policy for all internal applications
+
+-   Integrate with RTX corporate proxy (devproxy.utc.com) for outbound connections where required
+
+-   Support RTX corporate certificate chain for TLS inspection
+
+-   Register in RTX’s CMDB and application inventory
+
+-   Complete RTX privacy impact assessment if processing employee PII
+
+6. Data Architecture
+
+6.1 Database Design
+
+The production database migrates from the Docker-hosted PostgreSQL container to Azure Database for PostgreSQL Flexible Server. The existing schema remains largely intact with additions for production features.
+
+6.1.1 Core Tables
+
+  ----------------- -------------------------------------------------- ------------------------------------
+  Table             Purpose                                            Key Relationships
+
+  assessments       IRAMP assessment records with LOE classification   Links to controls, users, systems
+
+  controls          Security control library (LOE A–D, DFARS)          Many-to-many with assessments
+
+  systems           Registered information systems under assessment    Links to CMDB, Archer records
+
+  chat_sessions     AI conversation history for intake flows           Links to assessments, users
+
+  documents         Uploaded compliance artifacts and policies         Links to assessments, vector store
+
+  decision_rules    Configurable GRC decision tree rules               Used by classification engine
+
+  audit_log         Immutable record of all user and system actions    Links to users, assessments
+  ----------------- -------------------------------------------------- ------------------------------------
+
+6.1.2 Vector Store
+
+Document embeddings are stored using the pgvector extension on the same PostgreSQL instance for operational simplicity, with the option to migrate to Azure AI Search if scale demands it.
+
+6.2 Data Migration
+
+-   Export existing development data using pg_dump from Docker container
+
+-   Transform and load into Azure PostgreSQL using Azure Database Migration Service
+
+-   Validate data integrity with row counts and checksum comparison
+
+-   Seed production with reference data: control libraries, decision rules, and inheritance mappings
+
+7. Environment Configuration
+
+7.1 Environment Variables
+
+The following environment variables must be configured in Azure Container Apps, sourced from Azure Key Vault. This extends the current .env file pattern used in development.
+
+7.1.1 Database Configuration
+
+  ----------------------------------- --------------------------------------------
+  Variable                            Production Value
+
+  CLARITY_SQL_DB                      clarity
+
+  CLARITY_SQL_USER                    clarity_admin (managed identity preferred)
+
+  CLARITY_SQL_PASSWORD                Key Vault reference
+
+  CLARITY_SQL_HOST                    clarity-db.postgres.database.azure.com
+
+  CLARITY_SQL_PORT                    5432
+  ----------------------------------- --------------------------------------------
+
+7.1.2 Identity Configuration
+
+  ----------------------------------- ----------------------------------------------------------------------------
+  Variable                            Production Value
+
+  CORP_OIDC_CLIENT_ID                 Azure AD App Registration Client ID
+
+  CORP_OIDC_CLIENT_SECRET             Key Vault reference
+
+  CORP_OIDC_DISCOVERY_ENDPOINT        https://login.microsoftonline.us/{tenant}/.well-known/openid-configuration
+
+  CORP_OIDC_ISSUER                    https://login.microsoftonline.us/{tenant}/v2.0
+  ----------------------------------- ----------------------------------------------------------------------------
+
+7.1.3 XETA Model Hub Configuration
+
+  ----------------------------------- ---------------------------------------------------------------------------------------------------------------
+  Variable                            Production Value
+
+  XETA_OPENAI_URL_BASE                https://model-hub-gateway.apim.xeta.rtx.com
+
+  APIM_SUBSCRIPTION_KEY               Key Vault reference
+
+  XETA_GPT4_URL                       https://model-hub-gateway.apim.xeta.rtx.com/openai/deployments/gpt-4o/chat/completions?api-version=2024-10-21
+  ----------------------------------- ---------------------------------------------------------------------------------------------------------------
+
+8. API Specification
+
+The Clarity API is built on FastAPI and exposes the following endpoint groups. Full OpenAPI documentation is available at /docs (Swagger UI) and /redoc.
+
+8.1 Core Endpoints
+
+  ---------- -------------------------- ----------------------------------------------
+  Method     Endpoint                   Description
+
+  POST       /api/v1/assessments        Create new IRAMP assessment
+
+  GET        /api/v1/assessments/{id}   Retrieve assessment with controls and status
+
+  POST       /api/v1/chat/classify      AI-powered LOE classification from intake
+
+  POST       /api/v1/chat/message       Send message to GRC chat assistant
+
+  GET        /api/v1/controls           List controls filtered by LOE level
+
+  POST       /api/v1/documents/ingest   Upload and process document for RAG
+
+  POST       /api/v1/documents/search   Semantic search across ingested documents
+
+  GET        /api/v1/systems/{id}       Retrieve system info with CMDB/Archer sync
+
+  GET        /health                    Health check for load balancer probes
+
+  GET        /docs                      Swagger UI (dev/staging only)
+  ---------- -------------------------- ----------------------------------------------
+
+9. Observability and Monitoring
+
+9.1 Logging
+
+-   Structured JSON logging from FastAPI and Nuxt.js to Azure Monitor Log Analytics
+
+-   Correlation IDs across frontend, API, XETA, and Archer for distributed tracing
+
+-   Log retention: 90 days hot (Log Analytics), 1 year cold (Azure Storage)
+
+-   PII and credential scrubbing in all log outputs
+
+9.2 Metrics and Alerting
+
+-   Azure Application Insights for APM: request rates, response times, failure rates, dependency tracking
+
+-   Custom metrics: AI classification accuracy, intake completion rate, form auto-fill rate
+
+-   Azure Monitor alerts for: container health, CPU/memory thresholds, API error rate spikes, XETA token refresh failures
+
+-   PagerDuty or ServiceNow integration for on-call escalation
+
+9.3 Dashboards
+
+-   Azure Dashboard for infrastructure health (container replicas, DB connections, network latency)
+
+-   Power BI dashboards for GRC operational metrics (assessments completed, LOE distribution, time-to-ATO)
+
+-   Real-time conversation analytics: intent classification accuracy, user satisfaction, handoff rates
+
+10. Implementation Roadmap
+
+  ----------- -------------------------- --------------------------------------------------------------------------------- -----------------------------------------
+  Phase       Duration                   Deliverables                                                                      Dependencies
+
+  Phase 1     Weeks 1–4: Foundation      Azure infra (Terraform), CI/CD pipeline, Azure AD integration, DB migration       Azure subscription, AD tenant access
+
+  Phase 2     Weeks 5–8: Core Platform   API deployment to ACA, frontend deployment, XETA integration, health monitoring   Phase 1 complete, XETA prod credentials
+
+  Phase 3     Weeks 9–12: GRC Features   Decision tree engine, Archer integration, RAG pipeline, intake automation         Phase 2 complete, Archer API access
+
+  Phase 4     Weeks 13–16: Hardening     Load testing, pen testing, IRAMP self-assessment, documentation, training         Phase 3 complete
+
+  Phase 5     Week 17+: GA Launch        Production go-live, user onboarding, continuous monitoring activation             ATO granted
+  ----------- -------------------------- --------------------------------------------------------------------------------- -----------------------------------------
+
+11. Risks and Mitigations
+
+  ---------- --------------------------------------------------------------- ------------------------------- --------------------------------------------------------------------------------
+  Severity   Risk                                                            Impact                          Mitigation
+
+  High       XETA Model Hub rate limits or outages block AI classification   Core intake workflow degrades   Implement fallback to rule-based classification; cache common patterns
+
+  High       Azure AD integration delays due to RTX tenant policies          Production launch delayed       Start AD app registration in Phase 1; maintain Keycloak as fallback
+
+  Medium     Archer API changes break sync                                   Assessment data inconsistency   Version-pinned API client; circuit breaker; manual sync fallback
+
+  Medium     Corporate proxy (devproxy.utc.com) blocks container egress      Build and runtime failures      Pre-configure proxy in container env; use private endpoints for Azure services
+
+  Medium     DFARS data inadvertently sent to AI model                       Compliance violation            DLP filter on all AI prompts; data classification tags; admin alerts
+
+  Low        Windows/Mac dev parity issues persist                           Developer friction              Standardize on devcontainers; document known issues (CRLF, PATH)
+  ---------- --------------------------------------------------------------- ------------------------------- --------------------------------------------------------------------------------
+
+12. Appendices
+
+12.1 Glossary
+
+  ----------------- --------------------------------------------------------------------------
+  Term              Definition
+
+  ATO               Authority to Operate – formal authorization for a system to process data
+
+  CUI               Controlled Unclassified Information
+
+  DFARS             Defense Federal Acquisition Regulation Supplement
+
+  GRC               Governance, Risk, and Compliance
+
+  IRAMP             Information Risk Assessment and Management Process
+
+  ITAR              International Traffic in Arms Regulations
+
+  LOE               Level of Effort – risk classification (A through D)
+
+  POA&M             Plan of Action and Milestones
+
+  RAG               Retrieval-Augmented Generation
+
+  XETA              RTX’s enterprise API management platform for AI model access
+  ----------------- --------------------------------------------------------------------------
+
+12.2 Reference Documents
+
+-   NIST SP 800-37 Rev. 2: Risk Management Framework for Information Systems
+
+-   DFARS 252.204-7012: Safeguarding Covered Defense Information
+
+-   RTX IRAMP Process Guide (internal)
+
+-   RTX XETA Model Hub Developer Guide (internal)
+
+-   ART-clarity-api README.md (GitHub: Type-C-Lite/ART-clarity-api)
+
+-   ART-CLARA-Copilot README.md (GitHub: Type-C-Lite/ART-CLARA-Copilot)
+
+12.3 Approval Signatures
+
+  --------------------- ----------------- ----------------- -----------------
+  Role                  Name              Signature         Date
+
+  Product Owner                                             
+
+  Engineering Lead                                          
+
+  Security/GRC Lead                                         
+
+  Architecture Review                                       
+  --------------------- ----------------- ----------------- -----------------
