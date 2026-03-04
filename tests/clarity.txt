@@ -1,0 +1,1374 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2867
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 ArialMT;\f1\froman\fcharset0 Times-Roman;\f2\fswiss\fcharset0 Arial-BoldMT;
+}
+{\colortbl;\red255\green255\blue255;\red191\green191\blue191;\red255\green255\blue255;}
+{\*\expandedcolortbl;;\csgray\c79525;\csgenericrgb\c100000\c100000\c100000;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid2}
+{\list\listtemplateid3\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid201\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid3}
+{\list\listtemplateid4\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid301\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid4}
+{\list\listtemplateid5\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid401\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid402\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li1440\lin1440 }{\listname ;}\listid5}
+{\list\listtemplateid6\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid501\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid6}
+{\list\listtemplateid7\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid601\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid7}
+{\list\listtemplateid8\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid701\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid8}
+{\list\listtemplateid9\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid801\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid9}
+{\list\listtemplateid10\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid901\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid10}
+{\list\listtemplateid11\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1001\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid11}
+{\list\listtemplateid12\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid12}
+{\list\listtemplateid13\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1201\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid13}
+{\list\listtemplateid14\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1301\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid14}
+{\list\listtemplateid15\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1401\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid15}
+{\list\listtemplateid16\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1501\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid16}
+{\list\listtemplateid17\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1601\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid17}
+{\list\listtemplateid18\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1701\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid18}
+{\list\listtemplateid19\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1801\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid19}
+{\list\listtemplateid20\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1901\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid20}
+{\list\listtemplateid21\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid2001\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid21}
+{\list\listtemplateid22\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid2101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid22}
+{\list\listtemplateid23\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid2201\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid23}
+{\list\listtemplateid24\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid2301\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid24}
+{\list\listtemplateid25\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid2401\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid25}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}{\listoverride\listid3\listoverridecount0\ls3}{\listoverride\listid4\listoverridecount0\ls4}{\listoverride\listid5\listoverridecount0\ls5}{\listoverride\listid6\listoverridecount0\ls6}{\listoverride\listid7\listoverridecount0\ls7}{\listoverride\listid8\listoverridecount0\ls8}{\listoverride\listid9\listoverridecount0\ls9}{\listoverride\listid10\listoverridecount0\ls10}{\listoverride\listid11\listoverridecount0\ls11}{\listoverride\listid12\listoverridecount0\ls12}{\listoverride\listid13\listoverridecount0\ls13}{\listoverride\listid14\listoverridecount0\ls14}{\listoverride\listid15\listoverridecount0\ls15}{\listoverride\listid16\listoverridecount0\ls16}{\listoverride\listid17\listoverridecount0\ls17}{\listoverride\listid18\listoverridecount0\ls18}{\listoverride\listid19\listoverridecount0\ls19}{\listoverride\listid20\listoverridecount0\ls20}{\listoverride\listid21\listoverridecount0\ls21}{\listoverride\listid22\listoverridecount0\ls22}{\listoverride\listid23\listoverridecount0\ls23}{\listoverride\listid24\listoverridecount0\ls24}{\listoverride\listid25\listoverridecount0\ls25}}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f0\fs22 \cf0 Document Version\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 1.0\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Date\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 March 3, 2026\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Author\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Michael Cave\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Organization\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 RTX Advanced Research & Technology\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Classification\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 RTX Internal \'96 Restricted\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Status\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Draft\cell \lastrow\row
+\pard\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 \
+\
+\page \
+1. Executive Summary\
+\pard\pardeftab720\sa120\pardirnatural\partightenfactor0
+
+\f0 \cf0 Clarity is RTX\'92s AI-powered Governance, Risk, and Compliance (GRC) platform designed to streamline the Information Risk Assessment and Management Process (IRAMP). The platform connects AI interfaces to a common data model, automating GRC workflows that currently require extensive manual effort across RTX\'92s four business units: hRTN, hUTC, Collins Aerospace, and Pratt & Whitney.\
+This PRD defines the requirements for migrating Clarity from its current local Docker-based development environment to a production-grade deployment on Microsoft Azure, with full enterprise authentication, high availability, compliance with NIST 800-37, DFARS, ITAR, and FedRAMP standards, and integration with RTX\'92s XETA Model Hub Gateway for AI model access.\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 1.1 Product Vision\
+\pard\pardeftab720\sa120\pardirnatural\partightenfactor0
+
+\f0 \cf0 Clarity aims to reduce IRAMP assessment intake time by 75%, decrease incorrect service and control selection from 40% to below 6%, and provide a unified AI-assisted interface for navigating complex GRC requirements across all RTX business units.\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 1.2 Key Business Outcomes\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls1\ilvl0
+\f0 \cf0 {\listtext	\uc0\u8226 	}Reduce average assessment intake from 45\'9660 minutes to under 10 minutes\
+{\listtext	\uc0\u8226 	}Automate LOE classification (A through D) and DFARS control selection using AI decision trees\
+{\listtext	\uc0\u8226 	}Provide a single pane of glass connecting Archer, CMDB, Active Directory, and data catalogs\
+{\listtext	\uc0\u8226 	}Deliver estimated annual savings of $380K through automation and error reduction\
+{\listtext	\uc0\u8226 	}Support continuous compliance monitoring and real-time risk scoring\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 \page \
+2. System Architecture\
+2.1 Recommended Hosting Model: Azure Container Apps\
+\pard\pardeftab720\sa120\pardirnatural\partightenfactor0
+
+\f0 \cf0 After evaluating Azure Kubernetes Service (AKS), Azure Container Apps (ACA), and Azure App Service, Azure Container Apps is recommended as the production hosting model for the following reasons:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls2\ilvl0\cf0 {\listtext	\uc0\u8226 	}Native Docker container support aligns with Clarity\'92s existing containerized architecture without requiring Kubernetes expertise\
+{\listtext	\uc0\u8226 	}Built-in autoscaling (scale-to-zero capable) optimizes cost for variable GRC workloads\
+{\listtext	\uc0\u8226 	}Integrated Dapr sidecar support for service-to-service invocation, state management, and pub/sub messaging\
+{\listtext	\uc0\u8226 	}Managed HTTPS ingress with custom domains and TLS termination\
+{\listtext	\uc0\u8226 	}Seamless integration with Azure Container Registry, Azure Monitor, and Azure Key Vault\
+{\listtext	\uc0\u8226 	}Lower operational overhead than AKS while providing more flexibility than App Service\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 2.2 High-Level Architecture\
+\pard\pardeftab720\sa120\pardirnatural\partightenfactor0
+
+\f0 \cf0 The production architecture consists of five tiers:\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f2\b\fs22 \cf3 Tier\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Azure Service\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Purpose\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f0\b0 \cf0 Presentation\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Azure Container Apps + Azure CDN\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Nuxt.js frontend with SSR, static asset delivery\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 API\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Azure Container Apps\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 FastAPI backend (Clarity API), Swagger/OpenAPI docs\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 AI/ML\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 XETA Model Hub Gateway (APIM)\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 GPT-4o access via RTX managed API gateway\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Data\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Azure Database for PostgreSQL Flexible Server\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Primary data store, replacing Docker PostgreSQL\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Identity\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Azure AD / Entra ID\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Enterprise SSO, replacing local Keycloak\cell \lastrow\row
+\pard\pardeftab720\sa200\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 2.3 Network Architecture\
+\pard\pardeftab720\sa120\pardirnatural\partightenfactor0
+
+\f0 \cf0 All services deploy within an Azure Virtual Network with the following isolation:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls3\ilvl0\cf0 {\listtext	\uc0\u8226 	}Azure Container Apps Environment within a dedicated subnet with NSG rules\
+{\listtext	\uc0\u8226 	}Azure Database for PostgreSQL on a private endpoint (no public access)\
+{\listtext	\uc0\u8226 	}XETA Model Hub Gateway accessed via Azure API Management private link\
+{\listtext	\uc0\u8226 	}Azure Front Door for global edge delivery with WAF policies\
+{\listtext	\uc0\u8226 	}All east-west traffic encrypted via mTLS between container apps\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 2.4 Repository and CI/CD\
+\pard\pardeftab720\sa120\pardirnatural\partightenfactor0
+
+\f0 \cf0 Source code is hosted on the RTX GitHub Enterprise instance (github.devops.utc.com) under the Type-C-Lite organization. The two primary repositories are ART-clarity-api (FastAPI backend) and ART-CLARA-Copilot (Nuxt.js frontend).\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls4\ilvl0\cf0 {\listtext	\uc0\u8226 	}CI/CD via GitHub Actions with self-hosted runners inside the RTX network\
+{\listtext	\uc0\u8226 	}Container images pushed to Azure Container Registry (ACR) with vulnerability scanning via Microsoft Defender for Containers\
+{\listtext	\uc0\u8226 	}Environment promotion: dev, staging, production with manual approval gates\
+{\listtext	\uc0\u8226 	}Infrastructure as Code using Terraform with state stored in Azure Storage Account\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 \page \
+3. Functional Requirements\
+3.1 IRAMP/GRC Decision Automation\
+\pard\pardeftab720\sa120\pardirnatural\partightenfactor0
+
+\f0 \cf0 The core value proposition of Clarity is automating the IRAMP intake and LOE classification process. The system must support the full NIST 800-37 lifecycle: Categorize, Select, Implement, Assess, Authorize, and Monitor.\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 3.1.1 AI-Powered LOE Classification\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls5\ilvl0
+\f0 \cf0 {\listtext	\uc0\u8226 	}Implement a conversational intake flow that guides users through system categorization questions\
+{\listtext	\uc0\u8226 	}Automatically determine the appropriate Level of Effort classification based on user responses:\
+\pard\tx940\tx1440\pardeftab720\li1440\fi-1440\pardirnatural\partightenfactor0
+\ls5\ilvl1\cf0 {\listtext	\uc0\u8226 	}LOE A (Pilot Systems): 20 controls\
+{\listtext	\uc0\u8226 	}LOE B (Public Data): 38 controls\
+{\listtext	\uc0\u8226 	}LOE C (Internal RTX Data): 56 controls\
+{\listtext	\uc0\u8226 	}LOE D (Externally Accessible): 70 controls\
+{\listtext	\uc0\u8226 	}DFARS (CUI/CDI/ITAR/EAR): 110 controls\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls5\ilvl0\cf0 {\listtext	\uc0\u8226 	}Generate the appropriate control checklist and pre-populate fields from connected data sources\
+{\listtext	\uc0\u8226 	}Provide confidence scoring for each classification recommendation with explainability\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 3.1.2 Automated Intake Form Population\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls6\ilvl0
+\f0 \cf0 {\listtext	\uc0\u8226 	}Query CMDB, Active Directory, Archer GRC, and Data Catalog upon system name entry\
+{\listtext	\uc0\u8226 	}Auto-populate a minimum of 85% of intake form fields from existing enterprise data\
+{\listtext	\uc0\u8226 	}Present pre-filled form for user review and completion of remaining fields\
+{\listtext	\uc0\u8226 	}Validate all fields against business rules before submission\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 3.1.3 Decision Tree Engine\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls7\ilvl0
+\f0 \cf0 {\listtext	\uc0\u8226 	}Implement the RTX IRAMP decision tree: Pilot System check, RTX Managed check, Connectivity type (Internal/External), and Data Type (Public/RTX/DFARS)\
+{\listtext	\uc0\u8226 	}Support branching logic with 500+ decision rules derived from historical assessments\
+{\listtext	\uc0\u8226 	}Allow GRC administrators to update decision rules without code deployment\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 3.2 XETA Model Hub AI Integration\
+\pard\pardeftab720\sa120\pardirnatural\partightenfactor0
+
+\f0 \cf0 Clarity must integrate with the RTX XETA Model Hub Gateway for access to enterprise-approved AI models.\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 3.2.1 Model Access\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls8\ilvl0
+\f0 \cf0 {\listtext	\uc0\u8226 	}Connect to the XETA APIM gateway at model-hub-gateway.apim.xeta.rtx.com\
+{\listtext	\uc0\u8226 	}Support GPT-4o as the primary model for conversational AI and classification tasks\
+{\listtext	\uc0\u8226 	}Authenticate using JWT tokens acquired from the RTX Azure AD tenant (login.microsoftonline.us)\
+{\listtext	\uc0\u8226 	}Include APIM subscription key in all requests via the Ocp-Apim-Subscription-Key header\
+{\listtext	\uc0\u8226 	}Handle 60-minute JWT token expiration with automatic refresh\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 3.2.2 AI Capabilities\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls9\ilvl0
+\f0 \cf0 {\listtext	\uc0\u8226 	}Natural language understanding for GRC intake questions\
+{\listtext	\uc0\u8226 	}Control recommendation generation based on system categorization\
+{\listtext	\uc0\u8226 	}Document summarization for uploaded compliance artifacts\
+{\listtext	\uc0\u8226 	}Risk scoring and narrative generation for assessment reports\
+{\listtext	\uc0\u8226 	}Anomaly detection in continuous monitoring data streams\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 3.3 Authentication and Authorization\
+\pard\pardeftab720\sa120\pardirnatural\partightenfactor0
+
+\f0 \cf0 The production system must migrate from local Keycloak to Azure AD / Entra ID for enterprise single sign-on.\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 3.3.1 Keycloak to Azure AD Migration\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls10\ilvl0
+\f0 \cf0 {\listtext	\uc0\u8226 	}Replace local Keycloak with Azure AD as the OIDC identity provider\
+{\listtext	\uc0\u8226 	}Map existing Keycloak realm \'93clarity\'94 roles and permissions to Azure AD groups\
+{\listtext	\uc0\u8226 	}Support the existing NUXT OAuth flow using Azure AD endpoints (authorization, token, JWKS, userinfo)\
+{\listtext	\uc0\u8226 	}Maintain backward compatibility with the nuxt-frontend client ID pattern\
+{\listtext	\uc0\u8226 	}Implement CORP_OIDC configuration using RTX\'92s Azure AD tenant discovery endpoint\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 3.3.2 Role-Based Access Control\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f2\b\fs22 \cf3 Role\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Permissions\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Azure AD Group\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f0\b0 \cf0 Viewer\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 View assessments, dashboards, reports\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 SG-Clarity-Viewers\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Analyst\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Create/edit assessments, run AI classification\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 SG-Clarity-Analysts\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Assessor\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Approve assessments, issue ATOs, manage POAMs\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 SG-Clarity-Assessors\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Admin\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Manage users, configure decision rules, system settings\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 SG-Clarity-Admins\cell \lastrow\row
+\pard\pardeftab720\sa200\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 3.4 Archer API Integration\
+\pard\pardeftab720\sa120\pardirnatural\partightenfactor0
+
+\f0 \cf0 Clarity must integrate bidirectionally with RSA Archer for assessment and authorization data exchange.\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls11\ilvl0\cf0 {\listtext	\uc0\u8226 	}Connect to Archer REST APIs (SOAP fallback via ARCHER_SOAP_GENERAL_URI for legacy endpoints)\
+{\listtext	\uc0\u8226 	}Synchronize assessment records, control responses, and artifact metadata\
+{\listtext	\uc0\u8226 	}Push completed assessments and ATO decisions back to Archer for system of record\
+{\listtext	\uc0\u8226 	}Pull existing control inheritance mappings (SSO/AD, SIEM/SOC, Network Services)\
+{\listtext	\uc0\u8226 	}Implement retry logic with exponential backoff for Archer API rate limits\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 3.5 RAG / Document Ingestion Pipeline\
+\pard\pardeftab720\sa120\pardirnatural\partightenfactor0
+
+\f0 \cf0 Clarity requires a Retrieval-Augmented Generation pipeline to provide contextual AI responses grounded in RTX GRC documentation.\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 3.5.1 Document Processing\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls12\ilvl0
+\f0 \cf0 {\listtext	\uc0\u8226 	}Ingest IRAMP policy documents, control frameworks, and historical assessment reports\
+{\listtext	\uc0\u8226 	}Support PDF, DOCX, XLSX, and plain text file formats\
+{\listtext	\uc0\u8226 	}Chunk documents using semantic boundaries with configurable overlap\
+{\listtext	\uc0\u8226 	}Generate embeddings using the XETA Model Hub embedding model\
+{\listtext	\uc0\u8226 	}Store vector embeddings in Azure AI Search (formerly Azure Cognitive Search) or pgvector extension on PostgreSQL\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 3.5.2 Retrieval and Context\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls13\ilvl0
+\f0 \cf0 {\listtext	\uc0\u8226 	}Perform hybrid search (semantic + keyword) for user queries\
+{\listtext	\uc0\u8226 	}Apply confidence thresholds: high confidence (above 0.4) returns KB response; moderate confidence (0.2 to 0.4) blends KB with general knowledge\
+{\listtext	\uc0\u8226 	}Include source attribution for all RAG-generated responses\
+{\listtext	\uc0\u8226 	}Support document-scoped search (e.g., search only within DFARS controls)\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 \page \
+4. Non-Functional Requirements\
+4.1 Performance\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f2\b\fs22 \cf3 Metric\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Target\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Measurement Method\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f0\b0 \cf0 API Response Time (p95)\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 < 500ms (non-AI endpoints)\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Azure Application Insights\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 AI Classification Latency\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 < 8 seconds end-to-end\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Custom telemetry\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Page Load Time (LCP)\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 < 2.5 seconds\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Azure Front Door analytics\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Concurrent Users\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 500+ simultaneous\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Load testing (k6/Locust)\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Database Query Time (p95)\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 < 100ms\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 PostgreSQL slow query log\cell \lastrow\row
+\pard\pardeftab720\sa200\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 4.2 Availability and Reliability\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls14\ilvl0
+\f0 \cf0 {\listtext	\uc0\u8226 	}Target uptime: 99.9% (approximately 8.7 hours downtime per year)\
+{\listtext	\uc0\u8226 	}Multi-zone deployment within a single Azure region (East US / Azure Gov Virginia)\
+{\listtext	\uc0\u8226 	}Automated health probes and container restart policies\
+{\listtext	\uc0\u8226 	}Recovery Time Objective (RTO): less than 15 minutes\
+{\listtext	\uc0\u8226 	}Recovery Point Objective (RPO): less than 5 minutes via PostgreSQL point-in-time restore\
+{\listtext	\uc0\u8226 	}Circuit breaker pattern for XETA Model Hub and Archer API dependencies\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 4.3 Scalability\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls15\ilvl0
+\f0 \cf0 {\listtext	\uc0\u8226 	}Horizontal autoscaling based on HTTP request concurrency (min 2, max 10 replicas)\
+{\listtext	\uc0\u8226 	}Azure Container Apps revision-based scaling with zero-downtime deployments\
+{\listtext	\uc0\u8226 	}Database connection pooling via PgBouncer sidecar (max 100 connections per replica)\
+{\listtext	\uc0\u8226 	}CDN caching for static frontend assets with 24-hour TTL\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 4.4 Security\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls16\ilvl0
+\f0 \cf0 {\listtext	\uc0\u8226 	}All data encrypted at rest using Azure Storage Service Encryption (AES-256)\
+{\listtext	\uc0\u8226 	}All data encrypted in transit using TLS 1.3\
+{\listtext	\uc0\u8226 	}Secrets managed via Azure Key Vault with managed identity access (no hardcoded credentials)\
+{\listtext	\uc0\u8226 	}Network isolation using Azure Virtual Network with private endpoints for all data services\
+{\listtext	\uc0\u8226 	}Azure Sentinel integration for SIEM and threat detection\
+{\listtext	\uc0\u8226 	}Vulnerability scanning of container images via Microsoft Defender for Containers\
+{\listtext	\uc0\u8226 	}Penetration testing required before production go-live\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 \page \
+5. Compliance Requirements\
+5.1 NIST 800-37 / IRAMP Alignment\
+\pard\pardeftab720\sa120\pardirnatural\partightenfactor0
+
+\f0 \cf0 Clarity itself must be assessed through the IRAMP process it automates. As a system processing internal RTX data with external accessibility, Clarity is categorized as LOE D, requiring 70 controls.\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls17\ilvl0\cf0 {\listtext	\uc0\u8226 	}Complete IRAMP LOE D assessment for Clarity as a production system\
+{\listtext	\uc0\u8226 	}Maintain current ATO with continuous monitoring integration\
+{\listtext	\uc0\u8226 	}Implement all 70 LOE D controls with evidence artifacts stored in Archer\
+{\listtext	\uc0\u8226 	}Support the six-step IRAMP lifecycle natively within the platform\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 5.2 DFARS / ITAR Data Handling\
+\pard\pardeftab720\sa120\pardirnatural\partightenfactor0
+
+\f0 \cf0 Clarity must support assessments involving Controlled Unclassified Information (CUI), Controlled Defense Information (CDI), and ITAR/EAR data, even if Clarity itself does not store this data directly.\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls18\ilvl0\cf0 {\listtext	\uc0\u8226 	}Implement data classification tagging for all assessment records\
+{\listtext	\uc0\u8226 	}Enforce DFARS 252.204-7012 requirements for systems that handle CUI\
+{\listtext	\uc0\u8226 	}Support 110-control DFARS assessments with full audit trail\
+{\listtext	\uc0\u8226 	}Ensure no CUI/CDI/ITAR data is transmitted to external AI models without explicit approval and data loss prevention controls\
+{\listtext	\uc0\u8226 	}Maintain separation of assessment data by classification level\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 5.3 FedRAMP (Azure Government)\
+\pard\pardeftab720\sa120\pardirnatural\partightenfactor0
+
+\f0 \cf0 If deployed to Azure Government regions, Clarity must align with FedRAMP High baseline controls.\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls19\ilvl0\cf0 {\listtext	\uc0\u8226 	}Deploy to Azure Government (e.g., USGov Virginia) if required by RTX security policy\
+{\listtext	\uc0\u8226 	}Use FedRAMP-authorized Azure services exclusively\
+{\listtext	\uc0\u8226 	}The XETA Model Hub token endpoint (login.microsoftonline.us) already uses the US government Azure AD tenant, supporting this path\
+{\listtext	\uc0\u8226 	}Implement continuous monitoring per FedRAMP ConMon requirements\
+{\listtext	\uc0\u8226 	}Maintain System Security Plan (SSP) and Plan of Action and Milestones (POA&M)\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 5.4 RTX Internal Security Standards\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls20\ilvl0
+\f0 \cf0 {\listtext	\uc0\u8226 	}Comply with RTX Cybersecurity policy for all internal applications\
+{\listtext	\uc0\u8226 	}Integrate with RTX corporate proxy (devproxy.utc.com) for outbound connections where required\
+{\listtext	\uc0\u8226 	}Support RTX corporate certificate chain for TLS inspection\
+{\listtext	\uc0\u8226 	}Register in RTX\'92s CMDB and application inventory\
+{\listtext	\uc0\u8226 	}Complete RTX privacy impact assessment if processing employee PII\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 \page \
+6. Data Architecture\
+6.1 Database Design\
+\pard\pardeftab720\sa120\pardirnatural\partightenfactor0
+
+\f0 \cf0 The production database migrates from the Docker-hosted PostgreSQL container to Azure Database for PostgreSQL Flexible Server. The existing schema remains largely intact with additions for production features.\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 6.1.1 Core Tables\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f2\b\fs22 \cf3 Table\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Purpose\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Key Relationships\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f0\b0 \cf0 assessments\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 IRAMP assessment records with LOE classification\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Links to controls, users, systems\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 controls\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Security control library (LOE A\'96D, DFARS)\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Many-to-many with assessments\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 systems\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Registered information systems under assessment\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Links to CMDB, Archer records\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 chat_sessions\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 AI conversation history for intake flows\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Links to assessments, users\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 documents\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Uploaded compliance artifacts and policies\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Links to assessments, vector store\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 decision_rules\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Configurable GRC decision tree rules\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Used by classification engine\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 audit_log\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Immutable record of all user and system actions\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Links to users, assessments\cell \lastrow\row
+\pard\pardeftab720\sa200\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 6.1.2 Vector Store\
+\pard\pardeftab720\sa120\pardirnatural\partightenfactor0
+
+\f0 \cf0 Document embeddings are stored using the pgvector extension on the same PostgreSQL instance for operational simplicity, with the option to migrate to Azure AI Search if scale demands it.\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 6.2 Data Migration\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls21\ilvl0
+\f0 \cf0 {\listtext	\uc0\u8226 	}Export existing development data using pg_dump from Docker container\
+{\listtext	\uc0\u8226 	}Transform and load into Azure PostgreSQL using Azure Database Migration Service\
+{\listtext	\uc0\u8226 	}Validate data integrity with row counts and checksum comparison\
+{\listtext	\uc0\u8226 	}Seed production with reference data: control libraries, decision rules, and inheritance mappings\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 \page \
+7. Environment Configuration\
+7.1 Environment Variables\
+\pard\pardeftab720\sa120\pardirnatural\partightenfactor0
+
+\f0 \cf0 The following environment variables must be configured in Azure Container Apps, sourced from Azure Key Vault. This extends the current .env file pattern used in development.\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 7.1.1 Database Configuration\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f2\b\fs22 \cf3 Variable\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Production Value\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f0\b0 \cf0 CLARITY_SQL_DB\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 clarity\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 CLARITY_SQL_USER\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 clarity_admin (managed identity preferred)\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 CLARITY_SQL_PASSWORD\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Key Vault reference\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 CLARITY_SQL_HOST\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 clarity-db.postgres.database.azure.com\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 CLARITY_SQL_PORT\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 5432\cell \lastrow\row
+\pard\pardeftab720\sa200\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 7.1.2 Identity Configuration\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f2\b\fs22 \cf3 Variable\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Production Value\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f0\b0 \cf0 CORP_OIDC_CLIENT_ID\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Azure AD App Registration Client ID\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 CORP_OIDC_CLIENT_SECRET\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Key Vault reference\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 CORP_OIDC_DISCOVERY_ENDPOINT\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 https://login.microsoftonline.us/\{tenant\}/.well-known/openid-configuration\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 CORP_OIDC_ISSUER\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 https://login.microsoftonline.us/\{tenant\}/v2.0\cell \lastrow\row
+\pard\pardeftab720\sa200\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 7.1.3 XETA Model Hub Configuration\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f2\b\fs22 \cf3 Variable\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Production Value\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f0\b0 \cf0 XETA_OPENAI_URL_BASE\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 https://model-hub-gateway.apim.xeta.rtx.com\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 APIM_SUBSCRIPTION_KEY\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Key Vault reference\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 XETA_GPT4_URL\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 https://model-hub-gateway.apim.xeta.rtx.com/openai/deployments/gpt-4o/chat/completions?api-version=2024-10-21\cell \lastrow\row
+\pard\pardeftab720\sa200\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 \page \
+8. API Specification\
+\pard\pardeftab720\sa120\pardirnatural\partightenfactor0
+
+\f0 \cf0 The Clarity API is built on FastAPI and exposes the following endpoint groups. Full OpenAPI documentation is available at /docs (Swagger UI) and /redoc.\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 8.1 Core Endpoints\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f2\b\fs22 \cf3 Method\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Endpoint\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Description\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f0\b0 \cf0 POST\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 /api/v1/assessments\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Create new IRAMP assessment\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 GET\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 /api/v1/assessments/\{id\}\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Retrieve assessment with controls and status\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 POST\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 /api/v1/chat/classify\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 AI-powered LOE classification from intake\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 POST\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 /api/v1/chat/message\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Send message to GRC chat assistant\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 GET\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 /api/v1/controls\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 List controls filtered by LOE level\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 POST\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 /api/v1/documents/ingest\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Upload and process document for RAG\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 POST\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 /api/v1/documents/search\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Semantic search across ingested documents\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 GET\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 /api/v1/systems/\{id\}\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Retrieve system info with CMDB/Archer sync\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 GET\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 /health\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Health check for load balancer probes\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2880
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx5760
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 GET\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 /docs\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Swagger UI (dev/staging only)\cell \lastrow\row
+\pard\pardeftab720\sa200\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 \page \
+9. Observability and Monitoring\
+9.1 Logging\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls22\ilvl0
+\f0 \cf0 {\listtext	\uc0\u8226 	}Structured JSON logging from FastAPI and Nuxt.js to Azure Monitor Log Analytics\
+{\listtext	\uc0\u8226 	}Correlation IDs across frontend, API, XETA, and Archer for distributed tracing\
+{\listtext	\uc0\u8226 	}Log retention: 90 days hot (Log Analytics), 1 year cold (Azure Storage)\
+{\listtext	\uc0\u8226 	}PII and credential scrubbing in all log outputs\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 9.2 Metrics and Alerting\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls23\ilvl0
+\f0 \cf0 {\listtext	\uc0\u8226 	}Azure Application Insights for APM: request rates, response times, failure rates, dependency tracking\
+{\listtext	\uc0\u8226 	}Custom metrics: AI classification accuracy, intake completion rate, form auto-fill rate\
+{\listtext	\uc0\u8226 	}Azure Monitor alerts for: container health, CPU/memory thresholds, API error rate spikes, XETA token refresh failures\
+{\listtext	\uc0\u8226 	}PagerDuty or ServiceNow integration for on-call escalation\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 9.3 Dashboards\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls24\ilvl0
+\f0 \cf0 {\listtext	\uc0\u8226 	}Azure Dashboard for infrastructure health (container replicas, DB connections, network latency)\
+{\listtext	\uc0\u8226 	}Power BI dashboards for GRC operational metrics (assessments completed, LOE distribution, time-to-ATO)\
+{\listtext	\uc0\u8226 	}Real-time conversation analytics: intent classification accuracy, user satisfaction, handoff rates\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 \page \
+10. Implementation Roadmap\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f2\b\fs22 \cf3 Phase\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Duration\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Deliverables\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Dependencies\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f0\b0 \cf0 Phase 1\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Weeks 1\'964: Foundation\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Azure infra (Terraform), CI/CD pipeline, Azure AD integration, DB migration\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Azure subscription, AD tenant access\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Phase 2\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Weeks 5\'968: Core Platform\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 API deployment to ACA, frontend deployment, XETA integration, health monitoring\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Phase 1 complete, XETA prod credentials\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Phase 3\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Weeks 9\'9612: GRC Features\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Decision tree engine, Archer integration, RAG pipeline, intake automation\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Phase 2 complete, Archer API access\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Phase 4\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Weeks 13\'9616: Hardening\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Load testing, pen testing, IRAMP self-assessment, documentation, training\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Phase 3 complete\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Phase 5\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Week 17+: GA Launch\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Production go-live, user onboarding, continuous monitoring activation\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 ATO granted\cell \lastrow\row
+\pard\pardeftab720\sa200\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 \page \
+11. Risks and Mitigations\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f2\b\fs22 \cf3 Severity\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Risk\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Impact\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Mitigation\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f0\b0 \cf0 High\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 XETA Model Hub rate limits or outages block AI classification\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Core intake workflow degrades\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Implement fallback to rule-based classification; cache common patterns\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 High\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Azure AD integration delays due to RTX tenant policies\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Production launch delayed\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Start AD app registration in Phase 1; maintain Keycloak as fallback\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Medium\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Archer API changes break sync\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Assessment data inconsistency\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Version-pinned API client; circuit breaker; manual sync fallback\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Medium\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Corporate proxy (devproxy.utc.com) blocks container egress\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Build and runtime failures\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Pre-configure proxy in container env; use private endpoints for Azure services\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Medium\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 DFARS data inadvertently sent to AI model\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Compliance violation\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 DLP filter on all AI prompts; data classification tags; admin alerts\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Low\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Windows/Mac dev parity issues persist\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Developer friction\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Standardize on devcontainers; document known issues (CRLF, PATH)\cell \lastrow\row
+\pard\pardeftab720\sa200\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 \page \
+12. Appendices\
+12.1 Glossary\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f2\b\fs22 \cf3 Term\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Definition\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f0\b0 \cf0 ATO\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Authority to Operate \'96 formal authorization for a system to process data\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 CUI\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Controlled Unclassified Information\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 DFARS\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Defense Federal Acquisition Regulation Supplement\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 GRC\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Governance, Risk, and Compliance\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 IRAMP\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Information Risk Assessment and Management Process\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 ITAR\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 International Traffic in Arms Regulations\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 LOE\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Level of Effort \'96 risk classification (A through D)\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 POA&M\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Plan of Action and Milestones\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 RAG\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Retrieval-Augmented Generation\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 XETA\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 RTX\'92s enterprise API management platform for AI model access\cell \lastrow\row
+\pard\pardeftab720\sa200\pardirnatural\partightenfactor0
+\cf0 \
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1\fs24 \cf0 12.2 Reference Documents\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\pardirnatural\partightenfactor0
+\ls25\ilvl0
+\f0 \cf0 {\listtext	\uc0\u8226 	}NIST SP 800-37 Rev. 2: Risk Management Framework for Information Systems\
+{\listtext	\uc0\u8226 	}DFARS 252.204-7012: Safeguarding Covered Defense Information\
+{\listtext	\uc0\u8226 	}RTX IRAMP Process Guide (internal)\
+{\listtext	\uc0\u8226 	}RTX XETA Model Hub Developer Guide (internal)\
+{\listtext	\uc0\u8226 	}ART-clarity-api README.md (GitHub: Type-C-Lite/ART-clarity-api)\
+{\listtext	\uc0\u8226 	}ART-CLARA-Copilot README.md (GitHub: Type-C-Lite/ART-CLARA-Copilot)\
+\pard\pardeftab720\pardirnatural\partightenfactor0
+
+\f1 \cf0 12.3 Approval Signatures\
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrt\brdrnil \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f2\b\fs22 \cf3 Role\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Name\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Signature\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf3 Date\cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+
+\f0\b0 \cf0 Product Owner\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Engineering Lead\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Security/GRC Lead\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \cell \row
+
+\itap1\trowd \taflags1 \trgaph108\trleft-108 \trbrdrl\brdrnil \trbrdrt\brdrnil \trbrdrr\brdrnil 
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx2160
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx4320
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx6480
+\clvertalc \clshdrawnil \clbrdrt\brdrs\brdrw20\brdrcf2 \clbrdrl\brdrs\brdrw20\brdrcf2 \clbrdrb\brdrs\brdrw20\brdrcf2 \clbrdrr\brdrs\brdrw20\brdrcf2 \clpadl100 \clpadr100 \gaph\cellx8640
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 Architecture Review\cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \cell 
+\pard\intbl\itap1\pardeftab720\pardirnatural\partightenfactor0
+\cf0 \cell \lastrow\row
+\pard\pardeftab720\sa200\pardirnatural\partightenfactor0
+\cf0 \
+}
