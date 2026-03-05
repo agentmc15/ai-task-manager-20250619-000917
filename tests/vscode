@@ -1,0 +1,245 @@
+# VS Code Remote SSH Setup Guide — Clara Copilot (RTX)
+
+---
+
+## Part 1: SSH Config (Already Complete)
+
+Your `~/.ssh/config` should already contain:
+
+```
+Host xeta_jump
+    HostName col-bastion-30.bastion.wg1.aws.ray.com
+    User c95063223
+
+Host clara_copilot
+    HostName 10.50.136.202
+    User c95063223
+    ProxyJump xeta_jump
+    ProxyCommand ssh -W %h:%p xeta_jump -o StrictHostKeyChecking=no
+```
+
+**Verify it exists:**
+
+```powershell
+cat $env:USERPROFILE\.ssh\config
+```
+
+---
+
+## Part 2: Install the Remote - SSH Extension
+
+1. Open **VS Code**
+2. Press `Ctrl+Shift+X` to open the Extensions panel
+3. Search for **Remote - SSH** (publisher: Microsoft)
+4. Click **Install**
+5. You should also see **Remote - SSH: Editing Configuration Files** auto-install as a dependency
+
+**Optional but recommended extensions to install now:**
+
+- **Remote Explorer** — gives you a sidebar panel to manage all remote connections
+- **Python** / **Pylance** — if you'll be doing Python work on the remote
+- **GitLens** — for Git history and blame on remote repos
+
+---
+
+## Part 3: Point VS Code to Your SSH Config
+
+1. Press `Ctrl+Shift+P` → type **Remote-SSH: Open SSH Configuration File**
+2. Select `C:\Users\c95063223\.ssh\config` (or your profile path)
+3. Confirm the `xeta_jump` and `clara_copilot` entries are there
+4. Save and close
+
+**Tip:** If VS Code doesn't find the config, go to **Settings** (`Ctrl+,`), search for `remote.SSH.configFile`, and set it to:
+
+```
+C:\Users\c95063223\.ssh\config
+```
+
+---
+
+## Part 4: Connect to Clara Copilot
+
+1. Press `Ctrl+Shift+P` → type **Remote-SSH: Connect to Host**
+2. Select **clara_copilot** from the dropdown
+3. A new VS Code window opens — wait for it to set up the remote server
+4. When prompted for the platform, select **Linux**
+5. Enter your password when prompted (may prompt twice — once for bastion, once for target)
+6. Wait for VS Code to install its server-side components on the remote machine
+
+**Verify connection:** You should see `SSH: clara_copilot` in the **bottom-left corner** of VS Code (green/blue status bar indicator).
+
+Open the integrated terminal with `` Ctrl+` `` and run:
+
+```bash
+hostname
+whoami
+pwd
+```
+
+---
+
+## Part 5: Set Up Your Workspace & Folder Structure
+
+### Step 5.1: Explore the Remote File System
+
+Once connected, click **File → Open Folder** and browse to your home directory:
+
+```
+/home/c95063223/
+```
+
+Click **OK** to open it as your workspace root.
+
+### Step 5.2: Create a Project Folder Structure
+
+Open the integrated terminal (`` Ctrl+` ``) and run:
+
+```bash
+# Create a clean workspace structure
+mkdir -p ~/workspace/clara-copilot
+mkdir -p ~/workspace/clara-copilot/src
+mkdir -p ~/workspace/clara-copilot/config
+mkdir -p ~/workspace/clara-copilot/scripts
+mkdir -p ~/workspace/clara-copilot/docs
+mkdir -p ~/workspace/clara-copilot/tests
+```
+
+**Customize the above** based on what you'll actually be working on. This is a general starting point.
+
+### Step 5.3: Open Your Project Folder
+
+1. **File → Open Folder**
+2. Navigate to `/home/c95063223/workspace/clara-copilot/`
+3. Click **OK**
+4. VS Code reloads with this as the root of your Explorer sidebar
+
+### Step 5.4: Set Up the VS Code Explorer Sidebar
+
+The **Explorer** panel (left sidebar, top icon) now shows your remote folder tree. A few things to configure:
+
+**Show/hide the sidebar:**
+- Toggle with `Ctrl+B`
+
+**Add multiple folders to one workspace (optional):**
+- **File → Add Folder to Workspace** — lets you have multiple remote folders visible at once (e.g., `~/workspace/clara-copilot` and `~/workspace/another-project`)
+- Save the workspace: **File → Save Workspace As** → save to `~/workspace/my-workspace.code-workspace`
+- Next time you connect, open the `.code-workspace` file to restore all folders
+
+**Customize what's visible in Explorer:**
+- Right-click in the Explorer panel to toggle **Timeline**, **Outline**, and **Open Editors** views
+- Go to **Settings** (`Ctrl+,`) → search `files.exclude` to hide files/folders you don't want to see (e.g., `__pycache__`, `.git`, `node_modules`)
+
+### Step 5.5: Set Up the Integrated Terminal
+
+The terminal at the bottom of VS Code is already running on the **remote machine**. You can:
+
+- Split terminals: Click the **split** icon or press `Ctrl+Shift+5`
+- Create new terminals: `Ctrl+Shift+`` `
+- Rename terminals: Right-click the terminal tab → Rename
+- Set default shell: Open Settings → search `terminal.integrated.defaultProfile.linux` → set to `bash` or `zsh`
+
+### Step 5.6: Create a `.vscode` Settings Folder (Per-Project Settings)
+
+In the terminal:
+
+```bash
+mkdir -p ~/workspace/clara-copilot/.vscode
+```
+
+Create a project-level `settings.json`:
+
+```bash
+cat > ~/workspace/clara-copilot/.vscode/settings.json << 'EOF'
+{
+    "editor.tabSize": 4,
+    "editor.formatOnSave": true,
+    "files.trimTrailingWhitespace": true,
+    "files.exclude": {
+        "**/__pycache__": true,
+        "**/.git": true,
+        "**/node_modules": true
+    },
+    "terminal.integrated.defaultProfile.linux": "bash"
+}
+EOF
+```
+
+Create a recommended extensions file so anyone on the team gets extension suggestions:
+
+```bash
+cat > ~/workspace/clara-copilot/.vscode/extensions.json << 'EOF'
+{
+    "recommendations": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "eamodio.gitlens",
+        "esbenp.prettier-vscode"
+    ]
+}
+EOF
+```
+
+---
+
+## Part 6: Optional — Set Up SSH Key for Passwordless Login
+
+Skip this if you're fine entering your password each time. Otherwise:
+
+**From PowerShell on your local machine:**
+
+```powershell
+# Generate a key (press Enter through the prompts to accept defaults)
+ssh-keygen -t ed25519 -C "c95063223@rtx"
+
+# Copy your public key to the bastion
+type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh xeta_jump "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+
+# Copy your public key to the target server
+type $env:USERPROFILE\.ssh\id_ed25519.pub | ssh clara_copilot "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+```
+
+After this, VS Code should connect without asking for a password.
+
+---
+
+## Part 7: Daily Workflow Quick Reference
+
+| Action | Shortcut / Command |
+|--------|-------------------|
+| Connect to remote host | `Ctrl+Shift+P` → Remote-SSH: Connect to Host → clara_copilot |
+| Open folder on remote | File → Open Folder → navigate to path |
+| Toggle sidebar | `Ctrl+B` |
+| Toggle terminal | `` Ctrl+` `` |
+| Open file by name | `Ctrl+P` → start typing filename |
+| Search across files | `Ctrl+Shift+F` |
+| Command palette | `Ctrl+Shift+P` |
+| Split editor | `Ctrl+\` |
+| Switch between open files | `Ctrl+Tab` |
+| Open workspace | File → Open Workspace from File |
+| Reconnect after disconnect | Click the green SSH indicator (bottom-left) → Reconnect |
+
+---
+
+## Troubleshooting
+
+**Connection timeout:**
+- Confirm you're on the RTX VPN
+- Test from PowerShell first: `ssh clara_copilot`
+
+**Permission denied:**
+- Verify your user (`c95063223`) is provisioned on the bastion and target
+- Check with Allen Spector if access needs to be granted
+
+**ProxyCommand errors on Windows:**
+- Try removing the `ProxyCommand` line from your SSH config and keep only `ProxyJump xeta_jump`
+
+**VS Code "Could not establish connection":**
+- Check Settings → `remote.SSH.connectTimeout` and increase to `60` seconds
+- Try `Remote-SSH: Kill VS Code Server on Host` from Command Palette, then reconnect
+
+**Extensions not working on remote:**
+- Some extensions run locally, some remotely. After connecting, go to Extensions (`Ctrl+Shift+X`) and click **Install in SSH: clara_copilot** for extensions that need to run on the remote side
+
+**Slow file browsing:**
+- Add large directories to `files.exclude` in your `.vscode/settings.json`
+- Avoid opening very large root directories (like `/` or `/home`)
