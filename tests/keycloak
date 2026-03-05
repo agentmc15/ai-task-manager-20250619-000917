@@ -1,0 +1,5 @@
+# Update backend
+sed -i 's/CLARITY_KC_NUXT_CLIENT_SECRET=.*/CLARITY_KC_NUXT_CLIENT_SECRET=So471enXlPshmJoSeoiCzrDiyiuDbexh/' /root/ART-clarity-api/.env
+
+# Update frontend
+sed -i 's/NUXT_OAUTH_KEYCLOAK_CLIENT_SECRET=.*/NUXT_OAUTH_KEYCLOAK_CLIENT_SECRET=So471enXlPshmJoSeoiCzrDiyiuDbexh/' /root/ART-CLARA-Copilot/.env
