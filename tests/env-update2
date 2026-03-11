@@ -1,0 +1,19 @@
+cd ~/Desktop/repos/clarity-rewrite
+
+# Step 1: Update all start scripts with your real credentials
+sed -i 's/CLARITY_SQL_USER=clarity/CLARITY_SQL_USER=root/g' start-backend.sh start-backend.bat start-all.sh
+sed -i 's/CLARITY_SQL_PASSWORD=clarity/CLARITY_SQL_PASSWORD=claritySqlAdminPassword/g' start-backend.sh start-backend.bat start-all.sh
+sed -i 's/ARCHER_INSTANCE_NAME="ArcherRTX PROD"/ARCHER_INSTANCE_NAME="ArcherPOC"/g' start-backend.sh start-all.sh
+sed -i 's|ARCHER_BASE_URI="https://archergrc.corp.ray.com"|ARCHER_BASE_URI="https://archerpoc.corp.ray.com"|g' start-backend.sh start-all.sh
+sed -i 's/ARCHER_INSTANCE_NAME=ArcherRTX PROD/ARCHER_INSTANCE_NAME=ArcherPOC/g' start-backend.bat
+sed -i 's|ARCHER_BASE_URI=https://archergrc.corp.ray.com|ARCHER_BASE_URI=https://archerpoc.corp.ray.com|g' start-backend.bat
+sed -i 's/CLARITY_SQL_USER = "clarity"/CLARITY_SQL_USER = "root"/g' start-backend.ps1
+sed -i 's/CLARITY_SQL_PASSWORD = "clarity"/CLARITY_SQL_PASSWORD = "claritySqlAdminPassword"/g' start-backend.ps1
+sed -i 's/CLARITY_SQL_USER:-clarity/CLARITY_SQL_USER:-root/g' docker-compose.yaml
+sed -i 's/CLARITY_SQL_PASSWORD:-clarity/CLARITY_SQL_PASSWORD:-claritySqlAdminPassword/g' docker-compose.yaml
+
+# Step 2: Start Docker (PostgreSQL + Keycloak)
+./start-docker.sh
+
+# Step 3: Start backend (new terminal or background)
+./start-backend.sh
