@@ -1,0 +1,53 @@
+cat > clarity-rewrite/.env << 'EOF'
+# === PostgreSQL ===
+CLARITY_SQL_DB=clarity
+CLARITY_SQL_USER=root
+CLARITY_SQL_PASSWORD=claritySqlAdminPassword
+CLARITY_SQL_HOST=localhost
+CLARITY_SQL_PORT=5432
+
+# === Keycloak ===
+CLARITY_KC_HOST=localhost
+CLARITY_KC_PORT=8080
+CLARITY_KC_REALM=clarity
+CLARITY_KC_ADMIN=admin
+CLARITY_KC_ADMIN_PASSWORD=admin
+CLARITY_KC_MGMT_CLIENT_SECRET=PE1JjykdiIq0XAg8W68u0MzL5USMBua
+
+# === Corporate OIDC (RTX SSO) ===
+COMP_OIDC_CLIENT_ID=CLARA_CoPilot_Dev_Prod_AC
+COMP_OIDC_CLIENT_SECRET=iPvy1EcuMkUTeAQrSb3zmrdqWx5S6tT1lzkrAy3mwGKd4AQswAWT5T4EDHka5zMF
+CORP_OIDC_DISCOVERY_ENDPOINT=https://sso.rtx.com/.well-known/openid-configuration
+CORP_OIDC_ISSUER=https://sso.rtx.com
+CORP_OIDC_AUTHORIZATION_URL=https://sso.rtx.com/as/authorization.oauth2
+CORP_OIDC_TOKEN_URL=https://sso.rtx.com/as/token.oauth2
+CORP_OIDC_JWKS_URL=https://sso.rtx.com/pf/JWKS
+CORP_OIDC_USER_INFO_URL=https://sso.rtx.com/idp/userinfo.openid
+
+# === RTX Model Hub (placeholder) ===
+META_OPENAI_URL=https://model-hub-gateway-dev.apim.xeta.rtx.com
+META_OPENAI_KEY=67b3aa3c3c6a90bafacc73b3be75c722
+
+# === Archer GRC ===
+ARCHER_USERNAME=API-ATOClarityPOC
+ARCHER_PASSWORD=_jvh-<*l0z#HE2?|OuaPckSJ[W7%N{
+ARCHER_INSTANCE_NAME=ArcherPOC
+ARCHER_BASE_URI=https://archerpoc.corp.ray.com
+ARCHER_SOAP_SEARCH_URI=https://archerpoc.corp.ray.com/ws/search.asmx?WSDL
+ARCHER_SOAP_GENERAL_URI=https://archerpoc.corp.ray.com/ws/general.asmx?WSDL
+MAPPING_REPORT=08F55A31-90CD-421D-A26D-290DE093BA82
+
+# === Seeding ===
+SEED_DATA=true
+
+# === Frontend (Nuxt) ===
+NUXT_API_BASE=http://localhost:4000
+NUXT_OAUTH_KEYCLOAK_REALM=clarity
+NUXT_OAUTH_KEYCLOAK_CLIENT_ID=nuxt-frontend
+NUXT_OAUTH_KEYCLOAK_CLIENT_SECRET=nEMT2PXHmL9shdQPP8UpQLHeHfrGX1tF
+NUXT_OAUTH_KEYCLOAK_SERVER_URL=http://localhost:8080
+NUXT_OAUTH_KEYCLOAK_REDIRECT_URL=http://localhost:3001/auth/sso/callback
+NUXT_PUBLIC_OAUTH_KEYCLOAK_REDIRECT_URL=http://localhost:3001/auth/sso/callback
+NUXT_SESSION_PASSWORD=adfadsfdasfdasfdasfdasfdasfdasfdasfdasdafdsafdasfdsafdsa
+NODE_TLS_REJECT_UNAUTHORIZED=0
+EOF
