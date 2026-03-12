@@ -1,0 +1,106 @@
+CLARITY QUESTIONNAIRE — EXTRACTED QUESTIONS
+=============================================
+Project: Test Demo Project > General
+
+
+Q1 Purpose
+----------
+Section:  General
+Type:     Text Box
+Prompt:   Provide a description of the Information System to include function, primary purpose, use, and how data flows through the system.
+
+
+Q2 Project Name
+---------------
+Section:  General
+Type:     Text Box
+Prompt:   Please use the same name provided in your CLARA.
+Sample:   Test Demo Project
+
+
+Q3 CLARA ID
+------------
+Section:  General
+Type:     Text Box
+Prompt:   Please enter the ID for your completed CLARA.
+Sample:   7xsdjo
+
+
+Q4 RTX Business
+----------------
+Section:  General
+Type:     Select One (Radio)
+Prompt:   Select the RTX Business that the Information System(s) Support and is financially responsible for the Information System(s).
+Options:
+  - Corporate
+  - Collins Aerospace
+  - P&W
+  - Raytheon
+
+
+Q5 Entity
+---------
+Section:  General
+Type:     Select One (Radio)
+Prompt:   What is the Strategic Business Unit (SBU) entity that the Information System(s) support?
+Options:
+  - Enterprise Application Services (EAS)
+  - Enterprise Business Services
+  - Enterprise Communications
+  - Enterprise Cybersecurity Services (ECS)
+  - Enterprise Data Services (EDX)
+
+
+Q6 Information Type
+-------------------
+Section:  General
+Type:     Select Many (Checkboxes)
+Prompt:   Select all of the information types that will be processed by the Information System(s).
+Options:
+  - CDI/CUI (DFARS)
+  - Competition Sensitive
+  - CUI (non-CDI)
+  - EXIM (ITAR, EAR)
+  - Internal Use Only
+  - Personal Information (PI)
+  - Most Private
+  - Proprietary
+  - Public
+  - Other (specify)
+
+
+Q7 Connectivity
+---------------
+Section:  General
+Type:     Select One (Radio)
+Prompt:   Select the applicable method by which this information system is connected.
+Options:
+  - Internal Only
+  - Externally Accessible
+
+
+Q8 System Administrator
+-----------------------
+Section:  STAKEHOLDERS
+Type:     Text Box
+Prompt:   Enter ADX User ID of the System Administrator (SA) for this system.
+Sample:   E12345678
+
+
+Q9 Boundary Description
+-----------------------
+Section:  General
+Type:     Text Box
+Prompt:   Provide a description of the hardware system components and operating systems included in the system authorization boundary. Include interconnections to other systems when applicable. Additionally, include a statement declaring if there is or is not a Web UI URL enabled by your system.
+
+
+Q10 Hardware Entry
+------------------
+Section:  General
+Type:     Table Entry (Multi-row form)
+Prompt:   Create an entry for all hardware references.
+Columns:  FQDN* | IPv4 Address* | Hardware Type* | Business* | MAC Address*
+
+Sample Data:
+  Row 1: abc123.us.ray.com | 10.879.134 | Windows Server | Corporate | 00:50:56:A7:EB:CB
+  Row 2: abc123.us.ray.com  | 10.879.135 | Windows Server | Corporate | 00:50:56:A7:E1:3E
