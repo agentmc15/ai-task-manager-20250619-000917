@@ -1,0 +1,139 @@
+{
+  "version": "v2",
+  "phases": [
+    {
+      "title": "SAP Intake",
+      "description": "Required information for the IRAMP/ATO authorization package submission to RSA Archer GRC.",
+      "questions": [
+        {
+          "id": "authorization_package_name",
+          "title": "Authorization Package Name",
+          "text": "Enter the name of the authorization package.",
+          "description": null,
+          "type": "text",
+          "subphase": "General",
+          "options": null,
+          "justificationRequired": false,
+          "review": false
+        },
+        {
+          "id": "clara_id",
+          "title": "Clara ID",
+          "text": "Enter the Clara ID for the system.",
+          "description": null,
+          "type": "text",
+          "subphase": "General",
+          "options": null,
+          "justificationRequired": false,
+          "review": false
+        },
+        {
+          "id": "entity",
+          "title": "Entity",
+          "text": "Select the business entity/program/function that owns the authorization package.",
+          "description": null,
+          "type": "choose-one",
+          "subphase": "General",
+          "options": [
+            "No Selection",
+            "Advanced Concepts and Technology (hRIS)",
+            "Advanced Missile Systems (NMWS)"
+          ],
+          "justificationRequired": false,
+          "review": false
+        },
+        {
+          "id": "mission_purpose",
+          "title": "Mission/Purpose",
+          "text": "Describe the mission and purpose of the system.",
+          "description": null,
+          "type": "text",
+          "subphase": "General",
+          "options": null,
+          "justificationRequired": false,
+          "review": false
+        },
+        {
+          "id": "information_classification",
+          "title": "Information Classification",
+          "text": "Select all applicable information classifications for data processed by the system.",
+          "description": null,
+          "type": "choose-many",
+          "subphase": "Information System Details",
+          "options": [
+            "CDI/CUI (DFARS)",
+            "Competition Sensitive",
+            "CUI (non-CDI)",
+            "EXIM (ITAR, EAR)",
+            "Internal Use Only",
+            "Most Private",
+            "Personal Information (PI)",
+            "Proprietary",
+            "Public",
+            "Other (Specify)"
+          ],
+          "justificationRequired": false,
+          "review": false
+        },
+        {
+          "id": "connectivity",
+          "title": "Connectivity",
+          "text": "Select all applicable network connectivity types for the system.",
+          "description": null,
+          "type": "choose-many",
+          "subphase": "Information System Details",
+          "options": [
+            "External",
+            "Global - iORION",
+            "Interconnected System - Contractor-to-Government (C2G)",
+            "Internal Only",
+            "International",
+            "LAN/WAN/MAN",
+            "Network Segregated",
+            "Networked",
+            "Networked - Internal within ORION",
+            "Other",
+            "Other - Zscaler-owned/managed Government Cloud",
+            "Printer/Scanner",
+            "Public",
+            "Standalone",
+            "Stand-alone"
+          ],
+          "justificationRequired": false,
+          "review": false
+        },
+        {
+          "id": "authorization_boundary_description",
+          "title": "Authorization Boundary Description",
+          "text": "Provide a detailed description of the authorization boundary including all components within scope.",
+          "description": null,
+          "type": "text",
+          "subphase": "Information System Details",
+          "options": null,
+          "justificationRequired": false,
+          "review": false
+        },
+        {
+          "id": "system_administrator_sa",
+          "title": "System Administrator (SA)",
+          "text": "Enter the Employee ID of the System Administrator.",
+          "description": null,
+          "type": "text",
+          "subphase": "Personnel",
+          "options": null,
+          "justificationRequired": false,
+          "review": false
+        }
+      ],
+      "edges": [
+        { "sourceId": "authorization_package_name", "targetId": "clara_id", "operator": null, "criteria": null },
+        { "sourceId": "clara_id", "targetId": "entity", "operator": null, "criteria": null },
+        { "sourceId": "entity", "targetId": "mission_purpose", "operator": null, "criteria": null },
+        { "sourceId": "mission_purpose", "targetId": "information_classification", "operator": null, "criteria": null },
+        { "sourceId": "information_classification", "targetId": "connectivity", "operator": null, "criteria": null },
+        { "sourceId": "connectivity", "targetId": "authorization_boundary_description", "operator": null, "criteria": null },
+        { "sourceId": "authorization_boundary_description", "targetId": "system_administrator_sa", "operator": null, "criteria": null }
+      ]
+    }
+  ]
+}
