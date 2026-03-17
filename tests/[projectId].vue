@@ -320,31 +320,30 @@ async function loadProject() {
     project.value = data
 
     // Extract questions from the questionnaire
-    if (data?.questionnaire?.phases_json) {
-      const phases = typeof data.questionnaire.phases_json === 'string'
-        ? JSON.parse(data.questionnaire.phases_json)
-        : data.questionnaire.phases_json
+    const questionnaire = data?.graph || data?.questionnaire
+    if (questionnaire?.phases) {
+      const phases = typeof questionnaire.phases === 'string'
+        ? JSON.parse(questionnaire.phases)
+        : questionnaire.phases
 
-      // Flatten questions from all phases
       const allQuestions: any[] = []
       for (const phase of phases) {
-        if (phase.questions) {
-          allQuestions.push(...phase.questions)
-        } else if (phase.nodes) {
+        if (phase.nodes) {
           allQuestions.push(...phase.nodes)
+        } else if (phase.questions) {
+          allQuestions.push(...phase.questions)
         }
       }
       questions.value = allQuestions
 
       // Load existing responses
-      if (data.responses_json) {
-        const existingResponses = typeof data.responses_json === 'string'
-          ? JSON.parse(data.responses_json)
-          : data.responses_json
-        for (const r of existingResponses) {
-          const qId = r.questionId || r.question_id
-          responses[qId] = r.value || r.answer
-        }
+      const existingResponses = data.responses || data.responses_json || []
+      const respArray = typeof existingResponses === 'string'
+        ? JSON.parse(existingResponses)
+        : existingResponses
+      for (const r of respArray) {
+        const qId = r.questionId || r.question_id
+        responses[qId] = r.value || r.answer
       }
 
       loadAnswerForQuestion(0)
