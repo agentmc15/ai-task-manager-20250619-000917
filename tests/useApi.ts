@@ -38,7 +38,14 @@ export function useApi() {
   }) {
     return request('/project/', {
       method: 'POST',
-      body: JSON.stringify(payload),
+      body: JSON.stringify({
+        title: payload.title,
+        description: payload.description,
+        tags: payload.tags,
+        user_id: payload.user_id,
+        questionnaireId: payload.questionnaire_id,
+        attributes: [],
+      }),
     })
   }
 
