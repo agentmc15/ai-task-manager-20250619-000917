@@ -1,0 +1,12 @@
+# Create Modelfile
+@"
+FROM C:\Users\C95063223\Downloads\Phi-3-mini-4k-instruct-q4.gguf
+TEMPLATE "{{.System}}\n{{.Prompt}}"
+PARAMETER stop "<|end|>"
+"@ | Out-File -Encoding utf8 Modelfile
+
+# Import into Ollama
+ollama create phi3-local -f Modelfile
+
+# Test it
+ollama run phi3-local "Hello, who are you?"
