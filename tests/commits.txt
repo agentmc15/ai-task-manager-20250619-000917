@@ -1,0 +1,18 @@
+cd ~/Desktop/repos/GRCAA-Clarity
+git add -A
+git commit -m "Auth hardening, multi-user, hardware entry, enterprise Keycloak
+
+- AUTH_MODE toggle (dev/keycloak/keycloak-enterprise)
+- User-scoped projects via owner_email
+- Dev user switching (X-Dev-User header + DevUserSwitcher component)
+- Connection pooling and session-per-request isolation
+- Clean archer_service.py (json.dumps, async httpx)
+- Hardware Entry question (Q9) with KV table seed data
+- Enterprise Keycloak support (DE-Toolchain realm)
+- Keycloak realm auto-import via Docker
+- Frontend auth composables and middleware
+- GET /auth/me endpoint
+- Updated .env with all three auth modes
+- Comprehensive README"
+
+git push origin aws-feat-clarity-rewrite
