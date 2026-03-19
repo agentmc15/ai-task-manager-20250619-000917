@@ -437,7 +437,7 @@ NUXT_OAUTH_KEYCLOAK_REALM=clarity
 NUXT_OAUTH_KEYCLOAK_CLIENT_ID=nuxt-frontend
 NUXT_OAUTH_KEYCLOAK_CLIENT_SECRET=nEMT2PXHmL9shdQPP8UpQLHeHfrGX1tF
 NUXT_OAUTH_KEYCLOAK_SERVER_URL=http://localhost:8080
-NUXT_OAUTH_KEYCLOAK_REDIRECT_URL=http://localhost:3001/auth/sso/callback
+NUXT_OAUTH_KEYCLOAK_REDIRECT_URL=http://localhost:3000/auth/sso/callback
 ```
 
 ## For enterprise Keycloak (AUTH_MODE=keycloak-enterprise):
@@ -447,7 +447,7 @@ NUXT_OAUTH_KEYCLOAK_REALM=DE-Toolchain
 NUXT_OAUTH_KEYCLOAK_CLIENT_ID=clarity-dev
 NUXT_OAUTH_KEYCLOAK_CLIENT_SECRET=YqkwlPJ01GlyxZ2NbFrKOq2Mlx3u94x1
 NUXT_OAUTH_KEYCLOAK_SERVER_URL=https://keycloak-npd.c32p1-colk8s.wg1.aws.ray.com
-NUXT_OAUTH_KEYCLOAK_REDIRECT_URL=http://localhost:3001/auth/sso/callback
+NUXT_OAUTH_KEYCLOAK_REDIRECT_URL=http://localhost:3000/auth/sso/callback
 ```
 
 The nuxt.config.ts runtimeConfig should include authMode in public:
@@ -481,11 +481,11 @@ echo ""
 echo "To switch modes, change AUTH_MODE in .env and restart both services."
 echo ""
 echo "Redirect URIs to give Christopher:"
-echo "  http://localhost:3001/auth/sso/callback     (local dev)"
+echo "  http://localhost:3000/auth/sso/callback     (local dev)"
 echo "  https://clarity.onertx.com/auth/sso/callback (production)"
 echo ""
 echo "Web origins:"
-echo "  http://localhost:3001"
+echo "  http://localhost:3000"
 echo "  https://clarity.onertx.com"
 echo ""
 echo "Claims needed: username, email, firstName, lastName, realm roles"

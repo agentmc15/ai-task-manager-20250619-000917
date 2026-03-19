@@ -47,15 +47,15 @@ cat > keycloak/clarity-realm.json << 'REALMEOF'
       "directAccessGrantsEnabled": true,
       "serviceAccountsEnabled": false,
       "redirectUris": [
-        "http://localhost:3001/*",
+        "http://localhost:3000/*",
         "https://clarity.onertx.com/*"
       ],
       "webOrigins": [
-        "http://localhost:3001",
+        "http://localhost:3000",
         "https://clarity.onertx.com"
       ],
       "attributes": {
-        "post.logout.redirect.uris": "http://localhost:3001/*##https://clarity.onertx.com/*"
+        "post.logout.redirect.uris": "http://localhost:3000/*##https://clarity.onertx.com/*"
       },
       "secret": "nEMT2PXHmL9shdQPP8UpQLHeHfrGX1tF",
       "defaultClientScopes": [

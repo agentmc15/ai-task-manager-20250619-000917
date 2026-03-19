@@ -54,7 +54,7 @@ def build_api_instance() -> FastAPI:
         allow_origins=[
             "http://localhost",
             "http://localhost:3000",
-            "http://localhost:3001",
+            "http://localhost:3000",
             "https://clarity.onertx.com",
         ],
         allow_credentials=True,
@@ -163,8 +163,8 @@ NUXT_OAUTH_KEYCLOAK_REALM=clarity
 NUXT_OAUTH_KEYCLOAK_CLIENT_ID=nuxt-frontend
 NUXT_OAUTH_KEYCLOAK_CLIENT_SECRET=
 NUXT_OAUTH_KEYCLOAK_SERVER_URL=http://localhost:8080
-NUXT_OAUTH_KEYCLOAK_REDIRECT_URL=http://localhost:3001/auth/sso/callback
-NUXT_PUBLIC_OAUTH_KEYCLOAK_REDIRECT_URL=http://localhost:3001/auth/sso/callback
+NUXT_OAUTH_KEYCLOAK_REDIRECT_URL=http://localhost:3000/auth/sso/callback
+NUXT_PUBLIC_OAUTH_KEYCLOAK_REDIRECT_URL=http://localhost:3000/auth/sso/callback
 NUXT_SESSION_PASSWORD=change-this-to-a-random-string-at-least-32-chars
 NODE_TLS_REJECT_UNAUTHORIZED=0
 EXEOF

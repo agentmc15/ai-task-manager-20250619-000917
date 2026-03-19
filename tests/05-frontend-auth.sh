@@ -303,7 +303,7 @@ export default defineNuxtConfig({
         clientSecret: process.env.NUXT_OAUTH_KEYCLOAK_CLIENT_SECRET || '',
         serverUrl: process.env.NUXT_OAUTH_KEYCLOAK_SERVER_URL || 'http://localhost:8080',
         realm: process.env.NUXT_OAUTH_KEYCLOAK_REALM || 'clarity',
-        redirectUrl: process.env.NUXT_OAUTH_KEYCLOAK_REDIRECT_URL || 'http://localhost:3001/auth/sso/callback',
+        redirectUrl: process.env.NUXT_OAUTH_KEYCLOAK_REDIRECT_URL || 'http://localhost:3000/auth/sso/callback',
       },
     },
 
