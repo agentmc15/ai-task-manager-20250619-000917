@@ -1,0 +1,27 @@
+Create feature branch feat/auth-multiuser-hardening
+Copy clarity-realm.json into keycloak/
+Update code:
+-keyclock auto setup
+-auth mode toggle
+-user scoped projects
+-clean up archer service
+-frontend auth
+-final wiring, .env and api
+-hardware entry question
+-enterprise keycloack support
+-multi-user
+-readme
+Add owner_email field to Project model in questionnaire.py
+Apply nuxt.config.ts patches (two patch files in frontend/)
+Integrate KVTableInput into [projectId].vue
+Add DevUserSwitcher to default.vue layout
+Copy .env to project root and backend/.env
+Copy README.md to project root
+pip install PyJWT[crypto]
+docker compose down -v && docker compose up -d
+python scripts/add_hardware_question.py
+python -m src.clarity.db.add_owner_email
+Start backend with SEED_DATA=true
+Start frontend with npm install --legacy-peer-deps
+Verify full stack at localhost:3001
+git add -A && git commit && git push origin feat/auth-multiuser-hardening
