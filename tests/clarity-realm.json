@@ -1,0 +1,112 @@
+{
+  "realm": "clarity",
+  "enabled": true,
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "bruteForceProtected": true,
+  "sslRequired": "none",
+  "roles": {
+    "realm": [
+      {
+        "name": "clarity-user",
+        "description": "Standard Clarity application user"
+      },
+      {
+        "name": "clarity-admin",
+        "description": "Clarity administrator"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "nuxt-frontend",
+      "name": "Clarity Nuxt Frontend",
+      "enabled": true,
+      "publicClient": false,
+      "protocol": "openid-connect",
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [
+        "http://localhost:3001/*",
+        "https://clarity.onertx.com/*"
+      ],
+      "webOrigins": [
+        "http://localhost:3001",
+        "https://clarity.onertx.com"
+      ],
+      "attributes": {
+        "post.logout.redirect.uris": "http://localhost:3001/*##https://clarity.onertx.com/*"
+      },
+      "secret": "nEMT2PXHmL9shdQPP8UpQLHeHfrGX1tF",
+      "defaultClientScopes": [
+        "web-origins",
+        "profile",
+        "roles",
+        "email"
+      ]
+    },
+    {
+      "clientId": "clarity-backend",
+      "name": "Clarity FastAPI Backend",
+      "enabled": true,
+      "publicClient": false,
+      "protocol": "openid-connect",
+      "bearerOnly": true,
+      "standardFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "secret": "backend-service-secret-change-me"
+    }
+  ],
+  "users": [
+    {
+      "username": "dev@clarity.local",
+      "email": "dev@clarity.local",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Dev",
+      "lastName": "User",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "dev123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "clarity-user",
+        "clarity-admin"
+      ]
+    },
+    {
+      "username": "testuser@clarity.local",
+      "email": "testuser@clarity.local",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Test",
+      "lastName": "User",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "test123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "clarity-user"
+      ]
+    }
+  ],
+  "scopeMappings": [
+    {
+      "client": "nuxt-frontend",
+      "roles": [
+        "clarity-user"
+      ]
+    }
+  ]
+}
