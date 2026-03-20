@@ -8,7 +8,7 @@
       <!-- SSO Button -->
       <button
         @click="loginSSO"
-        class="w-full bg-gray-900 text-white py-3 px-4 rounded-md font-medium hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 mb-6"
+        class="w-full bg-gray-900 text-white py-3 px-4 rounded-md font-medium hover:bg-gray-800 transition-colors flex items-center justify-center gap-2 mb-5"
       >
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -42,7 +42,7 @@
         />
         <button
           @click="loginAdmin"
-          class="w-full bg-white border border-gray-300 text-gray-700 py-2.5 px-4 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
+          class="w-full bg-white border border-gray-300 text-gray-700 py-2.5 px-4 rounded-md text-sm font-medium hover:bg-gray-50 transition-colors flex items-center justify-center"
         >
           Login
         </button>
@@ -68,12 +68,11 @@ const username = ref('')
 const password = ref('')
 
 function loginSSO() {
-  // Would normally redirect to Keycloak
-  // For now, just bypass
-  devBypass()
+  navigateTo('/auth/keycloak', { external: true })
 }
 
 function loginAdmin() {
+  // TODO: implement admin login
   devBypass()
 }
 
