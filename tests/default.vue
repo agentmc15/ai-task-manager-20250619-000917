@@ -13,9 +13,9 @@
           </nav>
         </div>
         <div class="flex items-center gap-4 text-sm">
-          <span class="text-gray-400">{{ user?.name || 'Dev User' }}</span>
+          <span class="text-gray-400">{{ user.name }}</span>
           <button
-            v-if="user"
+            v-if="isAuthenticated"
             @click="handleLogout"
             class="text-gray-400 hover:text-white transition-colors"
           >
@@ -36,9 +36,10 @@
 </template>
 
 <script setup lang="ts">
-const user = ref({ name: 'Dev User', sub: 'dev-user-001', email: 'dev@rtx.com' })
+const { user, isAuthenticated, logout } = useAuth()
 
-function handleLogout() {
+async function handleLogout() {
+  await logout()
   navigateTo('/login')
 }
 </script>
