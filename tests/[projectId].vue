@@ -10,7 +10,7 @@
             @click="expandSidebar = !expandSidebar"
             class="text-xs text-gray-400 hover:text-gray-600 ml-auto"
           >
-            {{ expandSidebar ? '▾' : '▸' }}
+            {{ expandSidebar ? '‹' : '›' }}
           </button>
         </div>
       </div>
@@ -27,7 +27,8 @@
         >
           <span
             class="w-2 h-2 rounded-full flex-shrink-0"
-            :class="getQuestionStatus(q.id) === 'answered' ? 'bg-green-500' : getQuestionStatus(q.id) === 'current' ? 'bg-red-800' : 'bg-gray-300'"
+            :class="getQuestionStatus(q.id) === 'answered' ? 'bg-green-500' : getQuestionStatus(q.id) === 'current'
+              ? 'bg-red-800' : 'bg-gray-300'"
           ></span>
           <span class="truncate">Q{{ idx + 1 }} {{ q.title }}</span>
         </button>
@@ -115,38 +116,46 @@
               <span class="text-sm text-gray-700">{{ opt }}</span>
             </label>
           </div>
-        </div>
 
-        <!-- Navigation -->
-        <div class="flex items-center justify-between mt-8 pt-6 border-t border-gray-200">
-          <button
-            @click="prevQuestion"
-            :disabled="currentIndex === 0"
-            class="text-sm text-gray-500 hover:text-gray-700 transition-colors disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-1"
-          >
-            ← Previous
-          </button>
-          <div class="flex items-center gap-3">
+          <!-- Key-Value Table -->
+          <div v-if="currentQuestion.type === 'key-value-table'">
+            <KVTableInput
+              :columns="currentQuestion.columns || []"
+              v-model="currentKVAnswer"
+            />
+          </div>
+
+          <!-- Navigation -->
+          <div class="flex items-center justify-between mt-8 pt-6 border-t border-gray-200">
             <button
-              @click="goToReview"
-              class="border border-gray-300 text-gray-600 px-4 py-2 rounded-md text-sm hover:bg-gray-50 transition-colors"
+              @click="prevQuestion"
+              :disabled="currentIndex === 0"
+              class="text-sm text-gray-500 hover:text-gray-700 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
             >
-              Review Answers
+              ← Previous
             </button>
-            <button
-              v-if="currentIndex < questions.length - 1"
-              @click="nextQuestion"
-              class="bg-red-800 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-red-900 transition-colors"
-            >
-              Next →
-            </button>
-            <button
-              v-else
-              @click="goToReview"
-              class="bg-red-800 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-red-900 transition-colors"
-            >
-              Finish →
-            </button>
+            <div class="flex items-center gap-3">
+              <button
+                @click="goToReview"
+                class="border border-gray-300 text-gray-600 px-4 py-2 rounded-md text-sm hover:bg-gray-50 transition-colors"
+              >
+                Review Answers
+              </button>
+              <button
+                v-if="currentIndex < questions.length - 1"
+                @click="nextQuestion"
+                class="bg-red-800 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-red-900 transition-colors"
+              >
+                Next →
+              </button>
+              <button
+                v-else
+                @click="goToReview"
+                class="bg-red-800 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-red-900 transition-colors"
+              >
+                Finish →
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -217,6 +226,8 @@
 </template>
 
 <script setup lang="ts">
+import KVTableInput from '~/components/KVTableInput.vue'
+
 const route = useRoute()
 const { getProject, saveAnswer } = useApi()
 
@@ -227,6 +238,7 @@ const responses = reactive<Record<string, any>>({})
 const currentIndex = ref(0)
 const currentAnswer = ref('')
 const currentAnswerMulti = ref<string[]>([])
+const currentKVAnswer = ref<any[]>([])
 const showReview = ref(false)
 const expandSidebar = ref(true)
 
@@ -241,10 +253,16 @@ function getQuestionStatus(questionId: string) {
 function saveCurrentAnswer() {
   if (!currentQuestion.value) return
   const qId = currentQuestion.value.id
+  const qType = currentQuestion.value.type
 
-  if (currentQuestion.value.type === 'choose-many') {
+  // Store locally
+  if (qType === 'choose-many') {
     if (currentAnswerMulti.value.length > 0) {
       responses[qId] = [...currentAnswerMulti.value]
+    }
+  } else if (qType === 'key-value-table') {
+    if (currentKVAnswer.value.length > 0) {
+      responses[qId] = { rows: currentKVAnswer.value }
     }
   } else {
     if (currentAnswer.value) {
@@ -252,18 +270,28 @@ function saveCurrentAnswer() {
     }
   }
 
-  // Persist to backend
-  const answer = currentQuestion.value.type === 'choose-many'
-    ? currentAnswerMulti.value
-    : currentAnswer.value
+  // Determine the answer payload
+  let answer: any
+  if (qType === 'choose-many') {
+    answer = currentAnswerMulti.value
+  } else if (qType === 'key-value-table') {
+    answer = { rows: currentKVAnswer.value }
+  } else {
+    answer = currentAnswer.value
+  }
 
-  if (answer && (Array.isArray(answer) ? answer.length > 0 : answer.trim())) {
+  // Check if there's something to save
+  const hasAnswer = qType === 'key-value-table'
+    ? currentKVAnswer.value.length > 0
+    : qType === 'choose-many'
+      ? currentAnswerMulti.value.length > 0
+      : answer && answer.trim()
+
+  if (hasAnswer) {
     saveAnswer({
       project_id: projectId,
       question_id: qId,
-      value: answer,
-      submitted_at: new Date().toISOString(),
-      justification: null,
+      answer: answer,
     }).catch(e => console.error('Failed to save answer:', e))
   }
 }
@@ -276,9 +304,15 @@ function loadAnswerForQuestion(idx: number) {
   if (q.type === 'choose-many') {
     currentAnswerMulti.value = Array.isArray(saved) ? [...saved] : []
     currentAnswer.value = ''
+    currentKVAnswer.value = []
+  } else if (q.type === 'key-value-table') {
+    currentKVAnswer.value = saved?.rows || []
+    currentAnswer.value = ''
+    currentAnswerMulti.value = []
   } else {
     currentAnswer.value = saved || ''
     currentAnswerMulti.value = []
+    currentKVAnswer.value = []
   }
 }
 
@@ -335,19 +369,19 @@ async function loadProject() {
         }
       }
       questions.value = allQuestions
-
-      // Load existing responses
-      const existingResponses = data.responses || data.responses_json || []
-      const respArray = typeof existingResponses === 'string'
-        ? JSON.parse(existingResponses)
-        : existingResponses
-      for (const r of respArray) {
-        const qId = r.questionId || r.question_id
-        responses[qId] = r.value || r.answer
-      }
-
-      loadAnswerForQuestion(0)
     }
+
+    // Load existing responses
+    const existingResponses = data.responses || data.responses_json || []
+    const respArray = typeof existingResponses === 'string'
+      ? JSON.parse(existingResponses)
+      : existingResponses
+    for (const r of respArray) {
+      const qId = r.questionId || r.question_id
+      responses[qId] = r.value || r.answer
+    }
+
+    loadAnswerForQuestion(0)
   } catch (e) {
     console.error('Failed to load project:', e)
   }
