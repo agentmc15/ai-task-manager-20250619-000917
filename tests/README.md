@@ -2,7 +2,7 @@
 
 > **Internal Risk Assessment & Management Process (IRAMP) tool for RTX Authorization-to-Operate (ATO) workflows.**
 >
-> Clarity automates the collection, review, and submission of security authorization packages to RSA Archer GRC. Users complete a guided questionnaire that captures system categorization, stakeholder information, and technical details, then submits the structured data as an Archer content record.
+> Clarity automates the collection, review, and submission of security authorization packages to Archer GRC. Users complete a guided questionnaire that captures system categorization, stakeholder information, and technical details, then submits the structured data as an Archer content record.
 
 ---
 
@@ -40,13 +40,9 @@ Clarity is a full-stack application that replaces the manual IRAMP authorization
 4. **Review & Submit** — Summary view with answer status before Archer submission
 5. **Archer GRC Submission** — Maps responses to Archer field definitions via REST API
 
-### Key Concepts
 
-- **IRAMP** — RTX framework for categorizing systems by risk (LOE A through DFARS) per NIST 800-37
-- **ATO** — Authorization to Operate granted after security assessment
-- **LOE** — Level of Effort tiers: A (20 controls), B (38), C (56), D (70), DFARS (110)
 
----
+
 
 ## Architecture
 
@@ -59,7 +55,7 @@ Clarity is a full-stack application that replaces the manual IRAMP authorization
         │ OIDC                  │ JWT Validation
         ▼                       ▼
 ┌─────────────────┐     ┌──────────────────┐
-│  Keycloak SSO   │     │  RSA Archer GRC  │
+│  Keycloak SSO   │     │  Archer GRC  │
 │  (Local or      │     │  (Corp Network)  │
 │   Enterprise)   │     └──────────────────┘
 └─────────────────┘
@@ -80,7 +76,7 @@ Clarity is a full-stack application that replaces the manual IRAMP authorization
 | Identity Provider | Keycloak | 26.2.1 |
 | JWT | PyJWT[crypto] | 2.9+ |
 | HTTP Client | httpx (async) | 0.27+ |
-| GRC | RSA Archer (REST + SOAP) | Enterprise |
+| GRC | Archer (REST + SOAP) | Enterprise |
 
 ---
 
