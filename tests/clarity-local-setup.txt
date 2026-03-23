@@ -1,0 +1,129 @@
+============================================================
+CLARITY LOCAL DEV SETUP — Local Keycloak
+============================================================
+
+Prerequisites: Python 3.11+, Node.js 18+, Docker Desktop, Git Bash
+Branch: aws-feat-clarity-rewrite
+
+
+============================================================
+STEP 1 — Clone & Checkout (Git Bash)
+============================================================
+
+cd ~/Desktop/repos
+git clone https://github-us.utc.com/us-persons-only/GRCAA-Clarity.git
+cd GRCAA-Clarity/projects/clarity-rewrite
+git checkout aws-feat-clarity-rewrite
+
+
+============================================================
+STEP 2 — Start Docker (PowerShell Terminal 1)
+============================================================
+
+cd ~\Desktop\repos\GRCAA-Clarity\projects\clarity-rewrite
+docker compose up -d
+
+# Wait for containers to be healthy (~30-60 sec for Keycloak)
+docker compose ps
+
+
+============================================================
+STEP 3 — Backend (PowerShell Terminal 2)
+============================================================
+
+cd ~\Desktop\repos\GRCAA-Clarity\projects\clarity-rewrite\backend
+
+python -m venv venv
+.\venv\Scripts\activate
+pip install -r requirements.txt
+pip install PyJWT[crypto]
+
+# Copy the root env file into backend
+cp ..\.env .env
+
+# Edit backend\.env — make sure these two lines are set:
+#   AUTH_MODE=keycloak
+#   SEED_DATA=true
+
+# Start the backend
+python -m uvicorn src.clarity.api:api --host 0.0.0.0 --port 4000 --reload
+
+# Watch the logs — once you see seed data loaded, change SEED_DATA=false
+# in backend\.env for next time (no restart needed right now)
+
+
+============================================================
+STEP 4 — Frontend (PowerShell Terminal 3)
+============================================================
+
+cd ~\Desktop\repos\GRCAA-Clarity\projects\clarity-rewrite\frontend
+
+npm install --legacy-peer-deps
+
+# Create frontend\.env with the following contents:
+# ---------------------------------------------------
+NUXT_SESSION_PASSWORD=c58ced7685b54a44ab7a2d2d26ca620a
+AUTH_MODE=keycloak
+NUXT_OAUTH_KEYCLOAK_REALM=clarity
+NUXT_OAUTH_KEYCLOAK_CLIENT_ID=nuxt-frontend
+NUXT_OAUTH_KEYCLOAK_CLIENT_SECRET=nEMT2PXHmL9shdQPP8UpQLHeHfrGXitf
+NUXT_OAUTH_KEYCLOAK_SERVER_URL=http://localhost:8080
+NUXT_OAUTH_KEYCLOAK_REDIRECT_URL=http://localhost:3000/auth/sso/callback
+NUXT_PUBLIC_OAUTH_KEYCLOAK_REDIRECT_URL=http://localhost:3000/auth/sso/callback
+NUXT_API_BASE=http://localhost:4000
+NODE_TLS_REJECT_UNAUTHORIZED=0
+# ---------------------------------------------------
+
+# Start the frontend
+npx nuxt dev --port 3000
+
+
+============================================================
+STEP 5 — Test It
+============================================================
+
+1. Open http://localhost:3000 in an incognito browser window
+2. You should be redirected to the Keycloak login page
+3. Login with:
+     Username: dev@clarity.local
+     Password: dev123
+4. You should land in the app authenticated
+
+
+============================================================
+QUICK REFERENCE
+============================================================
+
+Frontend:       http://localhost:3000
+Backend API:    http://localhost:4000/docs
+Keycloak Admin: http://localhost:8080/admin  (admin / admin)
+
+Test Accounts:
+  dev@clarity.local      / dev123   (admin + user roles)
+  testuser@clarity.local / test123  (user role only)
+
+
+============================================================
+TROUBLESHOOTING
+============================================================
+
+"Cannot connect to Docker"
+  → Make sure Docker Desktop is running
+
+Keycloak not healthy after 60 seconds
+  → docker compose logs keycloak
+
+403 on API calls
+  → Make sure AUTH_MODE=keycloak in BOTH backend\.env and frontend\.env
+
+npm peer dependency errors
+  → Use: npm install --legacy-peer-deps
+
+"Single file component can contain only one script setup element"
+  → A .vue file has two <script setup> blocks — merge them into one
+
+Frontend shows "Dev User" instead of real name
+  → Check that default.vue is using useAuth() composable, not hardcoded ref
+
+Can't push to GitHub
+  → Connect to VPN, then: gh auth login --hostname github-us.utc.com
