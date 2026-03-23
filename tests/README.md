@@ -189,7 +189,7 @@ Required claims: email, given_name, family_name, preferred_username, realm_acces
 NUXT_PUBLIC_AUTH_MODE=keycloak
 NUXT_OAUTH_KEYCLOAK_REALM=clarity
 NUXT_OAUTH_KEYCLOAK_CLIENT_ID=nuxt-frontend
-NUXT_OAUTH_KEYCLOAK_CLIENT_SECRET=nEMT2PXHmL9shdQPP8UpQLHeHfrGX1tF
+NUXT_OAUTH_KEYCLOAK_CLIENT_SECRET=secret (contact Michael Cave)
 NUXT_OAUTH_KEYCLOAK_SERVER_URL=http://localhost:8080/kc
 NUXT_OAUTH_KEYCLOAK_REDIRECT_URL=http://localhost:3000/auth/keycloak
 ```
@@ -199,7 +199,7 @@ NUXT_OAUTH_KEYCLOAK_REDIRECT_URL=http://localhost:3000/auth/keycloak
 NUXT_PUBLIC_AUTH_MODE=keycloak-enterprise
 NUXT_OAUTH_KEYCLOAK_REALM=DE-Toolchain
 NUXT_OAUTH_KEYCLOAK_CLIENT_ID=clarity-dev
-NUXT_OAUTH_KEYCLOAK_CLIENT_SECRET=YqkwlPJ01GlyxZ2NbFrKOq2Mlx3u94x1
+NUXT_OAUTH_KEYCLOAK_CLIENT_SECRET=secret (contact Michael Cave)
 NUXT_OAUTH_KEYCLOAK_SERVER_URL=https://keycloak-npd.c32p1-colk8s.wg1.aws.ray.com
 NUXT_OAUTH_KEYCLOAK_REDIRECT_URL=http://localhost:3000/auth/keycloak
 ```
