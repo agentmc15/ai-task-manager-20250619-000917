@@ -1,0 +1,29 @@
+# /etc/systemd/system/clarity.service
+# Runs as the deploy user (not root) since they have docker group access
+#
+# One-time install (requires sudo):
+#   sudo cp clarity.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable clarity
+#
+
+[Unit]
+Description=Clarity IRAMP Workflow Automation
+Documentation=https://github-us.utc.com/us-persons-only/GRCAA-Clarity
+Requires=docker.service
+After=docker.service network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+User=ec2-user
+Group=docker
+WorkingDirectory=/opt/clarity
+EnvironmentFile=/etc/clarity/.env
+ExecStart=/usr/bin/docker compose --env-file /etc/clarity/.env up -d
+ExecStop=/usr/bin/docker compose --env-file /etc/clarity/.env down
+ExecReload=/usr/bin/docker compose --env-file /etc/clarity/.env restart
+TimeoutStartSec=120
+
+[Install]
+WantedBy=multi-user.target
