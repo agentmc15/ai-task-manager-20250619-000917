@@ -9,3 +9,6 @@ PARAMETER stop "<|end|>"
 PARAMETER stop "<|user|>"
 PARAMETER stop "<|assistant|>"
 PARAMETER num_gpu 99
+
+
+curl -k https://keycloak-npd.c32p1-colk8s.wg1.aws.ray.com/realms/clarity/.well-known/openid-configuration
