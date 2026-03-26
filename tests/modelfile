@@ -1,0 +1,11 @@
+FROM ./Phi-3-mini-4k-instruct-q4.gguf
+
+TEMPLATE """<|user|>
+{{.Prompt}}<|end|>
+<|assistant|>
+"""
+
+PARAMETER stop "<|end|>"
+PARAMETER stop "<|user|>"
+PARAMETER stop "<|assistant|>"
+PARAMETER num_gpu 99
