@@ -18,8 +18,7 @@ FROM base AS builder
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build args become env vars at build time
-ARG NUXT_PUBLIC_API_BASE_URL=/api
+ARG NUXT_PUBLIC_API_BASE_URL=/be
 ARG NUXT_PUBLIC_AUTH_MODE=keycloak-enterprise
 ENV NUXT_PUBLIC_API_BASE_URL=${NUXT_PUBLIC_API_BASE_URL}
 ENV NUXT_PUBLIC_AUTH_MODE=${NUXT_PUBLIC_AUTH_MODE}
@@ -30,110 +29,20 @@ RUN npm run build
 FROM base AS runner
 ENV NODE_ENV=production
 
-# Copy the Nuxt output
 COPY --from=builder /app/.output ./.output
 
 EXPOSE 3000
 
-### nginx.conf ###
+CMD ["node", ".output/server/index.mjs"]
 
-# /nginx/nginx.conf
-
-upstream frontend {
-    server clarity-frontend:3000;
-}
-
-upstream backend {
-    server clarity-api:4000;
-}
-
-upstream keycloak {
-    server clarity-keycloak:8080;
-}
-
-server {
-    listen 80;
-    server_name clarity.onertx.com;
-
-    # Health check for ALB / monitoring
-    location /nginx-health {
-        access_log off;
-        return 200 'ok';
-        add_header Content-Type text/plain;
-    }
-
-    # Keycloak (must come before the catch-all)
-    location /kc/ {
-        proxy_pass http://keycloak/kc/;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Host $host;
-        proxy_buffer_size 128k;
-        proxy_buffers 4 256k;
-        proxy_busy_buffers_size 256k;
-    }
-
-    # Backend API
-    location /api/ {
-        proxy_pass http://backend/;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-
-    # Backend health check (direct passthrough)
-    location /api/health {
-        proxy_pass http://backend/health;
-    }
-
-    # SSO callback and auth routes — must go to frontend
-    location /auth/ {
-        proxy_pass http://frontend/auth/;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
-
-    # Frontend (catch-all)
-    location / {
-        proxy_pass http://frontend;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-    }
-}
-
-# Optional: HTTPS server block
-# Uncomment if SSL is terminated at nginx (not ALB)
-#
-# server {
-#     listen 443 ssl;
-#     server_name clarity.onertx.com;
-#
-#     ssl_certificate /etc/nginx/ssl/cert.pem;
-#     ssl_certificate_key /etc/nginx/ssl/key.pem;
-#
-#     # ... same location blocks as above ...
-# }
-#
-# server {
-#     listen 80;
-#     server_name clarity.onertx.com;
-#     return 301 https://$host$request_uri;
-# }
 
 
 ### Docker Production YAML ###
 
 # Production docker-compose
+# Nginx runs on the host (not containerized) — manages SSL via Let's Encrypt
+# Services expose ports to localhost for nginx to proxy to
+
 services:
   clarity-api:
     build:
@@ -171,6 +80,8 @@ services:
       - MAPPING_EXPORT=${MAPPING_EXPORT}
       - SEED_DATA=${SEED_DATA}
       - AUTH_MODE=${AUTH_MODE:-keycloak-enterprise}
+    ports:
+      - "127.0.0.1:4000:4000"
     depends_on:
       db:
         condition: service_started
@@ -185,11 +96,11 @@ services:
       context: ./frontend
       dockerfile: Dockerfile
       args:
-        NUXT_PUBLIC_API_BASE_URL: /api
+        NUXT_PUBLIC_API_BASE_URL: /be
         NUXT_PUBLIC_AUTH_MODE: ${AUTH_MODE:-keycloak-enterprise}
     container_name: clarity-frontend
     environment:
-      - NUXT_PUBLIC_API_BASE_URL=/api
+      - NUXT_PUBLIC_API_BASE_URL=/be
       - NUXT_PUBLIC_AUTH_MODE=${AUTH_MODE:-keycloak-enterprise}
       - NUXT_OIDC_ISSUER=${CORP_OIDC_ISSUER}
       - NUXT_OIDC_CLIENT_ID=${CORP_OIDC_CLIENT_ID}
@@ -203,26 +114,10 @@ services:
       - ENTERPRISE_KC_REALM=${ENTERPRISE_KC_REALM}
       - ENTERPRISE_KC_CLIENT_ID=${ENTERPRISE_KC_CLIENT_ID}
       - ENTERPRISE_KC_CLIENT_SECRET=${ENTERPRISE_KC_CLIENT_SECRET}
-    depends_on:
-      - clarity-api
-    networks:
-      - clarity_network
-    restart: unless-stopped
-
-  nginx:
-    image: nginx:alpine
-    container_name: clarity-nginx
     ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      # Uncomment if SSL at nginx level:
-      # - ./nginx/ssl:/etc/nginx/ssl:ro
+      - "127.0.0.1:3001:3000"
     depends_on:
-      - clarity-frontend
       - clarity-api
-      - keycloak
     networks:
       - clarity_network
     restart: unless-stopped
@@ -239,7 +134,7 @@ services:
     networks:
       - clarity_network
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"
     restart: unless-stopped
 
   keycloak:
@@ -264,6 +159,8 @@ services:
       - KC_HTTP_RELATIVE_PATH=/kc
     command:
       - start
+    ports:
+      - "127.0.0.1:8080:8080"
     networks:
       - clarity_network
     restart: unless-stopped
@@ -274,6 +171,3 @@ networks:
 
 volumes:
   postgres_data:
-
-
-CMD ["node", ".output/server/index.mjs"]
