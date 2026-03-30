@@ -1,0 +1,279 @@
+### Dockerfile ###
+
+FROM node:20-alpine AS base
+WORKDIR /app
+
+# Install dependencies
+FROM base AS deps
+COPY package.json package-lock.json* yarn.lock* pnpm-lock.yaml* ./
+RUN \
+  if [ -f yarn.lock ]; then yarn install --frozen-lockfile; \
+  elif [ -f pnpm-lock.yaml ]; then corepack enable pnpm && pnpm install --frozen-lockfile; \
+  elif [ -f package-lock.json ]; then npm ci; \
+  else npm install; \
+  fi
+
+# Build the Nuxt app
+FROM base AS builder
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Build args become env vars at build time
+ARG NUXT_PUBLIC_API_BASE_URL=/api
+ARG NUXT_PUBLIC_AUTH_MODE=keycloak-enterprise
+ENV NUXT_PUBLIC_API_BASE_URL=${NUXT_PUBLIC_API_BASE_URL}
+ENV NUXT_PUBLIC_AUTH_MODE=${NUXT_PUBLIC_AUTH_MODE}
+
+RUN npm run build
+
+# Production runner
+FROM base AS runner
+ENV NODE_ENV=production
+
+# Copy the Nuxt output
+COPY --from=builder /app/.output ./.output
+
+EXPOSE 3000
+
+### nginx.conf ###
+
+# /nginx/nginx.conf
+
+upstream frontend {
+    server clarity-frontend:3000;
+}
+
+upstream backend {
+    server clarity-api:4000;
+}
+
+upstream keycloak {
+    server clarity-keycloak:8080;
+}
+
+server {
+    listen 80;
+    server_name clarity.onertx.com;
+
+    # Health check for ALB / monitoring
+    location /nginx-health {
+        access_log off;
+        return 200 'ok';
+        add_header Content-Type text/plain;
+    }
+
+    # Keycloak (must come before the catch-all)
+    location /kc/ {
+        proxy_pass http://keycloak/kc/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_buffer_size 128k;
+        proxy_buffers 4 256k;
+        proxy_busy_buffers_size 256k;
+    }
+
+    # Backend API
+    location /api/ {
+        proxy_pass http://backend/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Backend health check (direct passthrough)
+    location /api/health {
+        proxy_pass http://backend/health;
+    }
+
+    # SSO callback and auth routes — must go to frontend
+    location /auth/ {
+        proxy_pass http://frontend/auth/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Frontend (catch-all)
+    location / {
+        proxy_pass http://frontend;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+
+# Optional: HTTPS server block
+# Uncomment if SSL is terminated at nginx (not ALB)
+#
+# server {
+#     listen 443 ssl;
+#     server_name clarity.onertx.com;
+#
+#     ssl_certificate /etc/nginx/ssl/cert.pem;
+#     ssl_certificate_key /etc/nginx/ssl/key.pem;
+#
+#     # ... same location blocks as above ...
+# }
+#
+# server {
+#     listen 80;
+#     server_name clarity.onertx.com;
+#     return 301 https://$host$request_uri;
+# }
+
+
+### Docker Production YAML ###
+
+# Production docker-compose
+services:
+  clarity-api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: clarity-api
+    environment:
+      - CLARITY_SQL_DB=${CLARITY_SQL_DB}
+      - CLARITY_SQL_USER=${CLARITY_SQL_USER}
+      - CLARITY_SQL_PASSWORD=${CLARITY_SQL_PASSWORD}
+      - CLARITY_SQL_HOST=clarity-db
+      - CLARITY_SQL_PORT=5432
+      - CLARITY_KC_HOST=${CLARITY_KC_HOST}
+      - CLARITY_KC_PORT=${CLARITY_KC_PORT}
+      - CLARITY_KC_REALM=${CLARITY_KC_REALM}
+      - CLARITY_KC_ADMIN=${CLARITY_KC_ADMIN}
+      - CLARITY_KC_ADMIN_PASSWORD=${CLARITY_KC_ADMIN_PASSWORD}
+      - CORP_OIDC_CLIENT_ID=${CORP_OIDC_CLIENT_ID}
+      - CORP_OIDC_CLIENT_SECRET=${CORP_OIDC_CLIENT_SECRET}
+      - CORP_OIDC_DISCOVERY_ENDPOINT=${CORP_OIDC_DISCOVERY_ENDPOINT}
+      - CORP_OIDC_ISSUER=${CORP_OIDC_ISSUER}
+      - CORP_OIDC_AUTHORIZATION_URL=${CORP_OIDC_AUTHORIZATION_URL}
+      - CORP_OIDC_TOKEN_URL=${CORP_OIDC_TOKEN_URL}
+      - CORP_OIDC_JWKS_URL=${CORP_OIDC_JWKS_URL}
+      - CORP_OIDC_USER_INFO_URL=${CORP_OIDC_USER_INFO_URL}
+      - META_OPENAI_URL_BASE=${META_OPENAI_URL_BASE}
+      - META_OPENAI_URL=${META_OPENAI_URL}
+      - META_OPENAI_KEY=${META_OPENAI_KEY}
+      - ARCHER_USERNAME=${ARCHER_USERNAME}
+      - ARCHER_PASSWORD=${ARCHER_PASSWORD}
+      - ARCHER_INSTANCE_NAME=${ARCHER_INSTANCE_NAME}
+      - ARCHER_BASE_URL=${ARCHER_BASE_URL}
+      - ARCHER_SOAP_SEARCH_URI=${ARCHER_SOAP_SEARCH_URI}
+      - ARCHER_SOAP_GENERAL_URI=${ARCHER_SOAP_GENERAL_URI}
+      - MAPPING_EXPORT=${MAPPING_EXPORT}
+      - SEED_DATA=${SEED_DATA}
+      - AUTH_MODE=${AUTH_MODE:-keycloak-enterprise}
+    depends_on:
+      db:
+        condition: service_started
+      keycloak:
+        condition: service_started
+    networks:
+      - clarity_network
+    restart: unless-stopped
+
+  clarity-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NUXT_PUBLIC_API_BASE_URL: /api
+        NUXT_PUBLIC_AUTH_MODE: ${AUTH_MODE:-keycloak-enterprise}
+    container_name: clarity-frontend
+    environment:
+      - NUXT_PUBLIC_API_BASE_URL=/api
+      - NUXT_PUBLIC_AUTH_MODE=${AUTH_MODE:-keycloak-enterprise}
+      - NUXT_OIDC_ISSUER=${CORP_OIDC_ISSUER}
+      - NUXT_OIDC_CLIENT_ID=${CORP_OIDC_CLIENT_ID}
+      - NUXT_OIDC_CLIENT_SECRET=${CORP_OIDC_CLIENT_SECRET}
+      - NUXT_OIDC_AUTHORIZATION_URL=${CORP_OIDC_AUTHORIZATION_URL}
+      - NUXT_OIDC_TOKEN_URL=${CORP_OIDC_TOKEN_URL}
+      - NUXT_OIDC_JWKS_URL=${CORP_OIDC_JWKS_URL}
+      - NUXT_OIDC_USER_INFO_URL=${CORP_OIDC_USER_INFO_URL}
+      - NUXT_OIDC_REDIRECT_URI=https://clarity.onertx.com/auth/sso/callback
+      - ENTERPRISE_KC_SERVER_URL=${ENTERPRISE_KC_SERVER_URL}
+      - ENTERPRISE_KC_REALM=${ENTERPRISE_KC_REALM}
+      - ENTERPRISE_KC_CLIENT_ID=${ENTERPRISE_KC_CLIENT_ID}
+      - ENTERPRISE_KC_CLIENT_SECRET=${ENTERPRISE_KC_CLIENT_SECRET}
+    depends_on:
+      - clarity-api
+    networks:
+      - clarity_network
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: clarity-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      # Uncomment if SSL at nginx level:
+      # - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - clarity-frontend
+      - clarity-api
+      - keycloak
+    networks:
+      - clarity_network
+    restart: unless-stopped
+
+  db:
+    image: postgres:17
+    container_name: clarity-db
+    environment:
+      POSTGRES_DB: ${CLARITY_SQL_DB}
+      POSTGRES_USER: ${CLARITY_SQL_USER}
+      POSTGRES_PASSWORD: ${CLARITY_SQL_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - clarity_network
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.2.1
+    container_name: clarity-keycloak
+    depends_on:
+      - db
+    environment:
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://clarity-db:5432/${CLARITY_SQL_DB}
+      - KC_DB_USERNAME=${CLARITY_SQL_USER}
+      - KC_DB_PASSWORD=${CLARITY_SQL_PASSWORD}
+      - KC_BOOTSTRAP_ADMIN_USERNAME=${CLARITY_KC_ADMIN}
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=${CLARITY_KC_ADMIN_PASSWORD}
+      - JAVA_OPTS=-Xms512m -Xmx1024m
+      - KC_HOSTNAME=${KC_HOSTNAME}
+      - KC_PROFILES=dev_profiles
+      - KC_HTTP_ENABLED=true
+      - KC_HTTP_HOST=0.0.0.0
+      - KC_HTTP_PORT=8080
+      - KC_PROXY_HEADERS=xforwarded
+      - KC_HTTP_RELATIVE_PATH=/kc
+    command:
+      - start
+    networks:
+      - clarity_network
+    restart: unless-stopped
+
+networks:
+  clarity_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+
+
+CMD ["node", ".output/server/index.mjs"]
