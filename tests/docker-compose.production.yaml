@@ -1,0 +1,132 @@
+# Production docker-compose
+# Nginx runs on the host (not containerized) — manages SSL via Let's Encrypt
+# Services expose ports to localhost for nginx to proxy to
+
+services:
+  clarity-api:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: clarity-api
+    environment:
+      - CLARITY_SQL_DB=${CLARITY_SQL_DB}
+      - CLARITY_SQL_USER=${CLARITY_SQL_USER}
+      - CLARITY_SQL_PASSWORD=${CLARITY_SQL_PASSWORD}
+      - CLARITY_SQL_HOST=clarity-db
+      - CLARITY_SQL_PORT=5432
+      - CLARITY_KC_HOST=${CLARITY_KC_HOST}
+      - CLARITY_KC_PORT=${CLARITY_KC_PORT}
+      - CLARITY_KC_REALM=${CLARITY_KC_REALM}
+      - CLARITY_KC_ADMIN=${CLARITY_KC_ADMIN}
+      - CLARITY_KC_ADMIN_PASSWORD=${CLARITY_KC_ADMIN_PASSWORD}
+      - CORP_OIDC_CLIENT_ID=${CORP_OIDC_CLIENT_ID}
+      - CORP_OIDC_CLIENT_SECRET=${CORP_OIDC_CLIENT_SECRET}
+      - CORP_OIDC_DISCOVERY_ENDPOINT=${CORP_OIDC_DISCOVERY_ENDPOINT}
+      - CORP_OIDC_ISSUER=${CORP_OIDC_ISSUER}
+      - CORP_OIDC_AUTHORIZATION_URL=${CORP_OIDC_AUTHORIZATION_URL}
+      - CORP_OIDC_TOKEN_URL=${CORP_OIDC_TOKEN_URL}
+      - CORP_OIDC_JWKS_URL=${CORP_OIDC_JWKS_URL}
+      - CORP_OIDC_USER_INFO_URL=${CORP_OIDC_USER_INFO_URL}
+      - META_OPENAI_URL_BASE=${META_OPENAI_URL_BASE}
+      - META_OPENAI_URL=${META_OPENAI_URL}
+      - META_OPENAI_KEY=${META_OPENAI_KEY}
+      - ARCHER_USERNAME=${ARCHER_USERNAME}
+      - ARCHER_PASSWORD=${ARCHER_PASSWORD}
+      - ARCHER_INSTANCE_NAME=${ARCHER_INSTANCE_NAME}
+      - ARCHER_BASE_URL=${ARCHER_BASE_URL}
+      - ARCHER_SOAP_SEARCH_URI=${ARCHER_SOAP_SEARCH_URI}
+      - ARCHER_SOAP_GENERAL_URI=${ARCHER_SOAP_GENERAL_URI}
+      - MAPPING_EXPORT=${MAPPING_EXPORT}
+      - SEED_DATA=${SEED_DATA}
+      - AUTH_MODE=${AUTH_MODE:-keycloak-enterprise}
+    ports:
+      - "127.0.0.1:4000:4000"
+    depends_on:
+      db:
+        condition: service_started
+      keycloak:
+        condition: service_started
+    networks:
+      - clarity_network
+    restart: unless-stopped
+
+  clarity-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NUXT_PUBLIC_API_BASE_URL: /be
+        NUXT_PUBLIC_AUTH_MODE: ${AUTH_MODE:-keycloak-enterprise}
+    container_name: clarity-frontend
+    environment:
+      - NUXT_PUBLIC_API_BASE_URL=/be
+      - NUXT_PUBLIC_AUTH_MODE=${AUTH_MODE:-keycloak-enterprise}
+      - NUXT_OIDC_ISSUER=${CORP_OIDC_ISSUER}
+      - NUXT_OIDC_CLIENT_ID=${CORP_OIDC_CLIENT_ID}
+      - NUXT_OIDC_CLIENT_SECRET=${CORP_OIDC_CLIENT_SECRET}
+      - NUXT_OIDC_AUTHORIZATION_URL=${CORP_OIDC_AUTHORIZATION_URL}
+      - NUXT_OIDC_TOKEN_URL=${CORP_OIDC_TOKEN_URL}
+      - NUXT_OIDC_JWKS_URL=${CORP_OIDC_JWKS_URL}
+      - NUXT_OIDC_USER_INFO_URL=${CORP_OIDC_USER_INFO_URL}
+      - NUXT_OIDC_REDIRECT_URI=https://clarity.onertx.com/auth/sso/callback
+      - ENTERPRISE_KC_SERVER_URL=${ENTERPRISE_KC_SERVER_URL}
+      - ENTERPRISE_KC_REALM=${ENTERPRISE_KC_REALM}
+      - ENTERPRISE_KC_CLIENT_ID=${ENTERPRISE_KC_CLIENT_ID}
+      - ENTERPRISE_KC_CLIENT_SECRET=${ENTERPRISE_KC_CLIENT_SECRET}
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      - clarity-api
+    networks:
+      - clarity_network
+    restart: unless-stopped
+
+  db:
+    image: postgres:17
+    container_name: clarity-db
+    environment:
+      POSTGRES_DB: ${CLARITY_SQL_DB}
+      POSTGRES_USER: ${CLARITY_SQL_USER}
+      POSTGRES_PASSWORD: ${CLARITY_SQL_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - clarity_network
+    ports:
+      - "127.0.0.1:5432:5432"
+    restart: unless-stopped
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.2.1
+    container_name: clarity-keycloak
+    depends_on:
+      - db
+    environment:
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://clarity-db:5432/${CLARITY_SQL_DB}
+      - KC_DB_USERNAME=${CLARITY_SQL_USER}
+      - KC_DB_PASSWORD=${CLARITY_SQL_PASSWORD}
+      - KC_BOOTSTRAP_ADMIN_USERNAME=${CLARITY_KC_ADMIN}
+      - KC_BOOTSTRAP_ADMIN_PASSWORD=${CLARITY_KC_ADMIN_PASSWORD}
+      - JAVA_OPTS=-Xms512m -Xmx1024m
+      - KC_HOSTNAME=${KC_HOSTNAME}
+      - KC_PROFILES=dev_profiles
+      - KC_HTTP_ENABLED=true
+      - KC_HTTP_HOST=0.0.0.0
+      - KC_HTTP_PORT=8080
+      - KC_PROXY_HEADERS=xforwarded
+      - KC_HTTP_RELATIVE_PATH=/kc
+    command:
+      - start
+    ports:
+      - "127.0.0.1:8080:8080"
+    networks:
+      - clarity_network
+    restart: unless-stopped
+
+networks:
+  clarity_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
