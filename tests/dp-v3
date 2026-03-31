@@ -110,3 +110,8 @@ networks:
 
 volumes:
   postgres_data:
+
+
+
+
+CMD ["python", "-c", "import ssl; ssl._create_default_https_context = ssl._create_unverified_context; import uvicorn; uvicorn.run('src.clarity.api:api', host='0.0.0.0', port=4000)"]
