@@ -1,6 +1,8 @@
 # Production docker-compose
 # Nginx runs on the host (not containerized) — manages SSL via Let's Encrypt
 # Services expose ports to localhost for nginx to proxy to
+# Auth: enterprise Keycloak + RTX SSO (no local Keycloak container)
+# AI: Ollama (local LLM) with XETA fallback
 
 services:
   clarity-api:
@@ -39,12 +41,19 @@ services:
       - MAPPING_EXPORT=${MAPPING_EXPORT}
       - SEED_DATA=${SEED_DATA}
       - AUTH_MODE=${AUTH_MODE:-keycloak-enterprise}
+      - ENTERPRISE_KC_SERVER_URL=${ENTERPRISE_KC_SERVER_URL}
+      - ENTERPRISE_KC_REALM=${ENTERPRISE_KC_REALM}
+      - ENTERPRISE_KC_CLIENT_ID=${ENTERPRISE_KC_CLIENT_ID}
+      - ENTERPRISE_KC_CLIENT_SECRET=${ENTERPRISE_KC_CLIENT_SECRET}
+      - OLLAMA_BASE_URL=http://clarity-ollama:11434
+      - OLLAMA_MODEL=${OLLAMA_MODEL:-phi3-mini}
+      - AI_TIMEOUT=${AI_TIMEOUT:-60}
     ports:
       - "127.0.0.1:4000:4000"
     depends_on:
       db:
-        condition: service_started
-      keycloak:
+        condition: service_healthy
+      ollama:
         condition: service_started
     networks:
       - clarity_network
@@ -95,31 +104,20 @@ services:
     ports:
       - "127.0.0.1:5432:5432"
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${CLARITY_SQL_USER} -d ${CLARITY_SQL_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
-  keycloak:
-    image: quay.io/keycloak/keycloak:26.2.1
-    container_name: clarity-keycloak
-    depends_on:
-      - db
-    environment:
-      - KC_DB=postgres
-      - KC_DB_URL=jdbc:postgresql://clarity-db:5432/${CLARITY_SQL_DB}
-      - KC_DB_USERNAME=${CLARITY_SQL_USER}
-      - KC_DB_PASSWORD=${CLARITY_SQL_PASSWORD}
-      - KC_BOOTSTRAP_ADMIN_USERNAME=${CLARITY_KC_ADMIN}
-      - KC_BOOTSTRAP_ADMIN_PASSWORD=${CLARITY_KC_ADMIN_PASSWORD}
-      - JAVA_OPTS=-Xms512m -Xmx1024m
-      - KC_HOSTNAME=${KC_HOSTNAME}
-      - KC_PROFILES=dev_profiles
-      - KC_HTTP_ENABLED=true
-      - KC_HTTP_HOST=0.0.0.0
-      - KC_HTTP_PORT=8080
-      - KC_PROXY_HEADERS=xforwarded
-      - KC_HTTP_RELATIVE_PATH=/kc
-    command:
-      - start
+  ollama:
+    image: ollama/ollama:latest
+    container_name: clarity-ollama
     ports:
-      - "127.0.0.1:8080:8080"
+      - "127.0.0.1:11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+      - ./models:/models
     networks:
       - clarity_network
     restart: unless-stopped
@@ -130,3 +128,4 @@ networks:
 
 volumes:
   postgres_data:
+  ollama_data:
