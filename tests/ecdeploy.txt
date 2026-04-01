@@ -1,0 +1,269 @@
+# Clarity EC2 Deployment Guide — Complete
+## Covers: Production Stack + Local LLM Integration
+
+---
+
+### 1. SSH into EC2 via bastion
+```bash
+# From your local machine
+ssh -J bastion-user@bastion-host allen@ec2-clarity-host
+```
+
+---
+
+### 2. Pull the branch
+```bash
+cd /etc/clarity/GRCAA-Clarity
+git fetch origin
+
+# Option A: Deploy production only (no LLM)
+git checkout aws-production
+git pull origin aws-production
+
+# Option B: Deploy with LLM integration
+git checkout feat/local-llm
+git pull origin feat/local-llm
+
+cd projects/clarity-rewrite
+```
+
+---
+
+### 3. Install Git LFS (if not already installed)
+Required for the GGUF model file.
+```bash
+git lfs install
+git lfs pull
+```
+Verify the model file downloaded:
+```bash
+ls -lh models/Phi-3-mini-4k-instruct-q4.gguf
+```
+Should show ~2-3GB. If it shows 130 bytes, LFS didn't pull — check if LFS is enabled on the GHE instance.
+
+---
+
+### 4. Create the .env file
+```bash
+cat << 'EOF' > /etc/clarity/GRCAA-Clarity/projects/clarity-rewrite/.env
+CLARITY_SQL_DB=clarity
+CLARITY_SQL_USER=clarity
+CLARITY_SQL_PASSWORD=CHANGE_ME_STRONG_PASSWORD
+
+CLARITY_KC_HOST=keycloak-npd.c32p1-colk8s.wg1.aws.ray.com
+CLARITY_KC_PORT=443
+CLARITY_KC_REALM=avionics
+CLARITY_KC_ADMIN=admin
+CLARITY_KC_ADMIN_PASSWORD=CHANGE_ME_ADMIN_PASSWORD
+
+ENTERPRISE_KC_SERVER_URL=https://keycloak-npd.c32p1-colk8s.wg1.aws.ray.com
+ENTERPRISE_KC_REALM=avionics
+ENTERPRISE_KC_CLIENT_ID=clarity-dev
+ENTERPRISE_KC_CLIENT_SECRET=8cmWkED0CtGLzijIcKZysnUnJA6Mabjv
+
+CORP_OIDC_CLIENT_ID=CLARA_CoPilot_Dev_Prod_AC
+CORP_OIDC_CLIENT_SECRET=1Pvy1EcuMkUTeAQrSb3zmrdqWxSS6tI1zkrAy3mwGKd4AQswANT5T4EDHkaS2MF
+CORP_OIDC_DISCOVERY_ENDPOINT=https://sso.rtx.com/.well-known/openid-configuration
+CORP_OIDC_ISSUER=https://sso.rtx.com
+CORP_OIDC_AUTHORIZATION_URL=https://sso.rtx.com/as/authorization.oauth2
+CORP_OIDC_TOKEN_URL=https://sso.rtx.com/as/token.oauth2
+CORP_OIDC_JWKS_URL=https://sso.rtx.com/pf/JWKS
+CORP_OIDC_USER_INFO_URL=https://sso.rtx.com/idp/userinfo.openid
+
+AUTH_MODE=keycloak-enterprise
+SEED_DATA=true
+MAPPING_EXPORT=false
+
+OLLAMA_MODEL=phi3-mini
+AI_TIMEOUT=60
+EOF
+```
+> **IMPORTANT:** Change `CLARITY_SQL_PASSWORD` and `CLARITY_KC_ADMIN_PASSWORD` to real values.
+
+---
+
+### 5. Remove corporate proxy SSL workarounds
+
+These lines are ONLY for the local development machine behind the corporate proxy. Remove them from `docker-compose.production.yaml` on EC2:
+
+**In clarity-api environment, delete these lines:**
+```yaml
+- REQUESTS_CA_BUNDLE=""
+- CURL_CA_BUNDLE=""
+- SSL_CERT_FILE=""
+- PYTHONHTTPSVERIFY=0
+```
+
+**In clarity-frontend environment, delete this line:**
+```yaml
+- NODE_TLS_REJECT_UNAUTHORIZED=0
+```
+
+**In backend/Dockerfile, if CMD was changed to the SSL workaround, revert to:**
+```dockerfile
+CMD ["uvicorn", "src.clarity.api:api", "--host", "0.0.0.0", "--port", "4000"]
+```
+
+---
+
+### 6. Set up nginx
+
+First check where nginx loads configs from:
+```bash
+grep -r "include" /etc/nginx/nginx.conf
+```
+
+**If it shows `/etc/nginx/conf.d/`**, create symlinks (one-time, future git pulls auto-update):
+```bash
+sudo ln -sf /etc/clarity/GRCAA-Clarity/projects/clarity-rewrite/nginx/conf.d/clarity.conf /etc/nginx/conf.d/clarity.conf
+sudo ln -sf /etc/clarity/GRCAA-Clarity/projects/clarity-rewrite/nginx/conf.d/nuxt.conf /etc/nginx/conf.d/nuxt.conf
+sudo ln -sf /etc/clarity/GRCAA-Clarity/projects/clarity-rewrite/nginx/conf.d/keycloak.conf /etc/nginx/conf.d/keycloak.conf
+```
+
+**If nginx already includes the repo path**, skip this step.
+
+Test and reload nginx:
+```bash
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+---
+
+### 7. Kill anything on the required ports
+```bash
+sudo lsof -i :3000 && sudo kill -9 $(sudo lsof -t -i :3000)
+sudo lsof -i :4000 && sudo kill -9 $(sudo lsof -t -i :4000)
+sudo lsof -i :5432 && sudo kill -9 $(sudo lsof -t -i :5432)
+sudo lsof -i :11434 && sudo kill -9 $(sudo lsof -t -i :11434)
+```
+
+---
+
+### 8. Build and start the stack
+```bash
+cd /etc/clarity/GRCAA-Clarity/projects/clarity-rewrite
+docker compose -f docker-compose.production.yaml up -d --build
+```
+
+Wait for all containers to start, then verify:
+```bash
+docker compose -f docker-compose.production.yaml ps
+```
+
+Should show 4 containers running:
+- `clarity-api` — port 4000
+- `clarity-frontend` — port 3000
+- `clarity-db` — port 5432 (healthy)
+- `clarity-ollama` — port 11434
+
+---
+
+### 9. Load the LLM model into Ollama (one-time)
+```bash
+cd /etc/clarity/GRCAA-Clarity/projects/clarity-rewrite
+chmod +x models/load-model.sh
+bash models/load-model.sh
+```
+
+Verify the model loaded:
+```bash
+docker exec clarity-ollama ollama list
+```
+Should show `phi3-mini`.
+
+---
+
+### 10. Test locally on EC2
+```bash
+# Frontend
+curl http://localhost:3000
+
+# Backend API
+curl http://localhost:4000/docs
+
+# AI health check
+curl http://localhost:4000/ai/health
+
+# Test AI chat
+curl -X POST http://localhost:4000/ai/chat \
+  -H "Content-Type: application/json" \
+  -d '{"message": "What is an ATO?"}'
+```
+
+---
+
+### 11. Test in browser
+Go to **https://clarity.onertx.com**
+
+Expected flow:
+1. Redirects to RTX SSO login
+2. After login, redirects back to Clarity
+3. App loads with navigation bar
+4. Red chat bubble in bottom-right corner — click to open AI Copilot
+5. Create a project → fill questionnaire → submit
+
+---
+
+### Troubleshooting
+
+**502 Bad Gateway:**
+```bash
+sudo tail -30 /var/log/nginx/error.log
+docker compose -f docker-compose.production.yaml logs clarity-frontend --tail 30
+docker compose -f docker-compose.production.yaml logs clarity-api --tail 30
+```
+
+**Container crashed / won't start:**
+```bash
+docker compose -f docker-compose.production.yaml logs --tail 50
+# Nuclear option — clean everything and rebuild:
+docker compose -f docker-compose.production.yaml down -v
+docker system prune -a -f
+docker compose -f docker-compose.production.yaml up -d --build
+```
+
+**Port conflict:**
+```bash
+sudo lsof -i :3000
+sudo lsof -i :4000
+sudo lsof -i :5432
+sudo lsof -i :11434
+```
+
+**Nginx config issues:**
+```bash
+sudo nginx -t
+sudo systemctl status nginx
+```
+
+**AI not responding:**
+```bash
+# Check Ollama is running
+docker exec clarity-ollama ollama list
+
+# Check AI health
+curl http://localhost:4000/ai/health
+
+# Reload model if needed
+docker exec -w /models clarity-ollama ollama create phi3-mini -f /models/Modelfile
+```
+
+**View real-time logs:**
+```bash
+docker compose -f docker-compose.production.yaml logs -f
+```
+
+---
+
+### Future updates
+When new code is pushed:
+```bash
+cd /etc/clarity/GRCAA-Clarity/projects/clarity-rewrite
+git pull origin feat/local-llm
+docker compose -f docker-compose.production.yaml up -d --build
+```
+Nginx auto-updates via symlinks — just reload:
+```bash
+sudo nginx -t && sudo systemctl reload nginx
+```
