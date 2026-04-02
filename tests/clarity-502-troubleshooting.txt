@@ -1,0 +1,265 @@
+# Clarity EC2 502 Troubleshooting Steps
+
+## Current Status
+- All 4 Docker containers running: clarity-api (4000), clarity-frontend (3000), clarity-db (5432), clarity-ollama (11434)
+- `curl http://localhost:3000` returns HTML on EC2 ✅
+- `curl -k https://localhost` returns HTML on EC2 ✅
+- `https://clarity.onertx.com` returns 502 ❌
+- DNS: `clarity.onertx.com` → CNAME → `clarity.iglb.rockwellcollins.com` → `128.24.38.240` (corporate IGLB)
+- EC2 public IP: `182.30.186.2` (different from IGLB IP)
+- IGLB terminates SSL (TLS 1.2) and forwards traffic to EC2 backend, likely over HTTP port 80
+- Firewall team confirmed traffic IS reaching EC2
+
+## Root Cause
+The port 80 server block in clarity.conf had `return 301 https://...` which redirects to HTTPS. But the IGLB forwards plain HTTP to the EC2 on port 80, gets the redirect, can't follow it → 502.
+
+Additionally, docker-proxy is binding to `0.0.0.0:80`, competing with nginx for port 80.
+
+---
+
+## Step 1: Identify what Docker container is on port 80
+
+```bash
+docker ps --format "table {{.Names}}\t{{.Ports}}"
+```
+
+## Step 2: Check docker-compose for port 80 mapping
+
+```bash
+cat /etc/clarity/GRCAA-Clarity/projects/clarity-rewrite/docker-compose.production.yaml
+```
+
+If no port 80 mapping exists in the compose file, check for stale containers from other stacks:
+
+```bash
+docker ps -a --format "table {{.Names}}\t{{.Ports}}\t{{.Status}}"
+```
+
+Kill any stale container on port 80:
+
+```bash
+docker stop <container_name>
+docker rm <container_name>
+```
+
+## Step 3: Confirm port 80 is free for nginx
+
+```bash
+sudo ss -tlnp | grep ':80'
+```
+
+Only nginx should be listed here. If docker-proxy is still showing, repeat Step 2.
+
+## Step 4: Write the new clarity.conf
+
+This replaces the old port 80 `return 301` redirect with a full proxy block so the IGLB can forward HTTP traffic and get actual content back.
+
+```bash
+cat > /etc/nginx/conf.d/clarity.conf << 'EOF'
+server {
+    listen 80;
+    server_name clarity.onertx.com;
+
+    # Health check for IGLB
+    location /nginx-health {
+        access_log off;
+        return 200 'ok';
+        add_header Content-Type text/plain;
+    }
+
+    # Keycloak redirect (no trailing slash)
+    location = /kc {
+        return 301 https://clarity.onertx.com/kc/;
+    }
+
+    # Proxy /kc/* to Keycloak
+    location /kc/ {
+        proxy_pass http://127.0.0.1:8080/kc/;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_buffer_size 128k;
+        proxy_buffers 4 256k;
+        proxy_busy_buffers_size 256k;
+    }
+
+    # Backend API redirect (no trailing slash)
+    location = /be {
+        return 301 https://clarity.onertx.com/be/;
+    }
+
+    # Backend API proxy
+    location /be/ {
+        rewrite ^/be/(.*)$ /$1 break;
+        proxy_pass http://127.0.0.1:4000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+
+    # Proxy everything else to Nuxt frontend
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+
+server {
+    listen 443 ssl;
+    server_name clarity.onertx.com;
+
+    error_log /var/log/nginx/error.log debug;
+
+    ssl_certificate /etc/letsencrypt/live/clarity.onertx.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/clarity.onertx.com/privkey.pem;
+
+    # Health check for monitoring
+    location /nginx-health {
+        access_log off;
+        return 200 'ok';
+        add_header Content-Type text/plain;
+    }
+
+    # Keycloak redirect (no trailing slash)
+    location = /kc {
+        return 301 https://clarity.onertx.com/kc/;
+    }
+
+    # Proxy /kc/* to Keycloak
+    location /kc/ {
+        proxy_pass http://127.0.0.1:8080/kc/;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_buffer_size 128k;
+        proxy_buffers 4 256k;
+        proxy_busy_buffers_size 256k;
+    }
+
+    # Backend API redirect (no trailing slash)
+    location = /be {
+        return 301 https://clarity.onertx.com/be/;
+    }
+
+    # Backend API proxy
+    location /be/ {
+        rewrite ^/be/(.*)$ /$1 break;
+        proxy_pass http://127.0.0.1:4000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+
+    # Proxy everything else to Nuxt frontend
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+EOF
+```
+
+## Step 5: Test and restart nginx
+
+```bash
+sudo nginx -t && sudo systemctl restart nginx
+```
+
+## Step 6: Verify locally
+
+```bash
+# Should return 200 (not 301)
+curl -I http://localhost
+
+# Should return 200
+curl -k -I https://localhost
+
+# Should return HTML with redirect to /login
+curl http://localhost
+
+# Confirm frontend container responds directly
+curl http://127.0.0.1:3000
+
+# Confirm backend responds
+curl http://127.0.0.1:4000/ai/health
+```
+
+## Step 7: Test external URL
+
+```bash
+curl -I https://clarity.onertx.com
+```
+
+Then test in browser: `https://clarity.onertx.com`
+
+## Step 8: If still 502, check access logs
+
+In one terminal:
+
+```bash
+sudo tail -f /var/log/nginx/access.log
+```
+
+Then hit `https://clarity.onertx.com` in browser. If NO request shows in the log, the IGLB is not forwarding to your EC2 IP — loop in Allen Spector / IGLB team.
+
+If a request DOES show, check what response nginx sent:
+
+```bash
+sudo tail -f /var/log/nginx/error.log
+```
+
+---
+
+## Key Info for IGLB / Firewall Team
+
+- EC2 public IP: `182.30.186.2`
+- IGLB should forward HTTP traffic to EC2 port 80
+- Health check endpoint: `http://<EC2_IP>/nginx-health` (returns 200 "ok")
+- IGLB terminates SSL; EC2 expects plain HTTP on port 80 from IGLB
+- EC2 also has SSL on port 443 for local testing (Let's Encrypt cert)
+
+## Questions for IGLB Team
+1. What IP/port is the IGLB backend pool targeting for `clarity`?
+2. Does the IGLB terminate SSL or pass through?
+3. What health check endpoint does the IGLB use?
+4. Is the backend target set to `182.30.186.2:80`?
+
+---
+
+## Rollback
+If anything breaks, restore the backup:
+
+```bash
+cp /etc/nginx/conf.d/clarity.conf.bak /etc/nginx/conf.d/clarity.conf
+sudo nginx -t && sudo systemctl restart nginx
+```
+
+## Branch
+`feat/local-llm` on `github-us.utc.com/us-persons-only/GRCAA-Clarity`
+
+## File Location on EC2
+`/etc/clarity/GRCAA-Clarity/projects/clarity-rewrite/`
