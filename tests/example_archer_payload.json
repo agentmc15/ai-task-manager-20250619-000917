@@ -1,0 +1,192 @@
+{
+  "metadata": {
+    "source": "clarity",
+    "version": "1.0",
+    "generated_at": "2026-04-06T12:00:00Z",
+    "project_id": "a1b2c3d4",
+    "project_title": "My IRAMP Project",
+    "owner_email": "michael.denoia@collins.com",
+    "archer_module": "IRAMP_ATO",
+    "archer_module_id": "",
+    "archer_level_id": "",
+    "archer_instance": ""
+  },
+  "content": {
+    "fields": [
+      {
+        "field_name": "AUTHORIZATION_PACKAGE_NAME",
+        "field_type": "text",
+        "value": "CLARITY-2026-001"
+      },
+      {
+        "field_name": "CLARA_ID",
+        "field_type": "text",
+        "value": "CLR-12345"
+      },
+      {
+        "field_name": "ENTITY",
+        "field_type": "values_list",
+        "multi_select": false,
+        "value": "Advanced Concepts and Technology (MIST)"
+      },
+      {
+        "field_name": "BUSINESS",
+        "field_type": "values_list",
+        "multi_select": false,
+        "value": "Collins Aerospace"
+      },
+      {
+        "field_name": "MISSION_PURPOSE",
+        "field_type": "text",
+        "value": "Provide secure communications for field operations."
+      },
+      {
+        "field_name": "INFORMATION_CLASSIFICATION",
+        "field_type": "values_list",
+        "multi_select": true,
+        "values": [
+          "CUI/CDI (DFARS)",
+          "ITAR (ITAR, EAR)",
+          "Proprietary"
+        ]
+      },
+      {
+        "field_name": "CONNECTIVITY",
+        "field_type": "values_list",
+        "multi_select": true,
+        "values": [
+          "Internal Only",
+          "Network Segregated"
+        ]
+      },
+      {
+        "field_name": "AUTHORIZATION_BOUNDARY_DESCRIPTION",
+        "field_type": "text",
+        "value": "The system boundary includes two application servers, one database server, and a firewall appliance within the Collins Aerospace Cedar Rapids data center."
+      },
+      {
+        "field_name": "SYSTEM_ADMINISTRATOR_ID",
+        "field_type": "text",
+        "value": "C95063223"
+      },
+      {
+        "field_name": "HARDWARE_INVENTORY",
+        "field_type": "sub_record",
+        "records": [
+          {
+            "HARDWARE_NAME": "APP-SVR-01",
+            "IP_ADDRESS": "10.50.1.10",
+            "HARDWARE_TYPE": "Windows Server",
+            "BUSINESS_UNIT": "Collins",
+            "MAC_ADDRESS": "AA:BB:CC:11:22:33"
+          },
+          {
+            "HARDWARE_NAME": "DB-SVR-01",
+            "IP_ADDRESS": "10.50.1.20",
+            "HARDWARE_TYPE": "Linux",
+            "BUSINESS_UNIT": "Collins",
+            "MAC_ADDRESS": "AA:BB:CC:44:55:66"
+          },
+          {
+            "HARDWARE_NAME": "FW-01",
+            "IP_ADDRESS": "10.50.1.1",
+            "HARDWARE_TYPE": "Mac",
+            "BUSINESS_UNIT": "Corporate",
+            "MAC_ADDRESS": "AA:BB:CC:77:88:99"
+          }
+        ]
+      }
+    ]
+  },
+  "sections": {
+    "general": [
+      {
+        "field_name": "AUTHORIZATION_PACKAGE_NAME",
+        "field_type": "text",
+        "value": "CLARITY-2026-001"
+      },
+      {
+        "field_name": "CLARA_ID",
+        "field_type": "text",
+        "value": "CLR-12345"
+      },
+      {
+        "field_name": "ENTITY",
+        "field_type": "values_list",
+        "multi_select": false,
+        "value": "Advanced Concepts and Technology (MIST)"
+      },
+      {
+        "field_name": "BUSINESS",
+        "field_type": "values_list",
+        "multi_select": false,
+        "value": "Collins Aerospace"
+      },
+      {
+        "field_name": "MISSION_PURPOSE",
+        "field_type": "text",
+        "value": "Provide secure communications for field operations."
+      }
+    ],
+    "information_system_details": [
+      {
+        "field_name": "INFORMATION_CLASSIFICATION",
+        "field_type": "values_list",
+        "multi_select": true,
+        "values": [
+          "CUI/CDI (DFARS)",
+          "ITAR (ITAR, EAR)",
+          "Proprietary"
+        ]
+      },
+      {
+        "field_name": "CONNECTIVITY",
+        "field_type": "values_list",
+        "multi_select": true,
+        "values": [
+          "Internal Only",
+          "Network Segregated"
+        ]
+      },
+      {
+        "field_name": "AUTHORIZATION_BOUNDARY_DESCRIPTION",
+        "field_type": "text",
+        "value": "The system boundary includes two application servers, one database server, and a firewall appliance within the Collins Aerospace Cedar Rapids data center."
+      },
+      {
+        "field_name": "HARDWARE_INVENTORY",
+        "field_type": "sub_record",
+        "records": [
+          {
+            "HARDWARE_NAME": "APP-SVR-01",
+            "IP_ADDRESS": "10.50.1.10",
+            "HARDWARE_TYPE": "Windows Server",
+            "BUSINESS_UNIT": "Collins",
+            "MAC_ADDRESS": "AA:BB:CC:11:22:33"
+          },
+          {
+            "HARDWARE_NAME": "DB-SVR-01",
+            "IP_ADDRESS": "10.50.1.20",
+            "HARDWARE_TYPE": "Linux",
+            "BUSINESS_UNIT": "Collins",
+            "MAC_ADDRESS": "AA:BB:CC:44:55:66"
+          },
+          {
+            "HARDWARE_NAME": "FW-01",
+            "IP_ADDRESS": "10.50.1.1",
+            "HARDWARE_TYPE": "Mac",
+            "BUSINESS_UNIT": "Corporate",
+            "MAC_ADDRESS": "AA:BB:CC:77:88:99"
+          }
+        ]
+      }
+    ],
+    "personnel": [
+      {
+        "field_name": "SYSTEM_ADMINISTRATOR_ID",
+        "field_type": "text",
+        "value": "C95063223"
+      }
+    ]
+  }
+}
