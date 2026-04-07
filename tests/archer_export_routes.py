@@ -29,7 +29,7 @@ from ..services.archer_export_service import (
 
 log = logging.getLogger(__name__)
 
-router = APIRouter(prefix="/projects", tags=["archer-export"])
+router = APIRouter(prefix="/project", tags=["archer-export"])
 
 
 # ---------------------------------------------------------------------------

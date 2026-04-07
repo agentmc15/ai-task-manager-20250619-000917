@@ -373,7 +373,7 @@ def get_project_responses(session: Session, project_id: str) -> list[dict]:
         return []
 
     # Project.responses is a JSON column storing list of QuestionnaireResponse
-    responses = project.responses or []
+    responses = project.responses_json or []
 
     # If responses is a string (raw JSON), parse it
     if isinstance(responses, str):
