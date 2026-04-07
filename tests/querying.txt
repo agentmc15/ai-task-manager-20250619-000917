@@ -35,6 +35,10 @@ response_data = {
     "justification": body.justification,
 }
 
+(Invoke-WebRequest -Uri "http://localhost:4000/project/9e393902-e6c1-4403-9dc0-a45ecd62a076/archer-payload").Content | ConvertFrom-Json | ConvertTo-Json -Depth 10 | Out-File -FilePath "archer_payload_sample.json" -Encoding utf8
+
+(Invoke-WebRequest -Uri "http://localhost:4000/project/9e393902-e6c1-4403-9dc0-a45ecd62a076/archer-payload").Content | ConvertFrom-Json | ConvertTo-Json -Depth 10
+
 
 docker exec -it clarity-db psql -U root -d clarity -c "SELECT jsonb_pretty(responses_json::jsonb) FROM project WHERE id = '9e393902-e6c1-4403-9dc0-a45ecd62a076';"
 
