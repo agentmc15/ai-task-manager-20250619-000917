@@ -1,1 +1,18 @@
 docker exec -it clarity-db psql -U root -d clarity -c "SELECT jsonb_pretty(responses_json::jsonb) FROM project WHERE id = '432d4ba4-1bab-4cec-80db-7fd7e86e2134';"
+
+async function saveAnswer(data: {
+  project_id: string
+  question_id: string
+  answer: string | string[] | object
+  justification?: string
+}) {
+  return apiFetch<any>('/project/answer/create', {
+    method: 'POST',
+    body: JSON.stringify({
+      projectId: data.project_id,
+      questionId: data.question_id,
+      value: data.answer,
+      justification: data.justification,
+    }),
+  })
+}
