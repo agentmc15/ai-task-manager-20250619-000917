@@ -16,3 +16,21 @@ async function saveAnswer(data: {
     }),
   })
 }
+
+
+# Convert Pydantic models / nested objects to plain JSON-serializable types
+if hasattr(body.answer, 'model_dump'):
+    answer_value = body.answer.model_dump()
+elif isinstance(body.answer, list):
+    answer_value = [
+        item.model_dump() if hasattr(item, 'model_dump') else item
+        for item in body.answer
+    ]
+else:
+    answer_value = body.answer
+
+response_data = {
+    "question_id": body.question_id,
+    "answer": answer_value,
+    "justification": body.justification,
+}
