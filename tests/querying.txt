@@ -1,0 +1,1 @@
+docker exec -it clarity-db psql -U root -d clarity -c "SELECT jsonb_pretty(responses_json::jsonb) FROM project WHERE id = '432d4ba4-1bab-4cec-80db-7fd7e86e2134';"
