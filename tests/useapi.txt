@@ -1,0 +1,172 @@
+/**
+ * API client composable — all backend requests go through here.
+ * Automatically includes auth headers and dev-user switching.
+ */
+
+import ProjectId from '~/pages/clara/[projectId].vue'
+
+export function useApi() {
+  const config = useRuntimeConfig()
+  const { getAuthHeaders, authMode } = useAuth()
+
+  const baseURL = config.public.apiBase || 'http://localhost:4000'
+
+  async function apiFetch<T>(
+    path: string,
+    options: RequestInit & { params?: Record<string, string> } = {},
+  ): Promise<T> {
+    const url = new URL(path, baseURL)
+
+    if (options.params) {
+      for (const [key, val] of Object.entries(options.params)) {
+        if (val !== undefined && val !== null) {
+          url.searchParams.set(key, val)
+        }
+      }
+    }
+
+    // Build headers
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+      ...getAuthHeaders(),
+      ...(options.headers as Record<string, string> || {}),
+    }
+
+    // In dev mode, include the selected dev user
+    if (authMode === 'dev') {
+      const devUser = typeof window !== 'undefined'
+        ? window.sessionStorage?.getItem('clarity-dev-user') || 'dev@clarity.local'
+        : 'dev@clarity.local'
+      headers['X-Dev-User'] = devUser
+    }
+
+    const response = await fetch(url.toString(), {
+      ...options,
+      headers,
+    })
+
+    if (!response.ok) {
+      const errorBody = await response.text().catch(() => 'Unknown error')
+      throw new Error(`API ${response.status}: ${errorBody}`)
+    }
+
+    return response.json()
+  }
+
+  // ----- Project CRUD -----
+
+  async function getProjects(opts?: {
+    projectId?: string
+    title?: string
+    includeQuestionnaire?: boolean
+  }) {
+    const params: Record<string, string> = {}
+    if (opts?.projectId) params.project_id = opts.projectId
+    if (opts?.title) params.title = opts.title
+    if (opts?.includeQuestionnaire) params.include_questionnaire = 'true'
+    return apiFetch<any[]>('/project/', { params })
+  }
+
+  async function getProject(projectId: string, includeQuestionnaire = false) {
+    const params: Record<string, string> = {}
+    if (includeQuestionnaire) params.include_questionnaire = 'true'
+    return apiFetch<any>(`/project/${projectId}`, { params })
+  }
+
+  async function createProject(data: {
+    title: string
+    description: string
+    questionnaire_id: number
+    tags?: string[]
+    attributes?: Array<{ text: string }>
+  }) {
+    return apiFetch<any>('/project/', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    })
+  }
+
+  async function deleteProject(projectId: string) {
+    return apiFetch<any>('/project/', {
+      method: 'DELETE',
+      params: { project_id: projectId },
+    })
+  }
+
+  // ----- Answers -----
+
+  async function saveAnswer(data: {
+    project_id: string
+    question_id: string
+    answer: string | string[] | object
+    justification?: string
+  }) {
+    return apiFetch<any>('/project/answer/create', {
+      method: 'POST',
+      body: JSON.stringify({
+        projectId: data.project_id,
+        questionId: data.question_id,
+        value: data.answer,
+        justification: data.justification,
+      }),
+    })
+  }
+
+  // ----- Questionnaires -----
+
+  async function getQuestionnaires(opts?: {
+    questionnaireId?: number
+    version?: string
+    active?: boolean
+  }) {
+    const params: Record<string, string> = {}
+    if (opts?.questionnaireId) params.questionnaire_id = String(opts.questionnaireId)
+    if (opts?.version) params.version = opts.version
+    if (opts?.active !== undefined) params.active = String(opts.active)
+    return apiFetch<any>('/questionnaire/', { params })
+  }
+
+  // ----- User info -----
+
+  async function getCurrentUser() {
+    return apiFetch<{ email: string; name: string; roles: string[] }>('/auth/me')
+  }
+
+  // ----- Archer Export -----
+
+  async function getArcherPayload(projectId: string) {
+    return apiFetch(`/project/${projectId}/archer-payload`)
+  }
+
+  // ----- Archer Submit -----
+
+  async function submitToArcher(projectId: string) {
+    return apiFetch<{
+      success: boolean
+      dry_run: boolean
+      project_id: string
+      auth_package_content_id: string | null
+      hardware_content_ids: string[]
+      steps_completed: string[]
+      all_steps: Array<{ name: string; label: string; completed: boolean }>
+      errors: string[]
+      warnings: string[]
+      submitted_at: string | null
+    }>(`/project/${projectId}/submit-to-archer`, {
+      method: 'POST',
+    })
+  }
+
+  return {
+    apiFetch,
+    getProjects,
+    getProject,
+    createProject,
+    deleteProject,
+    saveAnswer,
+    getQuestionnaires,
+    getCurrentUser,
+    getArcherPayload,
+    submitToArcher,
+  }
+}
