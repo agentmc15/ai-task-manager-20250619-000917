@@ -96,3 +96,24 @@ elif archer_type == "sub_record_table":
 
 $response = Invoke-WebRequest -Uri "http://localhost:4000/project/9e393902-e6c1-4403-9dc0-a45ecd62a076/archer-payload" -UseBasicParsing
 $response.Content | ConvertFrom-Json | ConvertTo-Json -Depth 10 | Set-Content "archer_payload_sample.json"
+
+# --- Archer Publisher (new) ---
+    archer_publish_enabled: bool = Field(alias="ARCHER_PUBLISH_ENABLED", default=False)
+    archer_user_domain: str = Field(alias="ARCHER_USER_DOMAIN", default="")
+    archer_verify_ssl: bool = Field(alias="ARCHER_VERIFY_SSL", default=False)
+    archer_auth_package_module: str = Field(
+        alias="ARCHER_AUTH_PACKAGE_MODULE",
+        default="RTX GRC Authorization Package",
+    )
+    archer_hardware_module: str = Field(
+        alias="ARCHER_HARDWARE_MODULE",
+        default="RTX GRC Hardware",
+    )
+
+# === Archer Publisher ===
+ARCHER_PUBLISH_ENABLED=false
+ARCHER_USER_DOMAIN=
+ARCHER_VERIFY_SSL=false
+ARCHER_AUTH_PACKAGE_MODULE=RTX GRC Authorization Package
+ARCHER_HARDWARE_MODULE=RTX GRC Hardware
+
