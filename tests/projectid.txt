@@ -1,0 +1,183 @@
+const { getProject, saveAnswer, getProjects, getQuestionnaires, apiFetch, submitToArcher } = useApi()
+
+// Archer submission state
+const submitting = ref(false)
+const submitSteps = ref<Array<{ name: string; label: string; completed: boolean; active: boolean }>>([])
+const submitError = ref<string | null>(null)
+const submitSuccess = ref(false)
+const submitDryRun = ref(false)
+const submitContentId = ref<string | null>(null)
+
+async function submitForReview() {
+  // Save the current answer first
+  saveCurrentAnswer()
+
+  // Initialize the progress modal
+  submitting.value = true
+  submitError.value = null
+  submitSuccess.value = false
+  submitContentId.value = null
+  submitSteps.value = [
+    { name: 'save', label: 'Saving questionnaire responses', completed: false, active: true },
+    { name: 'generate', label: 'Generating Archer payload', completed: false, active: false },
+    { name: 'connect', label: 'Connecting to Archer', completed: false, active: false },
+    { name: 'hardware', label: 'Creating hardware records', completed: false, active: false },
+    { name: 'auth_package', label: 'Creating authorization package', completed: false, active: false },
+    { name: 'complete', label: 'Complete', completed: false, active: false },
+  ]
+
+  // Animate through the early steps while the backend works
+  const animateSteps = async () => {
+    for (let i = 0; i < submitSteps.value.length - 1; i++) {
+      submitSteps.value[i].active = true
+      await new Promise((r) => setTimeout(r, 400))
+      submitSteps.value[i].completed = true
+      submitSteps.value[i].active = false
+      if (i + 1 < submitSteps.value.length) {
+        submitSteps.value[i + 1].active = true
+      }
+    }
+  }
+
+  // Fire the API call and the animation in parallel
+  const [result] = await Promise.all([
+    submitToArcher(projectId).catch((e) => {
+      console.error('Submit to Archer failed:', e)
+      return null
+    }),
+    animateSteps(),
+  ])
+
+  if (!result) {
+    submitError.value = 'Failed to submit to Archer. Check the console for details.'
+    return
+  }
+
+  // Update steps based on the actual backend response
+  if (result.all_steps && result.all_steps.length > 0) {
+    submitSteps.value = result.all_steps.map((s) => ({
+      name: s.name,
+      label: s.label,
+      completed: s.completed,
+      active: false,
+    }))
+  }
+
+  if (result.success) {
+    submitSuccess.value = true
+    submitDryRun.value = result.dry_run
+    submitContentId.value = result.auth_package_content_id
+    // Mark the final step as complete
+    const lastStep = submitSteps.value[submitSteps.value.length - 1]
+    if (lastStep) lastStep.completed = true
+  } else {
+    submitError.value = (result.errors && result.errors.join(', ')) || 'Submission failed'
+  }
+}
+
+function closeSubmitModal() {
+  submitting.value = false
+  if (submitSuccess.value) {
+    showReview.value = true
+  }
+}
+
+<!-- Archer Submission Modal -->
+    <div
+      v-if="submitting"
+      class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+    >
+      <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full mx-4">
+        <h3 class="text-xl font-bold mb-6 text-gray-800">
+          Submitting to Archer
+        </h3>
+
+        <!-- Progress bar -->
+        <div class="w-full bg-gray-200 rounded-full h-2 mb-6 overflow-hidden">
+          <div
+            class="bg-red-600 h-full transition-all duration-500"
+            :style="{
+              width: `${(submitSteps.filter((s) => s.completed).length / submitSteps.length) * 100}%`,
+            }"
+          ></div>
+        </div>
+
+        <!-- Stepped checkmarks -->
+        <ul class="space-y-3 mb-6">
+          <li
+            v-for="step in submitSteps"
+            :key="step.name"
+            class="flex items-center gap-3"
+          >
+            <!-- Completed -->
+            <span
+              v-if="step.completed"
+              class="w-6 h-6 rounded-full bg-green-500 text-white flex items-center justify-center text-sm font-bold"
+            >
+              ✓
+            </span>
+            <!-- Active -->
+            <span
+              v-else-if="step.active"
+              class="w-6 h-6 rounded-full border-2 border-red-600 border-t-transparent animate-spin"
+            ></span>
+            <!-- Pending -->
+            <span
+              v-else
+              class="w-6 h-6 rounded-full border-2 border-gray-300"
+            ></span>
+
+            <span
+              :class="[
+                'text-sm',
+                step.completed
+                  ? 'text-gray-800 font-medium'
+                  : step.active
+                  ? 'text-gray-800'
+                  : 'text-gray-400',
+              ]"
+            >
+              {{ step.label }}
+            </span>
+          </li>
+        </ul>
+
+        <!-- Success / dry-run state -->
+        <div v-if="submitSuccess" class="border-t pt-4">
+          <p
+            v-if="submitDryRun"
+            class="text-sm text-amber-700 bg-amber-50 p-3 rounded mb-3"
+          >
+            <strong>Dry run mode:</strong> The payload was generated and logged, but no
+            records were created in Archer. Set ARCHER_PUBLISH_ENABLED=true in the
+            backend .env to publish live.
+          </p>
+          <p
+            v-else
+            class="text-sm text-green-700 bg-green-50 p-3 rounded mb-3"
+          >
+            <strong>Success!</strong> Authorization package created in Archer with
+            content ID <code>{{ submitContentId }}</code>.
+          </p>
+          <button
+            @click="closeSubmitModal"
+            class="w-full bg-red-600 text-white py-2 rounded font-medium hover:bg-red-700"
+          >
+            Done
+          </button>
+        </div>
+
+        <!-- Error state -->
+        <div v-else-if="submitError" class="border-t pt-4">
+          <p class="text-sm text-red-700 bg-red-50 p-3 rounded mb-3">
+            <strong>Error:</strong> {{ submitError }}
+          </p>
+          <button
+            @click="submitting = false"
+            class="w-full bg-gray-600 text-white py-2 rounded font-medium hover:bg-gray-700"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
