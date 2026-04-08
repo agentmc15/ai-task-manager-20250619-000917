@@ -117,3 +117,6 @@ ARCHER_VERIFY_SSL=false
 ARCHER_AUTH_PACKAGE_MODULE=RTX GRC Authorization Package
 ARCHER_HARDWARE_MODULE=RTX GRC Hardware
 
+docker exec clarity-api python -c "from clarity.core.settings import ClaritySettings; s = ClaritySettings(); print('publish_enabled:', s.archer_publish_enabled); print('user_domain:', repr(s.archer_user_domain)); print('verify_ssl:', s.archer_verify_ssl); print('auth_pkg:', s.archer_auth_package_module); print('hardware:', s.archer_hardware_module)"
+
+docker exec clarity-api python -c "from clarity.routes.archer_submit_routes import router; print([r.path for r in router.routes])"
