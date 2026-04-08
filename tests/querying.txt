@@ -93,3 +93,6 @@ elif archer_type == "sub_record_table":
             mapping.get("column_mapping", {}),
         )
     )
+
+$response = Invoke-WebRequest -Uri "http://localhost:4000/project/9e393902-e6c1-4403-9dc0-a45ecd62a076/archer-payload" -UseBasicParsing
+$response.Content | ConvertFrom-Json | ConvertTo-Json -Depth 10 | Set-Content "archer_payload_sample.json"
