@@ -292,19 +292,46 @@ def build_archer_payload(
             )
 
         elif archer_type == "sub_record_table":
-            # Hardware entries stored as JSON array in the answer
+            # Hardware entries are stored as {rows: [[{col_id, value}, ...], ...]}
             entries = []
+            raw_rows = []
+
             if answer:
+                # Parse if it's a JSON string
                 if isinstance(answer, str):
                     try:
-                        entries = json.loads(answer)
+                        answer = json.loads(answer)
                     except json.JSONDecodeError:
                         log.warning(
                             "Failed to parse hardware entries for project %s",
                             project.id,
                         )
+                        answer = None
+
+                # Extract rows from {rows: [...]} structure
+                if isinstance(answer, dict) and "rows" in answer:
+                    raw_rows = answer["rows"]
                 elif isinstance(answer, list):
-                    entries = answer
+                    raw_rows = answer
+
+            # Convert each row from [{col_id, value}, ...] to {col_id: value, ...}
+            for row in raw_rows:
+                if isinstance(row, list):
+                    # Row is a list of {col_id, value} dicts
+                    entry = {}
+                    for cell in row:
+                        if isinstance(cell, dict) and "col_id" in cell:
+                            col_id = cell.get("col_id")
+                            value = cell.get("value", "")
+                            if col_id:
+                                entry[col_id] = value
+                    # Skip completely empty rows
+                    if any(v for v in entry.values()):
+                        entries.append(entry)
+                elif isinstance(row, dict):
+                    # Already a flat dict (for backward compat)
+                    if any(v for v in row.values()):
+                        entries.append(row)
 
             fields.append(
                 _build_hardware_records(
