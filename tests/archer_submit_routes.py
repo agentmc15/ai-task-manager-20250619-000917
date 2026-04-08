@@ -101,9 +101,9 @@ async def submit_to_archer(
     # Step 1: Generate the Archer payload
     export_config = ArcherExportConfig(
         module_name=getattr(settings, "archer_auth_package_module", "IRAMP_ATO"),
-        module_id=getattr(settings, "archer_module_id", ""),
-        level_id=getattr(settings, "archer_level_id", ""),
-        instance_name=getattr(settings, "archer_instance", ""),
+        module_id="",
+        level_id="",
+        instance_name=getattr(settings, "archer_instance_name", ""),
     )
 
     payload = generate_archer_payload_for_project(session, project_id, export_config)

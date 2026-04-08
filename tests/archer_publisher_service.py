@@ -695,8 +695,10 @@ def build_publisher_from_settings(settings) -> ArcherPublisher:
     """Construct an ArcherPublisher from ClaritySettings."""
     return ArcherPublisher(
         enabled=getattr(settings, "archer_publish_enabled", False),
-        base_url=getattr(settings, "archer_base_url", ""),
-        instance_name=getattr(settings, "archer_instance", ""),
+        base_url=getattr(settings, "archer_base_uri", "")
+            or getattr(settings, "archer_base_url", ""),
+        instance_name=getattr(settings, "archer_instance_name", "")
+            or getattr(settings, "archer_instance", ""),
         username=getattr(settings, "archer_username", ""),
         password=getattr(settings, "archer_password", ""),
         user_domain=getattr(settings, "archer_user_domain", ""),
