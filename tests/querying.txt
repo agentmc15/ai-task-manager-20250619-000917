@@ -128,3 +128,5 @@ docker compose -f docker-compose.production.yaml exec clarity-api python /app/sc
 docker compose -f docker-compose.production.yaml cp backend/scripts/archer_smoke_test.py clarity-api:/app/scripts/archer_smoke_test.py
 
 docker compose -f docker-compose.production.yaml exec clarity-api env | Select-String ARCHER
+docker compose -f docker-compose.production.yaml exec clarity-db psql -U clarity -d clarity -c "\dt" > tables.txt
+docker compose -f docker-compose.production.yaml exec -T clarity-db psql -U clarity -d clarity -c "\copy (SELECT id, title, owner_email, responses_json FROM projects LIMIT 5) TO STDOUT WITH CSV HEADER" > projects_sample.csv
