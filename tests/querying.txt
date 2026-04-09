@@ -136,3 +136,5 @@ docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity
 docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -x -c "SELECT * FROM projects LIMIT 1;"
 
 docker compose -f docker-compose.production.yaml exec -T db psql -U root -d clarity -c "\copy (SELECT * FROM projects LIMIT 1) TO STDOUT WITH CSV HEADER" > projects_first_row.csv
+
+
