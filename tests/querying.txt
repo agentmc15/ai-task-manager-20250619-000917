@@ -126,3 +126,5 @@ docker compose -f docker-compose.production.yaml exec clarity-api python /app/sc
 
 docker compose -f docker-compose.production.yaml exec clarity-api python /app/scripts/archer_smoke_test.py
 docker compose -f docker-compose.production.yaml cp backend/scripts/archer_smoke_test.py clarity-api:/app/scripts/archer_smoke_test.py
+
+docker compose -f docker-compose.production.yaml exec clarity-api env | Select-String ARCHER
