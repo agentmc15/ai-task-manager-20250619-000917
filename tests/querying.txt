@@ -142,5 +142,20 @@ docker compose -f docker-compose.production.yaml cp backend/seed/data.json db:/t
 
 # Step 2: run an UPDATE that reads the file from inside the container
 docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "UPDATE questionnaire SET phases_json = (SELECT pg_read_file('/tmp/data.json')::json->'phases') WHERE id = 1;"
-
+options: list[str] | None = pyd.Field(default=None)
+    depends_on: str | None = pyd.Field(
+        default=None,
+        validation_alias="dependsOn",
+        serialization_alias="dependsOn",
+    )
+    options_by_parent: dict[str, list[str]] | None = pyd.Field(
+        default=None,
+        validation_alias="optionsByParent",
+        serialization_alias="optionsByParent",
+    )
+    justification_required: bool = pyd.Field(
+        default=False,
+        validation_alias="justificationRequired",
+        serialization_alias="justificationRequired",
+    )
 docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT id, version, active, jsonb_array_length((phases_json::jsonb)->0->'questions') AS question_count FROM questionnaire;"
