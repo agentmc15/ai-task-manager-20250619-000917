@@ -137,4 +137,10 @@ docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity
 
 docker compose -f docker-compose.production.yaml exec -T db psql -U root -d clarity -c "\copy (SELECT * FROM projects LIMIT 1) TO STDOUT WITH CSV HEADER" > projects_first_row.csv
 
+# Step 1: copy the new data.json into the db container
+docker compose -f docker-compose.production.yaml cp backend/seed/data.json db:/tmp/data.json
 
+# Step 2: run an UPDATE that reads the file from inside the container
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "UPDATE questionnaire SET phases_json = (SELECT pg_read_file('/tmp/data.json')::json->'phases') WHERE id = 1;"
+
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT id, version, active, jsonb_array_length((phases_json::jsonb)->0->'questions') AS question_count FROM questionnaire;"
