@@ -159,3 +159,19 @@ options: list[str] | None = pyd.Field(default=None)
         serialization_alias="justificationRequired",
     )
 docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT id, version, active, jsonb_array_length((phases_json::jsonb)->0->'questions') AS question_count FROM questionnaire;"
+
+# 1. Run the script to update data.json on disk
+cd backend
+python scripts/restructure_questionnaire.py
+
+# 2. Go back up one level
+cd ..
+
+# 3. Copy the updated data.json into the db container
+docker compose -f docker-compose.production.yaml cp backend/seed/data.json db:/tmp/data.json
+
+# 4. UPDATE the questionnaire row from the file
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "UPDATE questionnaire SET phases_json = (SELECT pg_read_file('/tmp/data.json')::json->'phases') WHERE id = 1;"
+
+# 5. Verify it landed - should still say question_count = 13
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT id, version, active, jsonb_array_length((phases_json::jsonb)->0->'questions') AS question_count FROM questionnaire;"
