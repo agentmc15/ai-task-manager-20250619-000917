@@ -1,0 +1,254 @@
+EDIT 1 — Add the cascade template block
+Find this:
+html        </div>
+
+        <!-- Choose Many -->
+        <div v-if="currentQuestion.type === 'choose-many'" class="space-y-2">
+Replace with:
+html        </div>
+
+        <!-- Choose One Cascade (options depend on another question's answer) -->
+        <div v-if="currentQuestion.type === 'choose-one-cascade'" class="space-y-2">
+          <div
+            v-if="cascadeOptions.length === 0"
+            class="p-3 rounded-md border border-amber-300 bg-amber-50 text-sm text-amber-900"
+          >
+            Please answer "{{ parentQuestionTitle }}" first to see the available options.
+          </div>
+          <label
+            v-for="opt in cascadeOptions"
+            :key="opt"
+            class="flex items-center gap-3 p-3 rounded-md border border-gray-200 hover:border-gray-300 cursor-pointer transition-colors"
+            :class="currentAnswer === opt ? 'border-red-800 bg-red-50' : ''"
+          >
+            <input
+              type="radio"
+              :value="opt"
+              v-model="currentAnswer"
+              class="h-4 w-4 text-red-800 focus:ring-red-800 border-gray-300"
+            />
+            <span class="text-sm text-gray-700">{{ opt }}</span>
+          </label>
+        </div>
+
+        <!-- Choose Many -->
+        <div v-if="currentQuestion.type === 'choose-many'" class="space-y-2">
+
+EDIT 2 — Add the cascade computeds
+Find this:
+tsconst currentQuestion = computed(() => questions.value[currentIndex.value])
+Replace with:
+tsconst currentQuestion = computed(() => questions.value[currentIndex.value])
+
+// Cascade support: compute the valid options for a choose-one-cascade question
+// based on the current answer to its dependsOn parent question.
+const cascadeOptions = computed<string[]>(() => {
+  const q = currentQuestion.value
+  if (!q || q.type !== 'choose-one-cascade') return []
+  const parentId = q.dependsOn || q.depends_on
+  if (!parentId) return []
+  const parentAnswer = responses[parentId]
+  if (!parentAnswer || typeof parentAnswer !== 'string') return []
+  const byParent = q.optionsByParent || q.options_by_parent || {}
+  return byParent[parentAnswer] || []
+})
+
+// Cascade support: the title of the parent question for the "please answer first" hint
+const parentQuestionTitle = computed<string>(() => {
+  const q = currentQuestion.value
+  if (!q) return ''
+  const parentId = q.dependsOn || q.depends_on
+  if (!parentId) return ''
+  const parent = questions.value.find((x: any) => x.id === parentId)
+  return parent?.title || parentId
+})
+
+EDIT 3 — Update saveCurrentAnswer() to clear cascade dependents on parent change
+Find this:
+tsfunction saveCurrentAnswer() {
+  if (!currentQuestion.value) return
+  const qId = currentQuestion.value.id
+  const qType = currentQuestion.value.type
+
+  // Store locally
+  if (qType === 'choose-many') {
+    if (currentAnswerMulti.value.length > 0) {
+      responses[qId] = [...currentAnswerMulti.value]
+    }
+  } else if (qType === 'key-value-table') {
+    if (currentKVAnswer.value.length > 0) {
+      responses[qId] = { rows: currentKVAnswer.value }
+    }
+  } else {
+    if (currentAnswer.value) {
+      responses[qId] = currentAnswer.value
+    }
+  }
+
+  // Determine the answer payload
+  let answer: any
+  if (qType === 'choose-many') {
+    answer = currentAnswerMulti.value
+  } else if (qType === 'key-value-table') {
+    answer = { rows: currentKVAnswer.value }
+  } else {
+    answer = currentAnswer.value
+  }
+
+  // Check if there's something to save
+  const hasAnswer = qType === 'key-value-table'
+    ? currentKVAnswer.value.length > 0
+    : qType === 'choose-many'
+      ? currentAnswerMulti.value.length > 0
+      : answer && answer.trim()
+
+  if (hasAnswer) {
+    saveAnswer({
+      project_id: projectId,
+      question_id: qId,
+      answer: answer,
+    }).catch(e => console.error('Failed to save answer:', e))
+  }
+}
+Replace with:
+tsfunction saveCurrentAnswer() {
+  if (!currentQuestion.value) return
+  const qId = currentQuestion.value.id
+  const qType = currentQuestion.value.type
+
+  // Capture previous value BEFORE the store-locally block overwrites it.
+  // Used to detect parent-answer changes for cascade clearing below.
+  const prevValue = responses[qId]
+
+  // Store locally
+  if (qType === 'choose-many') {
+    if (currentAnswerMulti.value.length > 0) {
+      responses[qId] = [...currentAnswerMulti.value]
+    }
+  } else if (qType === 'key-value-table') {
+    if (currentKVAnswer.value.length > 0) {
+      responses[qId] = { rows: currentKVAnswer.value }
+    }
+  } else {
+    if (currentAnswer.value) {
+      responses[qId] = currentAnswer.value
+    }
+  }
+
+  // Determine the answer payload
+  let answer: any
+  if (qType === 'choose-many') {
+    answer = currentAnswerMulti.value
+  } else if (qType === 'key-value-table') {
+    answer = { rows: currentKVAnswer.value }
+  } else {
+    answer = currentAnswer.value
+  }
+
+  // Check if there's something to save
+  const hasAnswer = qType === 'key-value-table'
+    ? currentKVAnswer.value.length > 0
+    : qType === 'choose-many'
+      ? currentAnswerMulti.value.length > 0
+      : answer && answer.trim()
+
+  if (hasAnswer) {
+    saveAnswer({
+      project_id: projectId,
+      question_id: qId,
+      answer: answer,
+    }).catch(e => console.error('Failed to save answer:', e))
+  }
+
+  // Cascade clearing: if this question is the parent of any choose-one-cascade
+  // question, and its value changed, clear any dependent whose stored answer
+  // is no longer valid under the new parent value. Clearing sends '' to the
+  // backend (which the save endpoint accepts as a valid str), and removes the
+  // in-memory entry so the sidebar shows the dependent as unanswered.
+  if (hasAnswer && prevValue !== answer) {
+    for (const other of questions.value) {
+      if (other.type !== 'choose-one-cascade') continue
+      const otherParentId = other.dependsOn || other.depends_on
+      if (otherParentId !== qId) continue
+      const storedDependent = responses[other.id]
+      if (!storedDependent || typeof storedDependent !== 'string') continue
+      const byParent = other.optionsByParent || other.options_by_parent || {}
+      const newValidOpts = byParent[answer] || []
+      if (!newValidOpts.includes(storedDependent)) {
+        // Stored dependent is stale under the new parent value - clear it.
+        delete responses[other.id]
+        saveAnswer({
+          project_id: projectId,
+          question_id: other.id,
+          answer: '',
+        }).catch(e => console.error('Failed to clear dependent cascade answer:', e))
+      }
+    }
+  }
+}
+
+EDIT 4 — Update loadAnswerForQuestion() to defensively clear stale cascade answers
+Find this:
+tsfunction loadAnswerForQuestion(idx: number) {
+  const q = questions.value[idx]
+  if (!q) return
+
+  const saved = responses[q.id]
+  if (q.type === 'choose-many') {
+    currentAnswerMulti.value = Array.isArray(saved) ? [...saved] : []
+    currentAnswer.value = ''
+    currentKVAnswer.value = []
+  } else if (q.type === 'key-value-table') {
+    currentKVAnswer.value = saved?.rows || []
+    currentAnswer.value = ''
+    currentAnswerMulti.value = []
+  } else {
+    currentAnswer.value = saved || ''
+    currentAnswerMulti.value = []
+    currentKVAnswer.value = []
+  }
+}
+Replace with:
+tsfunction loadAnswerForQuestion(idx: number) {
+  const q = questions.value[idx]
+  if (!q) return
+
+  // Cascade defense: if this is a cascade question and the stored answer is
+  // not valid under the current parent answer, clear it. This handles edge
+  // cases where the save-time clearing in saveCurrentAnswer was missed
+  // (e.g., manual DB edits, responses loaded from stale backend data).
+  if (q.type === 'choose-one-cascade') {
+    const parentId = q.dependsOn || q.depends_on
+    if (parentId) {
+      const parentAnswer = responses[parentId]
+      const byParent = q.optionsByParent || q.options_by_parent || {}
+      const validOpts = (parentAnswer && typeof parentAnswer === 'string')
+        ? (byParent[parentAnswer] || [])
+        : []
+      const stored = responses[q.id]
+      if (stored && typeof stored === 'string' && !validOpts.includes(stored)) {
+        delete responses[q.id]
+        saveAnswer({
+          project_id: projectId,
+          question_id: q.id,
+          answer: '',
+        }).catch(e => console.error('Failed to clear stale cascade answer:', e))
+      }
+    }
+  }
+
+  const saved = responses[q.id]
+  if (q.type === 'choose-many') {
+    currentAnswerMulti.value = Array.isArray(saved) ? [...saved] : []
+    currentAnswer.value = ''
+    currentKVAnswer.value = []
+  } else if (q.type === 'key-value-table') {
+    currentKVAnswer.value = saved?.rows || []
+    currentAnswer.value = ''
+    currentAnswerMulti.value = []
+  } else {
+    currentAnswer.value = saved || ''
+    currentAnswerMulti.value = []
+    currentKVAnswer.value = []
+  }
+}
