@@ -181,3 +181,6 @@ python scripts/restructure_questionnaire.py
 cd ..
 docker compose -f docker-compose.production.yaml cp backend/seed/data.json db:/tmp/data.json
 docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "UPDATE questionnaire SET phases_json = (SELECT pg_read_file('/tmp/data.json')::json->'phases') WHERE id = 1;"
+
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -t -A -c "SELECT jsonb_pretty(responses_json::jsonb) FROM project WHERE id = '93fc3ea5-bfe6-4366-8145-ea02604a8f6d';" > hardware_check.json
+code hardware_check.json
