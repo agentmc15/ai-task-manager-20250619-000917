@@ -257,3 +257,23 @@ tsfunction loadAnswerForQuestion(idx: number) {
 docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT title, jsonb_pretty(responses_json::jsonb) FROM project WHERE id = '9e393902-e6c1-4403-9dc0-a45ecd62a076';"
 
 curl http://localhost:4000/project/9e393902-e6c1-4403-9dc0-a45ecd62a076/archer-payload
+
+cd projects\clarity-rewrite
+
+# 1. Get the latest feat/render from origin (safe even if he already pulled)
+git fetch origin
+git checkout feat/render
+git pull origin feat/render
+
+# 2. Rebuild the backend and frontend images with the new code
+docker compose -f docker-compose.production.yaml up -d --build clarity-api clarity-frontend
+
+# 3. Wait ~30 seconds for clarity-api to finish starting
+# (watch logs if he wants: docker compose -f docker-compose.production.yaml logs -f clarity-api)
+
+# 4. Push the new data.json into the running Postgres, overwriting the questionnaire
+docker compose -f docker-compose.production.yaml cp backend/seed/data.json db:/tmp/data.json
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "UPDATE questionnaire SET phases_json = (SELECT pg_read_file('/tmp/data.json')::json->'phases') WHERE id = 1;"
+
+# 5. Verify the questionnaire has 13 questions now
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT jsonb_array_length((phases_json::jsonb)->0->'questions') FROM questionnaire;"
