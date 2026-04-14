@@ -252,3 +252,8 @@ tsfunction loadAnswerForQuestion(idx: number) {
     currentKVAnswer.value = []
   }
 }
+
+
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT title, jsonb_pretty(responses_json::jsonb) FROM project WHERE id = '9e393902-e6c1-4403-9dc0-a45ecd62a076';"
+
+curl http://localhost:4000/project/9e393902-e6c1-4403-9dc0-a45ecd62a076/archer-payload
