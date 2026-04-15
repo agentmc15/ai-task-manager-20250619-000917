@@ -276,3 +276,5 @@ docker cp backend/seed/data.json clarity-api:/app/src/clarity/seed/data.json
 docker compose -f docker-compose.production.yaml restart clarity-api
 
 docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT id, jsonb_typeof(phases) FROM questionnaire;"
+
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT phases_json::jsonb #> '{0,questions,12,columns,4}' FROM questionnaire WHERE id = 1;"
