@@ -1,0 +1,183 @@
+Now I can see the exact pattern. Let me trace what's already there:
+
+- `init_sql_tables(eng)` at line 76 — main entry point, creates tables and runs column migrations
+- It calls `_ensure_owner_email(eng)` at line 95 (the existing pattern for the `owner_email` column on the project table)
+- It calls `_ensure_archer_columns(eng)` at line 98 (the existing pattern for the `archer_submitted_at` and `archer_content_id` columns on the project table)
+- `_ensure_owner_email(eng)` at line 98 — example of the migration pattern: connects, checks `information_schema.columns`, runs `ALTER TABLE` if missing, commits, logs
+- `_ensure_archer_columns(eng)` at line 117 — same pattern but for two columns
+
+This is the perfect template. I'll add a new `_ensure_status_columns(eng)` function in the same style and wire it into `init_sql_tables`.
+
+Here's the precise edit.
+
+---
+
+## Edit 1 (revised) — `db/manager.py`
+
+### Step 1a — Add the new function
+
+Find this block (lines 134–145, the end of `_ensure_archer_columns`):
+
+```python
+        if not result.fetchone():
+            log.info("Adding archer_content_id column to project table...")
+            conn.execute(text(
+                "ALTER TABLE project ADD COLUMN archer_content_id VARCHAR(50)"
+            ))
+            conn.commit()
+            log.info("archer_content_id column added")
+
+
+# ---------------------------------------------------------
+# Seed data
+# ---------------------------------------------------------
+```
+
+Replace with (keeps existing function intact, inserts new function after it, before the Seed data section):
+
+```python
+        if not result.fetchone():
+            log.info("Adding archer_content_id column to project table...")
+            conn.execute(text(
+                "ALTER TABLE project ADD COLUMN archer_content_id VARCHAR(50)"
+            ))
+            conn.commit()
+            log.info("archer_content_id column added")
+
+
+def _ensure_status_columns(eng):
+    """Add status and submitted_at columns to project table if they don't exist.
+    These power the submission lifecycle (draft -> submitted -> exported)
+    consumed by downstream enrichment / Archer publisher services.
+    """
+    with eng.connect() as conn:
+        # status
+        result = conn.execute(text("""
+            SELECT column_name FROM information_schema.columns
+            WHERE table_name = 'project' AND column_name = 'status'
+        """))
+        if not result.fetchone():
+            log.info("Adding status column to project table...")
+            conn.execute(text(
+                "ALTER TABLE project ADD COLUMN status VARCHAR(20) NOT NULL DEFAULT 'draft'"
+            ))
+            conn.commit()
+            log.info("status column added (default 'draft' for existing rows)")
+
+        # submitted_at
+        result = conn.execute(text("""
+            SELECT column_name FROM information_schema.columns
+            WHERE table_name = 'project' AND column_name = 'submitted_at'
+        """))
+        if not result.fetchone():
+            log.info("Adding submitted_at column to project table...")
+            conn.execute(text(
+                "ALTER TABLE project ADD COLUMN submitted_at TIMESTAMP NULL"
+            ))
+            conn.commit()
+            log.info("submitted_at column added")
+
+        # index on status for the /ready-for-export query path
+        result = conn.execute(text("""
+            SELECT indexname FROM pg_indexes
+            WHERE tablename = 'project' AND indexname = 'idx_project_status'
+        """))
+        if not result.fetchone():
+            log.info("Creating idx_project_status index...")
+            conn.execute(text(
+                "CREATE INDEX idx_project_status ON project (status)"
+            ))
+            conn.commit()
+            log.info("idx_project_status index created")
+
+
+# ---------------------------------------------------------
+# Seed data
+# ---------------------------------------------------------
+```
+
+### Step 1b — Wire it into `init_sql_tables`
+
+Find this in `init_sql_tables` (around lines 92–98):
+
+```python
+    # Ensure owner_email column exists on project table
+    _ensure_owner_email(eng)
+
+    # Ensure archer tracking columns exist on project table
+    _ensure_archer_columns(eng)
+```
+
+Replace with:
+
+```python
+    # Ensure owner_email column exists on project table
+    _ensure_owner_email(eng)
+
+    # Ensure archer tracking columns exist on project table
+    _ensure_archer_columns(eng)
+
+    # Ensure submission lifecycle columns exist on project table
+    _ensure_status_columns(eng)
+```
+
+(One new line, mirrors the existing pattern exactly.)
+
+---
+
+## What this does
+
+- **Idempotent** — uses the same `information_schema.columns` check pattern that `_ensure_owner_email` and `_ensure_archer_columns` use. Restarting the backend after the migration runs is safe; it sees the columns already exist and skips.
+- **Index check uses `pg_indexes`** instead of `information_schema.columns` because indexes aren't columns — that's the correct Postgres pattern.
+- **Default value `'draft'`** on the `status` column means every existing project gets `status='draft'` automatically when the migration runs. No data loss, no manual UPDATE needed.
+- **Logs at every step** so when the backend starts up after the migration, you'll see clear log lines like `Adding status column to project table...` and `status column added (default 'draft' for existing rows)`. After the first successful run, subsequent restarts log nothing for this function (since all the checks return existing rows).
+
+---
+
+## How to apply and verify
+
+1. Open `backend/src/clarity/db/manager.py` and apply both edits (the new function + the one new line in `init_sql_tables`).
+
+2. Save the file. Check the PROBLEMS panel in VS Code shows 0 errors before continuing.
+
+3. Restart the backend so the migration runs on startup:
+
+```powershell
+docker compose -f docker-compose.production.yaml restart clarity-api
+```
+
+4. Watch the backend logs — you should see the migration lines:
+
+```powershell
+docker compose -f docker-compose.production.yaml logs clarity-api --tail 50 | Select-String -Pattern "status|submitted_at|idx_project_status"
+```
+
+You should see something like:
+```
+Adding status column to project table...
+status column added (default 'draft' for existing rows)
+Adding submitted_at column to project table...
+submitted_at column added
+Creating idx_project_status index...
+idx_project_status index created
+```
+
+5. Verify the columns exist in the database:
+
+```powershell
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "\d project"
+```
+
+You should see `status` and `submitted_at` in the column list, plus `idx_project_status` in the index list at the bottom.
+
+6. Verify all existing projects defaulted to `draft`:
+
+```powershell
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT status, COUNT(*) FROM project GROUP BY status;"
+```
+
+You should see one row: `draft | <total project count>`.
+
+If all five steps look right, the schema migration is done and you can move on to **Edit 2** (`models/questionnaire.py`) and **Edit 3** (`routes/project_routes.py`).
+
+If any step fails — column not added, index missing, backend errors on startup — send me the error and I'll fix it.
