@@ -1,0 +1,37 @@
+[
+  {"project_id": "...", "title": "...", "responses_json": [...]},
+  {"project_id": "...", "title": "...", "responses_json": [...]}
+]
+
+# 1. Rebuild the backend so the new schema migration runs and the new routes load
+docker compose -f docker-compose.production.yaml up -d --build clarity-api
+
+# 2. Wait ~30 seconds, then verify the new columns exist
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "\d project" | Select-String -Pattern "status|submitted_at"
+
+# 3. Verify the endpoints respond
+curl http://localhost:4000/project/ready-for-export
+# Should return: []  (empty array, no submitted projects yet)
+
+# 4. Rebuild the frontend
+docker compose -f docker-compose.production.yaml up -d --build clarity-frontend
+
+# 5. In the browser, fill out a questionnaire and click Submit for Review
+
+# 6. Verify it shows up in ready-for-export
+curl http://localhost:4000/project/ready-for-export
+# Should return an array with one project containing your test data
+
+# 7. Verify the project is locked (try to save a new answer, should get 409)
+
+# 8. Mark it exported
+curl -X POST http://localhost:4000/project/<project_id>/mark-exported
+
+# 9. Verify it's gone from the queue
+curl http://localhost:4000/project/ready-for-export
+# Should return: [] again
+
+db/manager.py — Add the three SQL statements. If you can screenshot the file I'll tell you the exact insertion point.
+models/questionnaire.py — Add two fields to the Project class.
+routes/project_routes.py — Three edits: new imports, lock-on-submit guard on existing upsert_answer, three new route handlers at the bottom.
+[projectId].vue — One edit: add the /submit call at the top of submitForReview().
