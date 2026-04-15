@@ -183,3 +183,22 @@ curl.exe -s http://localhost:4000/openapi.json | ConvertFrom-Json | Select-Objec
 docker compose -f docker-compose.production.yaml logs clarity-api --tail 100 | Select-String -Pattern "ready-for-export|403|Bearer|auth"
 
 docker compose -f docker-compose.production.yaml exec clarity-api sh -c "find / -name 'auth.py' -path '*/clarity/*' 2>/dev/null"
+
+async function submitForReview() {
+  // Save the current answer first
+  saveCurrentAnswer()
+
+  // Flip the project to 'submitted' status on the backend.
+  // This locks the project from further edits and makes it visible
+  // to the downstream enrichment/intermediary service.
+  try {
+    await apiFetch<any>(`/project/${projectId}/submit`, { method: 'POST' })
+  } catch (e: any) {
+    console.error('Failed to submit project:', e)
+    submitError.value = `Failed to submit for review: ${e?.message || 'Unknown error'}`
+    submitting.value = true
+    return
+  }
+
+  // Initialize the progress modal
+  submitting.value = true
