@@ -179,3 +179,5 @@ Apply the workaround, rebuild, and verify with curl. Let me know what you see.
 curl.exe -s http://localhost:4000/openapi.json | ConvertFrom-Json | Select-Object -ExpandProperty paths | Get-Member -MemberType NoteProperty | Where-Object { $_.Name -like "*ready-for-export*" -or $_.Name -like "*mark-exported*" }
 
 curl.exe -s http://localhost:4000/openapi.json | ConvertFrom-Json | Select-Object -ExpandProperty paths | Select-Object -ExpandProperty "/project/ready-for-export" | ConvertTo-Json -Depth 10
+
+docker compose -f docker-compose.production.yaml logs clarity-api --tail 100 | Select-String -Pattern "ready-for-export|403|Bearer|auth"
