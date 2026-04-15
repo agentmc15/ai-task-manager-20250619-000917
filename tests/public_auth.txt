@@ -334,3 +334,78 @@ docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity
 ```
 
 Then hard-refresh browser.
+
+Got it. Two changes needed: `type` from `"choose-one"` → `"choose-many"`, and replace the 3 placeholder options with the 6 real ones.
+
+## Edit 1 — `data.json` Find & Replace
+
+**FIND:**
+```
+      "id": "hosting_environment",
+      "title": "Hosting Environment",
+      "text": "Select the hosting environment for the system.",
+      "description": null,
+      "type": "choose-one",
+      "subphase": "Information System Details",
+      "options": [
+        "aws",
+        "Linux",
+        "other"
+      ],
+```
+
+**REPLACE WITH:**
+```
+      "id": "hosting_environment",
+      "title": "Hosting Environment",
+      "text": "Select the hosting environment for the system.",
+      "description": null,
+      "type": "choose-many",
+      "subphase": "Information System Details",
+      "options": [
+        "PDC1",
+        "PDC2",
+        "Newington",
+        "Commercial Cloud",
+        "Gov Cloud",
+        "Other"
+      ],
+```
+
+Save the file.
+
+## Edit 2 — Patch the live DB row
+
+Same pattern as last time. Two `jsonb_set` calls — one for type, one for options. Run from PowerShell:
+
+```powershell
+@'
+UPDATE questionnaire SET phases_json = jsonb_set(
+  jsonb_set(
+    phases_json::jsonb,
+    '{0,questions,11,type}',
+    '"choose-many"'::jsonb
+  ),
+  '{0,questions,11,options}',
+  '["PDC1","PDC2","Newington","Commercial Cloud","Gov Cloud","Other"]'::jsonb
+)::json WHERE id = 1;
+'@ | Out-File -Encoding ascii update_hosting_env.sql
+```
+
+```powershell
+docker cp update_hosting_env.sql clarity-db:/tmp/update_hosting_env.sql
+```
+
+```powershell
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -f /tmp/update_hosting_env.sql
+```
+
+⚠️ **One assumption I'm making:** Q12 hosting_environment is at `questions[11]` (12th question, 0-indexed). Looks right from the data.json screenshot earlier (13 questions, hosting_environment is Q12). But to be safe, **verify before running the UPDATE**:
+
+```powershell
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT phases_json::jsonb #> '{0,questions,11,id}' FROM questionnaire WHERE id = 1;"
+```
+
+Should return `"hosting_environment"`. If it returns something else, tell me what and I'll adjust the index.
+
+Then hard-refresh and check Q12 — should now be a multi-select with the 6 options.
