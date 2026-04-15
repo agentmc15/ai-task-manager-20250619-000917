@@ -204,3 +204,42 @@ async function submitForReview() {
   submitting.value = true
 
 docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT id, title, status, submitted_at, responses_json FROM project WHERE status = 'submitted' ORDER BY submitted_at DESC;"
+
+
+Confirmed. Line 279:
+
+```python
+user: CurrentUser = Depends(get_current_user),
+```
+
+Missing `()`. Fix:
+
+## Find & Replace in `project_routes.py`
+
+**FIND:**
+```
+    user: CurrentUser = Depends(get_current_user),
+    session: Session = Depends(get_session),
+):
+    """
+    Transition a project from 'draft' to 'submitted'.
+```
+
+**REPLACE WITH:**
+```
+    user: CurrentUser = Depends(get_current_user()),
+    session: Session = Depends(get_session),
+):
+    """
+    Transition a project from 'draft' to 'submitted'.
+```
+
+(Just adding `()` to `get_current_user` on line 279. The surrounding lines are included to make the find string unique.)
+
+Save, rebuild, retest:
+
+```powershell
+docker compose -f docker-compose.production.yaml up -d --build clarity-api
+```
+
+Then submit a new project via UI and re-query the DB.
