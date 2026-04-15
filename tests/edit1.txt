@@ -180,4 +180,9 @@ You should see one row: `draft | <total project count>`.
 
 If all five steps look right, the schema migration is done and you can move on to **Edit 2** (`models/questionnaire.py`) and **Edit 3** (`routes/project_routes.py`).
 
+
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "\d project"
+
+docker compose -f docker-compose.production.yaml up -d --build clarity-api
+
 If any step fails — column not added, index missing, backend errors on startup — send me the error and I'll fix it.
