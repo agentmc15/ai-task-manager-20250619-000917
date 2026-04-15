@@ -1,0 +1,177 @@
+OK now I have the smoking gun. Look at the curl output:
+
+```
+VERBOSE: GET with 0-byte payload
+curl : {"detail":"Not authenticated"}
+```
+
+PowerShell's `curl` (which is actually `Invoke-WebRequest`, not real curl) doesn't show HTTP status codes the way real curl does — but the response body `{"detail":"Not authenticated"}` is the FastAPI HTTPBearer auto-error message, and the fact that we're getting it on every request (regardless of `-v`) tells me the dependency IS running on every request to your app.
+
+I think I now know what's happening, but I need to verify one thing.
+
+---
+
+## My new hypothesis
+
+Look back at image 1 of `auth.py` line 92:
+
+```python
+_bearer_scheme = HTTPBearer(auto_error=True)
+```
+
+And then line 100–104 — `_get_keycloak_user` declares `credentials: HTTPAuthorizationCredentials = Depends(_bearer_scheme)`.
+
+`HTTPBearer(auto_error=True)` is a FastAPI security scheme. **When a route depends on it (directly or indirectly), and no Bearer token is present, FastAPI auto-rejects with 403 "Not authenticated" before the handler runs.**
+
+So somewhere, our `/ready-for-export` endpoint must be transitively depending on either `_bearer_scheme` or `_get_keycloak_user`. The question is where.
+
+Three places it could be entering:
+1. The router declaration in `project_routes.py` has `dependencies=[Depends(...)]` — but earlier screenshots showed it doesn't
+2. Something in `get_session` is pulling auth in — but we saw it doesn't
+3. **The router is included in `api.py` with a global dependency** — possible but I didn't see this in the api.py screenshot
+4. **There's something else in `core/auth.py` past what I've seen** — possible, image 2 ends at line 177 but the file might continue
+
+---
+
+## Two checks to nail this down
+
+**Check 1 — Try a route that we KNOW has no auth declared.**
+
+The auth router's health check at `/auth/` from image 2 of the auth.py screenshot has no Depends. Try:
+
+```powershell
+curl http://localhost:4000/auth/
+```
+
+- If you get `{"status":"ok"}` → auth is per-route and only our specific endpoint is somehow getting it. Have to look more carefully at project_routes.py.
+- If you get `{"detail":"Not authenticated"}` → auth is somehow being applied app-wide or to all routes that include `get_session`.
+
+**Check 2 — Look at the whole file for `core/auth.py`.**
+
+Scroll past line 177 in `core/auth.py` and screenshot anything below it. There might be additional functions or a global dependency wired up that I didn't see.
+
+Also worth checking: look in `api.py` for any line that says `dependencies=` — particularly on `app.include_router(project_router, dependencies=...)`. The screenshot I have of api.py (image 1 from earlier) showed `app.include_router(project_router)` cleanly, but it's worth a second look in case I missed something.
+
+---
+
+## A faster path forward — just bypass it
+
+Honestly, we've been investigating for a while. Let's just use the workaround I described two messages ago and ship it. This is the cleanest fix regardless of what's causing the auth check.
+
+**Open `routes/project_routes.py` and:**
+
+### Step 1 — Add a second router at the top
+
+Find this line near the top of the file (around line 22):
+
+```python
+project_router = APIRouter(prefix="/project", tags=["Projects"])
+```
+
+**Add this line right below it:**
+
+```python
+project_router = APIRouter(prefix="/project", tags=["Projects"])
+public_project_router = APIRouter(prefix="/project", tags=["Projects (Public)"])
+```
+
+### Step 2 — Move the two service-facing endpoints to the public router
+
+Find your `list_submitted_projects` function (around line 333) and change its decorator:
+
+**Find:**
+```python
+@project_router.get("/ready-for-export")
+async def list_submitted_projects(
+```
+
+**Replace with:**
+```python
+@public_project_router.get("/ready-for-export")
+async def list_submitted_projects(
+```
+
+Then find `mark_project_exported` (around line 365) and change its decorator:
+
+**Find:**
+```python
+@project_router.post("/{project_id}/mark-exported")
+async def mark_project_exported(
+```
+
+**Replace with:**
+```python
+@public_project_router.post("/{project_id}/mark-exported")
+async def mark_project_exported(
+```
+
+**Leave `submit_project` on `@project_router`** — that endpoint is user-facing and should stay authenticated (the user's Keycloak session is what authorizes the submission).
+
+### Step 3 — Wire the public router into the app
+
+Open `backend/src/clarity/api.py`. Find this block (around lines 8–17):
+
+```python
+from .routes.auth import auth_router
+from .routes.questionnaire_routes import questionnaire_router
+from .routes.completion_routes import completion_router
+from .routes.project_routes import project_router
+from .routes.review_routes import review_router
+from .routes.archer_routes import archer_router
+from .routes.archer_export_routes import router as archer_export_router
+from .routes.ai_routes import router as ai_router
+from .routes.archer_submit_routes import router as archer_submit_router
+```
+
+**Change the project_routes import to also pull in the public router:**
+
+```python
+from .routes.project_routes import project_router, public_project_router
+```
+
+Then find the `include_router` block (around lines 54–62):
+
+```python
+api.include_router(auth_router)
+api.include_router(questionnaire_router)
+api.include_router(completion_router)
+api.include_router(project_router)
+api.include_router(review_router)
+api.include_router(ai_router)
+api.include_router(archer_router)
+api.include_router(archer_export_router)
+api.include_router(archer_submit_router)
+```
+
+**Add a line for the public router right after `project_router`:**
+
+```python
+api.include_router(project_router)
+api.include_router(public_project_router)
+```
+
+### Step 4 — Rebuild and test
+
+```powershell
+docker compose -f docker-compose.production.yaml up -d --build clarity-api
+```
+
+Wait 30 seconds, then:
+
+```powershell
+curl http://localhost:4000/project/ready-for-export
+```
+
+Should return `[]` without auth errors.
+
+---
+
+## Why this works regardless of what's causing the auth check
+
+If auth was being injected via `project_router`'s configuration, dependencies, or includes — moving the endpoints to a brand-new router that you never touched bypasses that completely. The new router is clean: no dependencies, no inherited config, nothing.
+
+If auth was being injected via something in `api.py` like global middleware, **this won't work** — the new router would still be subject to the same global enforcement. But based on the api.py screenshot, there's no such middleware (only CORS), so we're fine.
+
+The Swagger UI at `/docs` will now show two "Projects" sections — one for the authenticated routes, one tagged "Projects (Public)" for the two service endpoints. That's a feature, not a bug — Robert can see exactly which endpoints are open.
+
+Apply the workaround, rebuild, and verify with curl. Let me know what you see.
