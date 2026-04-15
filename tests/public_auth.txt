@@ -409,3 +409,43 @@ docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity
 Should return `"hosting_environment"`. If it returns something else, tell me what and I'll adjust the index.
 
 Then hard-refresh and check Q12 — should now be a multi-select with the 6 options.
+
+That's the `text` field on the question. Same pattern — update both `data.json` and the live DB row.
+
+## Edit 1 — `data.json`
+
+**FIND:**
+```
+      "text": "Select the hosting environment for the system.",
+```
+
+**REPLACE WITH:**
+```
+      "text": "Select all that apply.",
+```
+
+(That string only appears in the hosting_environment block, so it'll be unique.)
+
+Save.
+
+## Edit 2 — Patch the DB row
+
+```powershell
+@'
+UPDATE questionnaire SET phases_json = jsonb_set(
+  phases_json::jsonb,
+  '{0,questions,11,text}',
+  '"Select all that apply."'::jsonb
+)::json WHERE id = 1;
+'@ | Out-File -Encoding ascii update_q12_text.sql
+```
+
+```powershell
+docker cp update_q12_text.sql clarity-db:/tmp/update_q12_text.sql
+```
+
+```powershell
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -f /tmp/update_q12_text.sql
+```
+
+Should print `UPDATE 1`. Hard-refresh browser to see the new text.
