@@ -186,3 +186,5 @@ docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity
 code hardware_check.json
 
 git log --author="Cave, Michael G" --pretty=tformat: --numstat | awk '{added += $1; removed += $2} END {print "Added:", added, "Removed:", removed, "Net:", added-removed}'
+
+git log --author="C95063223" --pretty=tformat: --numstat | awk '{added += $1; removed += $2} END {print "Added:", added, "Removed:", removed, "Net:", added-removed}'
