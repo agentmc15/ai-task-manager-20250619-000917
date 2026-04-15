@@ -271,3 +271,6 @@ Then submit a new project via UI and re-query the DB.
           "Cloud WebServer",
           "Virtual Machine HyperVisor"
         ]
+
+docker cp backend/seed/data.json clarity-api:/app/src/clarity/seed/data.json
+docker compose -f docker-compose.production.yaml restart clarity-api
