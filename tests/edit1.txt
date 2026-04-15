@@ -186,3 +186,10 @@ docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity
 docker compose -f docker-compose.production.yaml up -d --build clarity-api
 
 If any step fails — column not added, index missing, backend errors on startup — send me the error and I'll fix it.
+
+# Option 1: pipe through cat-equivalent (avoids pager):
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -P pager=off -c "\d project"
+
+# Option 2: redirect to a file and open in VS Code:
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "\d project" > schema.txt
+code schema.txt
