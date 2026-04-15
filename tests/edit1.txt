@@ -195,3 +195,8 @@ docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity
 code schema.txt
 
 docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -P pager=off -c "SELECT status, COUNT(*) FROM project GROUP BY status;"
+
+status: str = sqlmodel.Field(default="draft", max_length=20, index=True)
+submitted_at: datetime | None = sqlmodel.Field(default=None)
+
+docker compose -f docker-compose.production.yaml restart clarity-api
