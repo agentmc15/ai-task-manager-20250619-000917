@@ -1,0 +1,276 @@
+I have everything I need. Reading the file:
+
+- **Imports** (lines 1–22): `fastapi`, `sqlmodel`, `sqlalchemy.orm`, `flag_modified`, auth deps, manager deps, model imports, schema imports. **No `datetime` import.**
+- **Router**: `project_router = APIRouter(prefix="/project", tags=["Projects"])` at line 22 — so all routes are mounted at `/project/...`
+- **Auth**: `user: CurrentUser = Depends(get_current_user)` is the pattern
+- **Session**: `session: Session = Depends(get_session)` is the pattern
+- **`upsert_answer`** function at lines 173–229 — I can see it ends around line 229
+- **Last function** in the file is `assign_attributes` ending at line 259
+
+Now I have everything. Three sub-edits.
+
+---
+
+## Edit 3a — Add datetime imports
+
+**Find** the imports block at the top of the file. Specifically the very first import line:
+
+```python
+from fastapi import APIRouter, Depends, HTTPException
+```
+
+**Replace with** (adds one line above):
+
+```python
+from datetime import datetime, timezone
+
+from fastapi import APIRouter, Depends, HTTPException
+```
+
+That's it for 3a. Just one line added at the top.
+
+---
+
+## Edit 3b — Add lock-on-submit guard to existing `upsert_answer`
+
+**Find** this block in `upsert_answer` (around lines 178–189):
+
+```python
+    """Save or update an answer for a question within a project."""
+    # Verify ownership
+    project = session.exec(
+        select(Project).where(
+            Project.id == body.project_id,
+            Project.owner_email == user.email,
+        )
+    ).first()
+
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+
+    # Upsert the response
+```
+
+**Replace with** (adds the lock check between the ownership 404 and the existing "Upsert the response" comment):
+
+```python
+    """Save or update an answer for a question within a project."""
+    # Verify ownership
+    project = session.exec(
+        select(Project).where(
+            Project.id == body.project_id,
+            Project.owner_email == user.email,
+        )
+    ).first()
+
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+
+    # Lock-on-submit: once the user has submitted, the project is read-only
+    # until an admin resets its status. Prevents stale data from flowing
+    # downstream after the user has committed their answers.
+    if project.status != "draft":
+        raise HTTPException(
+            status_code=409,
+            detail=f"Project is locked (status: {project.status}). Cannot modify answers after submission.",
+        )
+
+    # Upsert the response
+```
+
+That's it for 3b. The `# Upsert the response` line at the end is the next existing comment, so use it as the anchor for the find side and keep it on the replace side.
+
+---
+
+## Edit 3c — Add three new route handlers at end of file
+
+**Find** the very last function in the file. Image 3 line 259 shows it ending with:
+
+```python
+    return project
+```
+
+(This is the end of `assign_attributes`.)
+
+After that line — at the very end of the file — append this entire block:
+
+```python
+
+
+# ---------------------------------------------------------
+# SUBMISSION LIFECYCLE - user-facing and service-facing endpoints
+# ---------------------------------------------------------
+
+
+@project_router.post("/{project_id}/submit")
+async def submit_project(
+    project_id: str,
+    user: CurrentUser = Depends(get_current_user),
+    session: Session = Depends(get_session),
+):
+    """
+    Transition a project from 'draft' to 'submitted'.
+
+    Called by the frontend when the user clicks Submit for Review.
+    After this transition, the project is locked - no further answers
+    can be saved until an admin resets the status.
+    """
+    project = session.exec(
+        select(Project).where(
+            Project.id == project_id,
+            Project.owner_email == user.email,
+        )
+    ).first()
+
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+
+    if project.status == "submitted":
+        raise HTTPException(
+            status_code=409,
+            detail="Project has already been submitted.",
+        )
+
+    if project.status == "exported":
+        raise HTTPException(
+            status_code=409,
+            detail="Project has already been exported and cannot be re-submitted.",
+        )
+
+    if project.status != "draft":
+        raise HTTPException(
+            status_code=409,
+            detail=f"Project cannot be submitted from status '{project.status}'.",
+        )
+
+    project.status = "submitted"
+    project.submitted_at = datetime.now(timezone.utc)
+    session.add(project)
+    session.commit()
+    session.refresh(project)
+
+    return {
+        "project_id": str(project.id),
+        "status": project.status,
+        "submitted_at": project.submitted_at.isoformat() if project.submitted_at else None,
+    }
+
+
+@project_router.get("/ready-for-export")
+async def list_submitted_projects(
+    session: Session = Depends(get_session),
+):
+    """
+    Return all projects currently in 'submitted' status, ordered by
+    submitted_at ascending (oldest first).
+
+    Called by the downstream enrichment/intermediary service to pick up
+    work. No authentication required - this endpoint is intended for
+    internal service-to-service traffic on the corporate network.
+
+    Does NOT change any state. Projects stay in 'submitted' until the
+    consuming service calls /project/{id}/mark-exported.
+    """
+    projects = session.exec(
+        select(Project)
+        .where(Project.status == "submitted")
+        .order_by(Project.submitted_at)
+    ).all()
+
+    return [
+        {
+            "project_id": str(p.id),
+            "title": p.title,
+            "owner_email": p.owner_email,
+            "submitted_at": p.submitted_at.isoformat() if p.submitted_at else None,
+            "responses_json": p.responses_json or [],
+        }
+        for p in projects
+    ]
+
+
+@project_router.post("/{project_id}/mark-exported")
+async def mark_project_exported(
+    project_id: str,
+    session: Session = Depends(get_session),
+):
+    """
+    Transition a project from 'submitted' to 'exported'.
+
+    Called by the downstream enrichment/intermediary service after it
+    has successfully processed the project and pushed to Archer.
+    No authentication required.
+
+    Idempotent: calling this on an already-exported project returns 200 OK
+    without changing state. Calling it on a 'draft' project returns 409.
+    """
+    project = session.get(Project, project_id)
+    if not project:
+        raise HTTPException(status_code=404, detail="Project not found")
+
+    # Idempotent success for re-calls
+    if project.status == "exported":
+        return {
+            "project_id": str(project.id),
+            "status": "exported",
+        }
+
+    if project.status == "draft":
+        raise HTTPException(
+            status_code=409,
+            detail="Cannot mark a draft project as exported. Project must be submitted first.",
+        )
+
+    project.status = "exported"
+    session.add(project)
+    session.commit()
+    session.refresh(project)
+
+    return {
+        "project_id": str(project.id),
+        "status": project.status,
+    }
+```
+
+That's the entire block. Three new route handlers, ~110 lines including comments.
+
+---
+
+## Apply, save, rebuild, verify
+
+Once all three sub-edits are in:
+
+1. **Save the file.** Check PROBLEMS panel — if it goes from 2 to 5+ red errors, you have a syntax issue and we need to fix it before rebuilding. Pylance import warnings don't count.
+
+2. **Rebuild and restart:**
+
+```powershell
+docker compose -f docker-compose.production.yaml up -d --build clarity-api
+```
+
+3. **Verify the endpoints exist** (don't try to use them yet, just check FastAPI sees them):
+
+```powershell
+curl http://localhost:4000/openapi.json -o openapi.json
+code openapi.json
+```
+
+Format with Shift+Alt+F and search for `ready-for-export`, `submit`, and `mark-exported`. All three should appear as paths.
+
+4. **Try the endpoint:**
+
+```powershell
+curl http://localhost:4000/project/ready-for-export
+```
+
+Should return `[]` (empty array). Not 404. Not 500. Empty array because no projects are in `submitted` status yet.
+
+If you get `[]`, all three endpoints are wired up and **Edit 3 is done.**
+
+If you get an error or unexpected response, send me the output and the relevant backend logs:
+
+```powershell
+docker compose -f docker-compose.production.yaml logs clarity-api --tail 100
+```
+
+Once Edit 3 verifies, only Edit 4 remains — the frontend `[projectId].vue` change to call `/submit` before the existing Archer dry-run.
