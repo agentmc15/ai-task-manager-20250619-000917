@@ -278,3 +278,27 @@ docker compose -f docker-compose.production.yaml restart clarity-api
 docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT id, jsonb_typeof(phases) FROM questionnaire;"
 
 docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT phases_json::jsonb #> '{0,questions,12,columns,4}' FROM questionnaire WHERE id = 1;"
+
+Path verified. The output shows:
+
+```json
+{"name": "Type", "dtype": "select", "col_id": "hardware_type", "options": ["Windows Server", "Linux", "Mac"], "required": true, "schema_key": "hardware_type"}
+```
+
+Exactly the right column. Now run the UPDATE:
+
+```powershell
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "UPDATE questionnaire SET phases_json = jsonb_set(phases_json::jsonb, '{0,questions,12,columns,4,options}', '[\"IP Firewall\",\"IoT Device\",\"IP Phone\",\"KVM\",\"Load Balancer\",\"Printer\",\"Router\",\"Linux Server\",\"Unix Server\",\"Windows Server\",\"Switch\",\"Personal Computer\",\"OT Device\",\"Cloud DataBase\",\"Cloud File Share\",\"Cloud Gateway\",\"Cloud Host\",\"Cloud Load Balancer\",\"Cloud WebServer\",\"Virtual Machine HyperVisor\"]'::jsonb)::json WHERE id = 1;"
+```
+
+Should return `UPDATE 1`.
+
+Then verify:
+
+```powershell
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT phases_json::jsonb #> '{0,questions,12,columns,4,options}' FROM questionnaire WHERE id = 1;"
+```
+
+Should show all 20 options.
+
+Then hard-refresh the browser and check Q13's TYPE dropdown — no app restart needed since the questionnaire is read fresh from the DB on each page load.
