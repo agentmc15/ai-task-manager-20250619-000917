@@ -35,6 +35,8 @@ Three places it could be entering:
 
 ## Two checks to nail this down
 
+
+
 **Check 1 — Try a route that we KNOW has no auth declared.**
 
 The auth router's health check at `/auth/` from image 2 of the auth.py screenshot has no Depends. Try:
@@ -302,3 +304,33 @@ docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity
 Should show all 20 options.
 
 Then hard-refresh the browser and check Q13's TYPE dropdown — no app restart needed since the questionnaire is read fresh from the DB on each page load.
+
+PowerShell mangled the escaping. The `\"` got eaten and turned into bare `"` mid-string, breaking the JSON parser. Easiest fix: drop the SQL into a file and execute it from there. No escaping hell.
+
+Run these in order:
+
+```powershell
+@'
+UPDATE questionnaire SET phases_json = jsonb_set(
+  phases_json::jsonb,
+  '{0,questions,12,columns,4,options}',
+  '["IP Firewall","IoT Device","IP Phone","KVM","Load Balancer","Printer","Router","Linux Server","Unix Server","Windows Server","Switch","Personal Computer","OT Device","Cloud DataBase","Cloud File Share","Cloud Gateway","Cloud Host","Cloud Load Balancer","Cloud WebServer","Virtual Machine HyperVisor"]'::jsonb
+)::json WHERE id = 1;
+'@ | Out-File -Encoding ascii update_hardware_types.sql
+```
+
+```powershell
+docker cp update_hardware_types.sql clarity-db:/tmp/update_hardware_types.sql
+```
+
+```powershell
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -f /tmp/update_hardware_types.sql
+```
+
+Should print `UPDATE 1`. Then verify:
+
+```powershell
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT phases_json::jsonb #> '{0,questions,12,columns,4,options}' FROM questionnaire WHERE id = 1;"
+```
+
+Then hard-refresh browser.
