@@ -193,3 +193,5 @@ docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity
 # Option 2: redirect to a file and open in VS Code:
 docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "\d project" > schema.txt
 code schema.txt
+
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -P pager=off -c "SELECT status, COUNT(*) FROM project GROUP BY status;"
