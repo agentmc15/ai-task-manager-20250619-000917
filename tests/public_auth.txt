@@ -175,3 +175,5 @@ If auth was being injected via something in `api.py` like global middleware, **t
 The Swagger UI at `/docs` will now show two "Projects" sections — one for the authenticated routes, one tagged "Projects (Public)" for the two service endpoints. That's a feature, not a bug — Robert can see exactly which endpoints are open.
 
 Apply the workaround, rebuild, and verify with curl. Let me know what you see.
+
+curl.exe -s http://localhost:4000/openapi.json | ConvertFrom-Json | Select-Object -ExpandProperty paths | Get-Member -MemberType NoteProperty | Where-Object { $_.Name -like "*ready-for-export*" -or $_.Name -like "*mark-exported*" }
