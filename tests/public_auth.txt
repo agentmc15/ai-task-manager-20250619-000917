@@ -243,3 +243,31 @@ docker compose -f docker-compose.production.yaml up -d --build clarity-api
 ```
 
 Then submit a new project via UI and re-query the DB.
+
+"col_id": "hardware_type",
+        "name": "Type",
+        "schema_key": "hardware_type",
+        "required": true,
+        "dtype": "select",
+        "options": [
+          "IP Firewall",
+          "IoT Device",
+          "IP Phone",
+          "KVM",
+          "Load Balancer",
+          "Printer",
+          "Router",
+          "Linux Server",
+          "Unix Server",
+          "Windows Server",
+          "Switch",
+          "Personal Computer",
+          "OT Device",
+          "Cloud DataBase",
+          "Cloud File Share",
+          "Cloud Gateway",
+          "Cloud Host",
+          "Cloud Load Balancer",
+          "Cloud WebServer",
+          "Virtual Machine HyperVisor"
+        ]
