@@ -181,3 +181,5 @@ curl.exe -s http://localhost:4000/openapi.json | ConvertFrom-Json | Select-Objec
 curl.exe -s http://localhost:4000/openapi.json | ConvertFrom-Json | Select-Object -ExpandProperty paths | Select-Object -ExpandProperty "/project/ready-for-export" | ConvertTo-Json -Depth 10
 
 docker compose -f docker-compose.production.yaml logs clarity-api --tail 100 | Select-String -Pattern "ready-for-export|403|Bearer|auth"
+
+docker compose -f docker-compose.production.yaml exec clarity-api sh -c "find / -name 'auth.py' -path '*/clarity/*' 2>/dev/null"
