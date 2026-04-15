@@ -202,3 +202,5 @@ async function submitForReview() {
 
   // Initialize the progress modal
   submitting.value = true
+
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT id, title, status, submitted_at, responses_json FROM project WHERE status = 'submitted' ORDER BY submitted_at DESC;"
