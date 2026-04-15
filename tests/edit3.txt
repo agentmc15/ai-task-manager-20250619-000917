@@ -274,3 +274,8 @@ docker compose -f docker-compose.production.yaml logs clarity-api --tail 100
 ```
 
 Once Edit 3 verifies, only Edit 4 remains — the frontend `[projectId].vue` change to call `/submit` before the existing Archer dry-run.
+
+curl http://localhost:4000/openapi.json -o openapi.json
+code openapi.json
+
+curl http://localhost:4000/project/ready-for-export
