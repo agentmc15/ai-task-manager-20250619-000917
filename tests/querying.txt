@@ -184,3 +184,5 @@ docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity
 
 docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -t -A -c "SELECT jsonb_pretty(responses_json::jsonb) FROM project WHERE id = '93fc3ea5-bfe6-4366-8145-ea02604a8f6d';" > hardware_check.json
 code hardware_check.json
+
+git log --author="Cave, Michael G" --pretty=tformat: --numstat | awk '{added += $1; removed += $2} END {print "Added:", added, "Removed:", removed, "Net:", added-removed}'
