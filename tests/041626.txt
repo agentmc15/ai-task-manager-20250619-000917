@@ -1,0 +1,1 @@
+Get-ChildItem -Recurse -Path frontend\pages -Filter "*.vue" | Select-String -Pattern "Project Details|250 characters" | Select-Object Path -Unique
