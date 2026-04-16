@@ -1,1 +1,1 @@
-
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "\d project"
