@@ -157,3 +157,5 @@ from ..services.enrichment_service import enrich_project
 3. **`log` reference** — make sure the module has a logger defined. I didn't see the top of the file past line 21 in the screenshot, but if there's no `log = logging.getLogger(__name__)` already, you'll hit a `NameError`. Check the top of `project_routes.py` — if `log` isn't defined, add `import logging` and `log = logging.getLogger(__name__)` near the other imports before applying this edit.
 
 Apply those and let me know when it's in. Next is Edit 5 — the `/ready-for-export` response shape.
+
+Select-String -Path "backend\src\clarity\routes\project_routes.py" -Pattern "^log\s*=|^import logging"
