@@ -159,3 +159,22 @@ from ..services.enrichment_service import enrich_project
 Apply those and let me know when it's in. Next is Edit 5 — the `/ready-for-export` response shape.
 
 Select-String -Path "backend\src\clarity\routes\project_routes.py" -Pattern "^log\s*=|^import logging"
+
+
+projects = session.exec(
+        select(Project)
+        .where(Project.status == "submitted")
+        .where(Project.enriched == True)  # noqa: E712 - SQLAlchemy needs == True, not `is True`
+        .order_by(Project.submitted_at)
+    ).all()
+
+    return [
+        {
+            "project_id": str(p.id),
+            "title": p.title,
+            "owner_email": p.owner_email,
+            "submitted_at": p.submitted_at.isoformat() if p.submitted_at else None,
+            "enriched_json": p.enriched_json or [],
+        }
+        for p in projects
+    ]
