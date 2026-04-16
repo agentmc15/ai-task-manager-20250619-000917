@@ -1,0 +1,223 @@
+Here they are — same as before, copied down so you don't have to scroll.
+
+---
+
+## Edit 6 — Add `archer_json` column provisioner in `db/manager.py`
+
+### 6a — Wire the call into `init_sql_tables`
+
+**FIND** (lines 100-101):
+```
+    # Ensure enrichment columns exist on project table
+    _ensure_enriched_columns(eng)
+```
+
+**REPLACE WITH:**
+```
+    # Ensure enrichment columns exist on project table
+    _ensure_enriched_columns(eng)
+
+    # Ensure archer_json column exists on project table
+    _ensure_archer_json_column(eng)
+```
+
+### 6b — Add the new function
+
+**FIND** (the tail of `_ensure_enriched_columns`, around line 229):
+```
+        if not result.fetchone():
+            log.info("Adding enriched_json column to project table...")
+            conn.execute(text(
+                "ALTER TABLE project ADD COLUMN enriched_json JSONB NULL"
+            ))
+            conn.commit()
+            log.info("enriched_json column added")
+
+
+# ---------------------------------------------------------------------------
+# Seed data
+```
+
+**REPLACE WITH:**
+```
+        if not result.fetchone():
+            log.info("Adding enriched_json column to project table...")
+            conn.execute(text(
+                "ALTER TABLE project ADD COLUMN enriched_json JSONB NULL"
+            ))
+            conn.commit()
+            log.info("enriched_json column added")
+
+
+def _ensure_archer_json_column(eng):
+    """Add archer_json column to project table if it doesn't exist.
+
+    Populated by the inline Archer mapping step at submit time, right
+    after enrichment. Holds the 28-entry payload (22 enriched entries
+    plus 6 *_archer_id / *_id entries) consumed by the downstream
+    Archer publisher service.
+    """
+    with eng.connect() as conn:
+        result = conn.execute(text("""
+            SELECT column_name FROM information_schema.columns
+            WHERE table_name = 'project' AND column_name = 'archer_json'
+        """))
+        if not result.fetchone():
+            log.info("Adding archer_json column to project table...")
+            conn.execute(text(
+                "ALTER TABLE project ADD COLUMN archer_json JSONB NULL"
+            ))
+            conn.commit()
+            log.info("archer_json column added")
+
+
+# ---------------------------------------------------------------------------
+# Seed data
+```
+
+---
+
+## Edit 7 — Add `archer_json` field to the `Project` SQLModel
+
+In `models/questionnaire.py`:
+
+**FIND** (lines 200-202):
+```
+    enriched: bool = sqlmodel.Field(default=False)
+    enriched_json: list[dict] | None = sqlmodel.Field(default=None, sa_column=Column(JSONB))
+    attributes: list["Attribute"] = Relationship(
+```
+
+**REPLACE WITH:**
+```
+    enriched: bool = sqlmodel.Field(default=False)
+    enriched_json: list[dict] | None = sqlmodel.Field(default=None, sa_column=Column(JSONB))
+    archer_json: list[dict] | None = sqlmodel.Field(default=None, sa_column=Column(JSONB))
+    attributes: list["Attribute"] = Relationship(
+```
+
+---
+
+## Edit 8 — Wire `build_archer_json()` into `submit_project`
+
+### 8a — Add the import
+
+In `routes/project_routes.py`, **FIND** (line 12):
+```
+from ..services.enrichment_service import enrich_project
+```
+
+**REPLACE WITH:**
+```
+from ..services.enrichment_service import enrich_project
+from ..services.archer_mapping_service import build_archer_json
+```
+
+### 8b — Call `build_archer_json` inside the enrichment try block
+
+**FIND** (the body of the enrichment `try`, around lines 324-333):
+```
+    # Enrichment - runs inline, rolls back the whole submit on failure
+    try:
+        enriched = enrich_project(project)
+        project.enriched_json = enriched
+        project.enriched = True
+        # Tell SQLAlchemy the JSONB column changed (in-place list mutation
+        # on a JSON column is not auto-detected by the ORM).
+        flag_modified(project, "enriched_json")
+    except HTTPException:
+        # A deliberate HTTPException from downstream should pass through.
+        session.rollback()
+        raise
+```
+
+**REPLACE WITH:**
+```
+    # Enrichment - runs inline, rolls back the whole submit on failure.
+    # Archer mapping is part of the same transaction: if either step
+    # fails, the whole submit is rolled back.
+    try:
+        enriched = enrich_project(project)
+        project.enriched_json = enriched
+        project.enriched = True
+        # Tell SQLAlchemy the JSONB column changed (in-place list mutation
+        # on a JSON column is not auto-detected by the ORM).
+        flag_modified(project, "enriched_json")
+
+        archer = build_archer_json(enriched)
+        project.archer_json = archer
+        flag_modified(project, "archer_json")
+    except HTTPException:
+        # A deliberate HTTPException from downstream should pass through.
+        session.rollback()
+        raise
+```
+
+---
+
+## Edit 9 — Return `archer_json` from `/ready-for-export`
+
+In `routes/project_routes.py`, inside `list_submitted_projects`:
+
+**FIND** (lines 370-385):
+```
+    projects = session.exec(
+        select(Project)
+        .where(Project.status == "submitted")
+        .where(Project.enriched == True)  # noqa: E712 - SQLAlchemy needs == True, not `is True`
+        .order_by(Project.submitted_at)
+    ).all()
+
+    return [
+        {
+            "project_id": str(p.id),
+            "title": p.title,
+            "owner_email": p.owner_email,
+            "submitted_at": p.submitted_at.isoformat() if p.submitted_at else None,
+            "enriched_json": p.enriched_json or [],
+        }
+        for p in projects
+    ]
+```
+
+**REPLACE WITH:**
+```
+    projects = session.exec(
+        select(Project)
+        .where(Project.status == "submitted")
+        .where(Project.enriched == True)  # noqa: E712 - SQLAlchemy needs == True, not `is True`
+        .order_by(Project.submitted_at)
+    ).all()
+
+    return [
+        {
+            "project_id": str(p.id),
+            "title": p.title,
+            "owner_email": p.owner_email,
+            "submitted_at": p.submitted_at.isoformat() if p.submitted_at else None,
+            "archer_json": p.archer_json or [],
+        }
+        for p in projects
+    ]
+```
+
+---
+
+Apply all four, save every file, then rebuild:
+
+```powershell
+docker compose -f docker-compose.production.yaml up -d --build clarity-api
+```
+
+Then check the startup logs:
+
+```powershell
+docker compose -f docker-compose.production.yaml logs --tail=80 clarity-api | Select-String -Pattern "archer_json|Loaded.*Archer lookup|lookup file not found|Traceback"
+```
+
+You should see:
+- `Adding archer_json column to project table...` (first boot only)
+- `archer_json column added`
+- Four `Loaded N Archer lookup entries from <filename>` lines, one per CSV
+
+Screenshot the log output when done.
