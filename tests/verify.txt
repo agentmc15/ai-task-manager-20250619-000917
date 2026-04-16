@@ -1,1 +1,3 @@
 docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "\d project"
+
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT id, title, status, enriched, submitted_at FROM project WHERE title = 'EnrichmentTest1';"
