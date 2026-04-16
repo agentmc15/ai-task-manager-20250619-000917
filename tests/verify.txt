@@ -6,3 +6,7 @@ docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity
 
 docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT jsonb_pretty(enriched_json) FROM project WHERE id = '645223cb-f9c6-4bc4-95bf-297a02792847';"
 docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -tAX -c "SELECT jsonb_pretty(enriched_json) FROM project WHERE id = '645223cb-f9c6-4bc4-95bf-297a02792847';" > enrichment_test1.json
+
+Get-Content backend\.dockerignore -ErrorAction SilentlyContinue
+
+New-Item -ItemType Directory -Path backend\data\lookups -Force
