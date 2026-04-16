@@ -78,3 +78,9 @@ Based on image 5, the field order I can read is: `id, title, description, tags, 
 Send a screenshot of the `Project` class from line 183 (`class Project(SQLModel, table=True):`) down through line ~210 so I can see the exact line where `archer_submitted_at` is declared — I want to put the new fields right before `archer_submitted_at` so enrichment fields group naturally with status/submitted_at (which we added in the last session).
 
 Once I have that, Edit 2 is a small 2-line insert, then we move to the service file (Edit 3) and the route wiring (Edit 4).
+
+status: str = sqlmodel.Field(default="draft", max_length=20, index=True)
+    submitted_at: datetime | None = sqlmodel.Field(default=None)
+    enriched: bool = sqlmodel.Field(default=False)
+    enriched_json: list[dict] | None = sqlmodel.Field(default=None, sa_column=Column(JSONB))
+    attributes: list["Attribute"] = Relationship(
