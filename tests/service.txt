@@ -1,0 +1,80 @@
+Have everything I need. Quick observation from image 5: the Project class uses PostgreSQL's `JSONB` via `JSONB as JSONNB`. The enriched column should use the same for consistency (not `JSON`).
+
+Let's start building.
+
+## Edit 1 — `db/manager.py`: Add `_ensure_enriched_columns`
+
+### Edit 1a: Wire into `init_sql_tables`
+
+**FIND:**
+```
+    # Ensure submission lifecycle columns exist on project table
+    _ensure_status_columns(eng)
+```
+
+**REPLACE WITH:**
+```
+    # Ensure submission lifecycle columns exist on project table
+    _ensure_status_columns(eng)
+
+    # Ensure enrichment columns exist on project table
+    _ensure_enriched_columns(eng)
+```
+
+### Edit 1b: Add the function after `_ensure_status_columns`
+
+**FIND** the end of `_ensure_status_columns` — the last lines should be:
+```
+            conn.commit()
+            log.info("idx_project_status index created")
+```
+
+**REPLACE WITH:**
+```
+            conn.commit()
+            log.info("idx_project_status index created")
+
+
+def _ensure_enriched_columns(eng):
+    """Add enriched and enriched_json columns to project table if they don't exist.
+    These are populated by the inline enrichment step at submit time. The
+    enriched_json column holds the full 21-question payload consumed by the
+    downstream Archer publisher service.
+    """
+    with eng.connect() as conn:
+        # enriched
+        result = conn.execute(text("""
+            SELECT column_name FROM information_schema.columns
+            WHERE table_name = 'project' AND column_name = 'enriched'
+        """))
+        if not result.fetchone():
+            log.info("Adding enriched column to project table...")
+            conn.execute(text(
+                "ALTER TABLE project ADD COLUMN enriched BOOLEAN NOT NULL DEFAULT false"
+            ))
+            conn.commit()
+            log.info("enriched column added (default false for existing rows)")
+
+        # enriched_json
+        result = conn.execute(text("""
+            SELECT column_name FROM information_schema.columns
+            WHERE table_name = 'project' AND column_name = 'enriched_json'
+        """))
+        if not result.fetchone():
+            log.info("Adding enriched_json column to project table...")
+            conn.execute(text(
+                "ALTER TABLE project ADD COLUMN enriched_json JSONB NULL"
+            ))
+            conn.commit()
+            log.info("enriched_json column added")
+```
+
+Save. Don't rebuild yet — we'll batch after Edit 2.
+
+## Edit 2 — `models/questionnaire.py`: Add fields to `Project`
+
+Based on image 5, the field order I can read is: `id, title, description, tags, user_id, owner_email, questionnaire_id, questionnaire, created, updated, responses_json, status, submitted_at, attributes, archer_submitted_at, archer_content_id`.
+
+Send a screenshot of the `Project` class from line 183 (`class Project(SQLModel, table=True):`) down through line ~210 so I can see the exact line where `archer_submitted_at` is declared — I want to put the new fields right before `archer_submitted_at` so enrichment fields group naturally with status/submitted_at (which we added in the last session).
+
+Once I have that, Edit 2 is a small 2-line insert, then we move to the service file (Edit 3) and the route wiring (Edit 4).
