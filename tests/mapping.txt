@@ -229,3 +229,7 @@ docker compose -f docker-compose.production.yaml logs --tail=80 clarity-api | Se
 docker compose -f docker-compose.production.yaml logs --tail=200 clarity-api | Select-String -Pattern "archer|lookup|enrich|Database tables|Traceback|Error"
 
 docker compose -f docker-compose.production.yaml logs --tail=100 clarity-api
+
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT id, title, status, enriched, submitted_at, (jsonb_array_length(enriched_json)) AS enriched_count, (jsonb_array_length(archer_json)) AS archer_count FROM project WHERE status = 'submitted' ORDER BY submitted_at DESC LIMIT 3;"
+
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -tAX -c "SELECT jsonb_pretty(archer_json) FROM project WHERE status = 'submitted' ORDER BY submitted_at DESC LIMIT 1;" | Out-File -Encoding utf8 archer_test1.json
