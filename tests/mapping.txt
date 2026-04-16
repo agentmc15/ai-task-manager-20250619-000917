@@ -224,3 +224,8 @@ Screenshot the log output when done.
 
 
 docker compose -f docker-compose.production.yaml logs --tail=80 clarity-api | Select-String -Pattern "archer_json|Loaded.*Archer lookup|lookup file not found|Traceback"
+
+
+docker compose -f docker-compose.production.yaml logs --tail=200 clarity-api | Select-String -Pattern "archer|lookup|enrich|Database tables|Traceback|Error"
+
+docker compose -f docker-compose.production.yaml logs --tail=100 clarity-api
