@@ -84,3 +84,76 @@ status: str = sqlmodel.Field(default="draft", max_length=20, index=True)
     enriched: bool = sqlmodel.Field(default=False)
     enriched_json: list[dict] | None = sqlmodel.Field(default=None, sa_column=Column(JSONB))
     attributes: list["Attribute"] = Relationship(
+
+
+Got it. I can see both the imports (lines 9-21) and `submit_project` (lines 276-327). Here's **Edit 4** — two find-and-replaces.
+
+---
+
+## Edit 4a — Add the import
+
+**FIND** (line 11):
+```
+from ..db.manager import get_session
+```
+
+**REPLACE WITH:**
+```
+from ..db.manager import get_session
+from ..services.enrichment_service import enrich_project
+```
+
+---
+
+## Edit 4b — Add enrichment call inside `submit_project`
+
+**FIND** (lines 316-321, the status flip and commit):
+```
+    project.status = "submitted"
+    project.submitted_at = datetime.now(timezone.utc)
+    session.add(project)
+    session.commit()
+    session.refresh(project)
+```
+
+**REPLACE WITH:**
+```
+    project.status = "submitted"
+    project.submitted_at = datetime.now(timezone.utc)
+
+    # Enrichment - runs inline, rolls back the whole submit on failure
+    try:
+        enriched = enrich_project(project)
+        project.enriched_json = enriched
+        project.enriched = True
+        # Tell SQLAlchemy the JSONB column changed (in-place list mutation
+        # on a JSON column is not auto-detected by the ORM).
+        flag_modified(project, "enriched_json")
+    except HTTPException:
+        # A deliberate HTTPException from downstream should pass through.
+        session.rollback()
+        raise
+    except Exception as e:
+        session.rollback()
+        log.exception("Enrichment failed for project %s", project_id)
+        raise HTTPException(
+            status_code=500,
+            detail=f"Enrichment failed: {e}",
+        )
+
+    session.add(project)
+    session.commit()
+    session.refresh(project)
+```
+
+---
+
+### Notes on what I added vs. the handoff spec
+
+1. **`flag_modified(project, "enriched_json")`** — already imported at your line 8 (`from sqlalchemy.orm.attributes import flag_modified`). Without this, SQLAlchemy sometimes misses JSONB assignments and quietly skips the UPDATE. Since the import is already there, might as well use it defensively.
+
+2. **Separate `HTTPException` passthrough** — if something down the call chain raises an `HTTPException` (unlikely in the current enrichment service, but future-proof), we rollback and re-raise it intact rather than wrapping it in a generic 500.
+
+3. **`log` reference** — make sure the module has a logger defined. I didn't see the top of the file past line 21 in the screenshot, but if there's no `log = logging.getLogger(__name__)` already, you'll hit a `NameError`. Check the top of `project_routes.py` — if `log` isn't defined, add `import logging` and `log = logging.getLogger(__name__)` near the other imports before applying this edit.
+
+Apply those and let me know when it's in. Next is Edit 5 — the `/ready-for-export` response shape.
