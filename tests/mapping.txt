@@ -221,3 +221,6 @@ You should see:
 - Four `Loaded N Archer lookup entries from <filename>` lines, one per CSV
 
 Screenshot the log output when done.
+
+
+docker compose -f docker-compose.production.yaml logs --tail=80 clarity-api | Select-String -Pattern "archer_json|Loaded.*Archer lookup|lookup file not found|Traceback"
