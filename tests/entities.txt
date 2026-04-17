@@ -1,0 +1,52 @@
+## Final step-by-step
+
+### Step 1 — Apply the SQL patch to the live DB
+```powershell
+docker cp update_q9_entity_cascade.sql clarity-db:/tmp/update_q9_entity_cascade.sql
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -f /tmp/update_q9_entity_cascade.sql
+```
+
+Look for 3 `UPDATE 1` lines and the verification queries showing Q9 with 25 SBUs and 323 entities.
+
+### Step 2 — Update the repo's `data.json` for future deploys
+Open `backend/seed/data.json` in your editor. Find the existing Q9 entity block (around line 137 — `"id": "entity"` with `"type": "choose-one"`) and replace it with the contents of `q9_entity_definition.json`.
+
+### Step 3 — Hard-refresh the browser
+`Ctrl+Shift+R` at `http://localhost:3000` to clear cached questionnaire state.
+
+### Step 4 — Test the cascade in the UI
+1. Create a new project
+2. On Q7 pick any business (e.g. `Corporate`)
+3. On Q8 verify the SBU list reflects the renames — `Legal, Contracts and Compliance` (with comma, not slash)
+4. Pick an SBU, e.g. `Operations & Supply Chain`
+5. On Q9 verify the entity dropdown shows only the entities for that SBU (8 entities for Operations & Supply Chain)
+6. Go back to Q8 and change the SBU — Q9 should clear
+7. Bonus: pick `Raytheon` → `Air & Space Defense Systems (ASDS)` (should say ASDS now, not ADS)
+
+### Step 5 — Submit the test project and verify archer_json
+Fill the remaining questions, click **Submit for Review**. Then:
+
+```powershell
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT id, title, jsonb_array_length(archer_json) AS archer_count FROM project WHERE status = 'submitted' ORDER BY submitted_at DESC LIMIT 1;"
+```
+
+Should show `archer_count=28`. Then dump the entity lookup result:
+
+```powershell
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -tAX -c "SELECT jsonb_pretty(archer_json) FROM project WHERE status = 'submitted' ORDER BY submitted_at DESC LIMIT 1;" | Out-File -Encoding utf8 archer_test2.json
+```
+
+Open `archer_test2.json` and check that `entity_archer_id` now has a real ID (not `""`) — this was the lookup miss we were chasing.
+
+### Step 6 — Commit and push
+Once it's working end-to-end:
+
+```powershell
+git add backend/seed/data.json update_q9_entity_cascade.sql
+git commit -m "Q9 entity cascade: depends on SBU, 323 entities from Clarity_Business_Hierarchy"
+git push origin feat/render
+```
+
+---
+
+That's it. If Step 4 shows the cascade working and Step 5 shows `entity_archer_id` populated, the whole Q8→Q9 dependency + lookup chain is done.
