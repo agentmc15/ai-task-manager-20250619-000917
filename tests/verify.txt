@@ -10,3 +10,6 @@ docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity
 Get-Content backend\.dockerignore -ErrorAction SilentlyContinue
 
 New-Item -ItemType Directory -Path backend\data\lookups -Force
+
+
+Get-Content backend\seed\data.json | python -m json.tool > $null
