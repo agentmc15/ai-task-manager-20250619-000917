@@ -13,3 +13,17 @@ New-Item -ItemType Directory -Path backend\data\lookups -Force
 
 
 Get-Content backend\seed\data.json | python -m json.tool > $null
+
+<template>
+  <div>
+    <!-- Global US Persons Only banner - shows on every page including login -->
+    <div class="bg-red-700 text-white text-center text-xs font-semibold py-1 px-4 tracking-wide">
+      US Persons Only - Technical Data/Information Strictly Prohibited - US Persons Only
+    </div>
+    <NuxtLayout>
+      <NuxtPage />
+    </NuxtLayout>
+  </div>
+</template>
+
+docker compose -f docker-compose.production.yaml up -d --build clarity-frontend
