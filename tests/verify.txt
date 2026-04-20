@@ -27,3 +27,17 @@ Get-Content backend\seed\data.json | python -m json.tool > $null
 </template>
 
 docker compose -f docker-compose.production.yaml up -d --build clarity-frontend
+
+cd $env:USERPROFILE\Desktop\repos\GRCAA-Clarity\projects\clarity-rewrite
+
+# Copy env_ClarityV2.txt (from root) to .env in all three locations
+Copy-Item ".\env_ClarityV2.txt" -Destination ".\.env"          -Force
+Copy-Item ".\env_ClarityV2.txt" -Destination ".\backend\.env"  -Force
+Copy-Item ".\env_ClarityV2.txt" -Destination ".\frontend\.env" -Force
+
+# Delete the source file
+Remove-Item ".\env_ClarityV2.txt" -Force
+
+# Verify — should show three .env files, no env_ClarityV2.txt
+Get-ChildItem -Path .\, .\backend, .\frontend -Filter .env -Force | Select-Object FullName, Length
+Get-ChildItem -Path .\ -Filter env_ClarityV2.txt  # should return nothing
