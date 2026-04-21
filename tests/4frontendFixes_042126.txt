@@ -6,3 +6,7 @@
 Select-String -Path "frontend\**\*.vue" -Pattern "description" -Recurse | Select-Object Path, Line, LineNumber | Format-Table -AutoSize
 
 Get-ChildItem -Path frontend -Recurse -Filter *.vue | Select-String -Pattern "description" | Select-Object Path, LineNumber, Line | Format-Table -AutoSize -Wrap
+
+copy frontend\pages\clara\index.vue frontend\pages\clara\index.vue.bak
+copy /Y \mnt\user-data\outputs\index.vue frontend\pages\clara\index.vue
+docker compose -f docker-compose.production.yaml up -d --build clarity-frontend
