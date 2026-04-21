@@ -3,3 +3,4 @@
           <p class="text-sm text-green-700 bg-green-50 p-3 rounded mb-3">
             <strong>Submitted for review.</strong>
           </p>
+Select-String -Path "frontend\**\*.vue" -Pattern "description" -Recurse | Select-Object Path, Line, LineNumber | Format-Table -AutoSize
