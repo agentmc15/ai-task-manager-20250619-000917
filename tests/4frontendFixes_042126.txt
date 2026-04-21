@@ -16,3 +16,342 @@ Select-String -Path backend\src\clarity\routes\project_routes.py -Pattern "@proj
 Get-ChildItem -Path frontend -Recurse -Filter "useApi.*" | Select-Object FullName
 
 Get-Content <path-to-useApi-file> | Select-String -Pattern "Project|project" -Context 1,3
+
+Everything I need. Now I can design the patch.
+
+## What I see
+
+**Image 2 — Text input at lines 74-82:**
+```vue
+<!-- Text Input -->
+<div v-if="currentQuestion.type === 'text'">
+  <textarea
+    v-model="currentAnswer"
+    rows="5"
+    placeholder="Enter your response..."
+    class="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:rin..."
+  ></textarea>
+</div>
+```
+
+**Image 1 — state already in place:**
+- `project = ref<any>(null)` (line 344)
+- `saveAnswer` + `getProject` imported from `useApi()` (line 359)
+- `apiFetch` also exposed — we'll use it for the PUT call
+
+## The patch — three edits
+
+### Edit 1: Add `updateProject` to `useApi.ts`
+
+**FIND** (the `deleteProject` function):
+```typescript
+  async function deleteProject(projectId: string) {
+    return apiFetch<any>('/project/', {
+      method: 'DELETE',
+      params: { project_id: projectId },
+    })
+  }
+```
+
+**REPLACE WITH:**
+```typescript
+  async function deleteProject(projectId: string) {
+    return apiFetch<any>('/project/', {
+      method: 'DELETE',
+      params: { project_id: projectId },
+    })
+  }
+
+  async function updateProject(projectId: string, data: {
+    title?: string
+    description?: string
+  }) {
+    return apiFetch<any>(`/project/${projectId}`, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    })
+  }
+```
+
+Then **FIND** (the return block at the bottom of `useApi()`):
+```typescript
+    apiFetch,
+    getProjects,
+    getProject,
+    createProject,
+    deleteProject,
+```
+
+**REPLACE WITH:**
+```typescript
+    apiFetch,
+    getProjects,
+    getProject,
+    createProject,
+    deleteProject,
+    updateProject,
+```
+
+### Edit 2: Import `updateProject` in `[projectId].vue`
+
+**FIND** (line 359):
+```typescript
+const { getProject, saveAnswer, getQuestionnaires, apiFetch, submitToArcher } = useApi()
+```
+
+**REPLACE WITH:**
+```typescript
+const { getProject, saveAnswer, getQuestionnaires, apiFetch, submitToArcher, updateProject } = useApi()
+```
+
+### Edit 3: Replace the Text Input block to handle Q1 specially
+
+**FIND** (lines 74-82):
+```vue
+        <!-- Text Input -->
+        <div v-if="currentQuestion.type === 'text'">
+          <textarea
+            v-model="currentAnswer"
+            rows="5"
+            placeholder="Enter your response..."
+            class="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent"
+          ></textarea>
+        </div>
+```
+
+**REPLACE WITH:**
+```vue
+        <!-- Text Input -->
+        <div v-if="currentQuestion.type === 'text'">
+          <!-- Q1 authorization_package_name: locked by default, syncs with project.title -->
+          <div v-if="isProjectTitleQuestion" class="flex items-center gap-2">
+            <input
+              v-model="currentAnswer"
+              type="text"
+              :readonly="!titleUnlocked"
+              :class="[
+                'flex-1 border rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent',
+                titleUnlocked ? 'border-gray-300 bg-white' : 'border-gray-200 bg-gray-50 text-gray-700 cursor-not-allowed'
+              ]"
+              @blur="onTitleBlur"
+            />
+            <button
+              type="button"
+              @click="toggleTitleLock"
+              :title="titleUnlocked ? 'Lock title' : 'Edit title (this will rename your project)'"
+              class="p-2 rounded-md border border-gray-300 text-gray-500 hover:text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              <svg v-if="!titleUnlocked" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+              <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- All other text questions: normal textarea -->
+          <textarea
+            v-else
+            v-model="currentAnswer"
+            rows="5"
+            placeholder="Enter your response..."
+            class="w-full border border-gray-300 rounded-md px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-red-800 focus:border-transparent"
+          ></textarea>
+        </div>
+```
+
+### Edit 4: Add the supporting state + functions in `<script setup>`
+
+**FIND** (line 362, right after the `currentQuestion` computed):
+```typescript
+const currentQuestion = computed(() => questions.value[currentIndex.value])
+```
+
+**REPLACE WITH:**
+```typescript
+const currentQuestion = computed(() => questions.value[currentIndex.value])
+
+// Q1 title-sync behavior: the first question is authorization_package_name,
+// which stays in sync with project.title. Locked by default with an edit pencil.
+const titleUnlocked = ref(false)
+const isProjectTitleQuestion = computed(() =>
+  currentQuestion.value?.id === 'authorization_package_name'
+)
+
+function toggleTitleLock() {
+  titleUnlocked.value = !titleUnlocked.value
+}
+
+async function onTitleBlur() {
+  // Only act when the user was actually editing the title.
+  if (!isProjectTitleQuestion.value || !titleUnlocked.value) return
+
+  const newTitle = (currentAnswer.value || '').trim()
+  if (!newTitle) {
+    // Don't accept an empty title - restore from project.
+    currentAnswer.value = project.value?.title || ''
+    titleUnlocked.value = false
+    return
+  }
+
+  if (newTitle === project.value?.title) {
+    // No change - just re-lock.
+    titleUnlocked.value = false
+    return
+  }
+
+  try {
+    await updateProject(projectId, { title: newTitle })
+    // Mutate local project so the breadcrumb updates reactively.
+    if (project.value) project.value.title = newTitle
+  } catch (e) {
+    console.error('Failed to update project title:', e)
+    // Roll back the field to the server value on error.
+    currentAnswer.value = project.value?.title || ''
+  } finally {
+    titleUnlocked.value = false
+  }
+}
+```
+
+### Edit 5: Pre-fill Q1 from project.title when loading the question
+
+Find the `loadAnswerForQuestion` function. From your earlier screenshot (Image 2 of the first batch, lines 481-504), it looks like it starts with:
+
+```typescript
+function loadAnswerForQuestion(idx: number) {
+  const q = questions.value[idx]
+  if (!q) return
+```
+
+**FIND** (that function signature and its first few lines — send me a screenshot of lines 478-510 so I can give you exact text if the whole function isn't a simple "one-insert" location).
+
+For now, the simplest working approach is to add a `watch` on `currentQuestion` that fires when we land on Q1. **FIND** (right before the `function saveCurrentAnswer() {` around line 392):
+
+```typescript
+function saveCurrentAnswer() {
+```
+
+**REPLACE WITH:**
+```typescript
+// Whenever we navigate to Q1, always seed it from project.title.
+// The user can still click the edit pencil to change it; doing so
+// updates both the response AND project.title (two-way sync).
+watch(currentQuestion, (q) => {
+  if (q?.id === 'authorization_package_name' && project.value?.title) {
+    currentAnswer.value = project.value.title
+    // Also backfill responses[Q1] so saveCurrentAnswer commits it on nav.
+    responses[q.id] = project.value.title
+  }
+  // Always re-lock when navigating away or into Q1.
+  titleUnlocked.value = false
+}, { immediate: false })
+
+function saveCurrentAnswer() {
+```
+
+---
+
+## One thing I need from you before you apply Edit 5
+
+I wrote Edit 5 using `watch`, which is additive and safe. But I haven't seen the **`loadAnswerForQuestion`** function in full — it's the "proper" place to do this logic, and if I can see it I can give you a cleaner in-place edit instead of a separate watch.
+
+Send me a screenshot of `[projectId].vue` showing lines **478 through 510** (should be the `loadAnswerForQuestion` function body). Then I'll swap Edit 5 to go inside that function if appropriate.
+
+If you want to just ship what I've got, apply Edits 1-4 and Edit 5 as written — it'll work, just slightly less idiomatic. Rebuild with:
+
+```powershell
+docker compose -f docker-compose.production.yaml up -d --build clarity-frontend
+```
+
+Test:
+1. Create a new project with title "TestRename001"
+2. Navigate to Q1 — should see the title pre-filled and locked (gray bg, pencil icon on right)
+3. Click pencil — field unlocks, icon becomes a checkmark
+4. Change title to "TestRename002", click away (blur)
+5. Breadcrumb at top should update to "TestRename002"
+6. Navigate to Q2 and back to Q1 — should still say "TestRename002" (reflects new project.title)
+7. Refresh the page — still "TestRename002"
+
+
+
+Now I see `loadAnswerForQuestion` clearly (lines 468-510). It reads from `responses[q.id]` to populate the input. That's the clean place to put the Q1 pre-fill — no watch needed.
+
+## Revised Edit 5 — inline in `loadAnswerForQuestion`
+
+**Replace Edit 5 from my previous message with this cleaner version.**
+
+**FIND** (lines 468-472):
+```typescript
+function loadAnswerForQuestion(idx: number) {
+  const q = questions.value[idx]
+  if (!q) return
+
+  // Cascade defense: if this is a cascade question and the stored answer is
+```
+
+**REPLACE WITH:**
+```typescript
+function loadAnswerForQuestion(idx: number) {
+  const q = questions.value[idx]
+  if (!q) return
+
+  // Q1 title sync: always seed Q1 (authorization_package_name) from
+  // project.title. The user can click the edit pencil to change it;
+  // doing so updates both the response AND project.title (two-way sync).
+  // Re-lock the edit state every time we land on Q1.
+  if (q.id === 'authorization_package_name' && project.value?.title) {
+    responses[q.id] = project.value.title
+  }
+  titleUnlocked.value = false
+
+  // Cascade defense: if this is a cascade question and the stored answer is
+```
+
+This is better than the `watch` approach because:
+1. It runs exactly when the existing logic decides to (re)load a question
+2. It sits right next to the cascade-clearing logic so both question-load transformations are co-located
+3. No risk of reactive timing weirdness
+
+---
+
+## Summary of all edits for Task #4
+
+Apply these in order:
+
+1. **`frontend/composables/useApi.ts`** — add `updateProject` function + export it (Edit 1 from previous message, two sub-edits)
+2. **`frontend/pages/clara/[projectId].vue`** — add `updateProject` to the destructured import (Edit 2)
+3. **`frontend/pages/clara/[projectId].vue`** — replace the Text Input block with the conditional Q1-locked-input version (Edit 3)
+4. **`frontend/pages/clara/[projectId].vue`** — add `titleUnlocked`, `isProjectTitleQuestion`, `toggleTitleLock`, `onTitleBlur` right after `currentQuestion` computed (Edit 4)
+5. **`frontend/pages/clara/[projectId].vue`** — add the Q1 pre-fill block inside `loadAnswerForQuestion` (this revised Edit 5 — **use this, not the watch version**)
+
+**Do NOT apply** the `watch` version from my previous message. Skip it entirely.
+
+---
+
+Once all five are saved:
+```powershell
+docker compose -f docker-compose.production.yaml up -d --build clarity-frontend
+```
+
+Hard refresh and run through the test plan:
+
+1. Create a new project with title "TestRename001"
+2. Land on Q1 — field shows "TestRename001", grayed out, pencil icon on the right
+3. Click pencil → field becomes editable (white bg), icon changes to a checkmark
+4. Change to "TestRename002", click somewhere else (blur)
+5. Breadcrumb at top updates to "TestRename002" in real time
+6. Navigate to Q2 and back to Q1 — still shows "TestRename002" and locked again
+7. Refresh the whole page — persists as "TestRename002"
+8. Open the project list — entry shows "TestRename002"
+
+If any step fails, screenshot and we'll debug.
+
+
+
+
+
+
+
+
