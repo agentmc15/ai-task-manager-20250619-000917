@@ -10,3 +10,9 @@ Get-ChildItem -Path frontend -Recurse -Filter *.vue | Select-String -Pattern "de
 copy frontend\pages\clara\index.vue frontend\pages\clara\index.vue.bak
 copy /Y \mnt\user-data\outputs\index.vue frontend\pages\clara\index.vue
 docker compose -f docker-compose.production.yaml up -d --build clarity-frontend
+
+Select-String -Path backend\src\clarity\routes\project_routes.py -Pattern "@project_router|put|patch|update_project" | Select-Object LineNumber, Line | Format-Table -AutoSize -Wrap
+
+Get-ChildItem -Path frontend -Recurse -Filter "useApi.*" | Select-Object FullName
+
+Get-Content <path-to-useApi-file> | Select-String -Pattern "Project|project" -Context 1,3
