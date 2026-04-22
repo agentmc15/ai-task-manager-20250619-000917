@@ -43,3 +43,5 @@ Get-ChildItem -Path .\, .\backend, .\frontend -Filter .env -Force | Select-Objec
 Get-ChildItem -Path .\ -Filter env_ClarityV2.txt  # should return nothing
 
 Select-String -Path backend\src\clarity\routes\project_routes.py -Pattern "update_project" -Context 2,20
+
+Select-String -Path backend\src\clarity\schemas\*.py,backend\src\clarity\models\*.py -Pattern "UpdateProjectRequest" -Context 0,15
