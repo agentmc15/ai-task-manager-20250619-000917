@@ -41,3 +41,5 @@ Remove-Item ".\env_ClarityV2.txt" -Force
 # Verify — should show three .env files, no env_ClarityV2.txt
 Get-ChildItem -Path .\, .\backend, .\frontend -Filter .env -Force | Select-Object FullName, Length
 Get-ChildItem -Path .\ -Filter env_ClarityV2.txt  # should return nothing
+
+Select-String -Path backend\src\clarity\routes\project_routes.py -Pattern "update_project" -Context 2,20
