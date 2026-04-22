@@ -45,3 +45,22 @@ Get-ChildItem -Path .\ -Filter env_ClarityV2.txt  # should return nothing
 Select-String -Path backend\src\clarity\routes\project_routes.py -Pattern "update_project" -Context 2,20
 
 Select-String -Path backend\src\clarity\schemas\*.py,backend\src\clarity\models\*.py -Pattern "UpdateProjectRequest" -Context 0,15
+
+async function updateProject(projectId: string, data: {
+    title?: string
+    description?: string
+  }) {
+    const user = await getCurrentUser()
+    const userId = user?.id || user?.email || user?.user_id
+    if (!userId) {
+      throw new Error('Cannot update project: no authenticated user')
+    }
+    return apiFetch<any>('/project/', {
+      method: 'PUT',
+      body: JSON.stringify({
+        id: projectId,
+        userId,
+        ...data,
+      }),
+    })
+  }
