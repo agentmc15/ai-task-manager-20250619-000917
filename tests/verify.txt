@@ -74,3 +74,5 @@ docker compose -f docker-compose.production.yaml exec db psql -U postgres -d cla
 docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT id, title, status, responses_json IS NULL AS responses_null, jsonb_pretty(responses_json::jsonb) FROM project ORDER BY id DESC LIMIT 1;"
 
 docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -t -A -c "SELECT responses_json FROM project ORDER BY id DESC LIMIT 1;" > latest_project_responses.json
+
+docker compose -f docker-compose.production.yaml exec db psql -U root -d clarity -c "SELECT id, title, status, responses_json IS NULL AS responses_null, jsonb_pretty(responses_json::jsonb) FROM project WHERE title = 'dbtest001';" > dbtest001_row.txt
