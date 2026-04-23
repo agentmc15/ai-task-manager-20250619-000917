@@ -64,3 +64,6 @@ async function updateProject(projectId: string, data: {
       }),
     })
   }
+
+
+docker compose -f docker-compose.production.yaml exec -T db psql -U postgres -d clarity < update_q12_add_other.sql
