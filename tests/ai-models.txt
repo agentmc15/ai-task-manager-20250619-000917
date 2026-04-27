@@ -39,3 +39,7 @@ docker exec clarity-db psql -U root -d clarity -c "SELECT 'project' AS t, COUNT(
 Get-ChildItem -Recurse -Include *.py -Path backend | Select-String -Pattern "BU_CODE_MAP" -List
 
 Get-ChildItem -Recurse -Include *.py -Path backend | Select-String -Pattern "BU_CODE_MAP" -List
+
+git add backend/src/clarity/services/enrichment_service.py
+git commit -m "enrichment: accept P&W as alias for P & W in BU_CODE_MAP"
+git push origin feat/render
