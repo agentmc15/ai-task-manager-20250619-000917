@@ -12,3 +12,5 @@ docker exec clarity-ollama ollama list
 4. Smoke test the embedding endpoint
 powershelldocker exec clarity-ollama curl -s http://localhost:11434/api/embeddings -d '{\"model\":\"nomic-embed-text\",\"prompt\":\"hello world\"}'
 Should return a JSON object with "embedding": [...768 floats...].
+
+curl.exe -s http://localhost:11434/api/embeddings -d '{\"model\":\"nomic-embed-text\",\"prompt\":\"hello world\"}'
