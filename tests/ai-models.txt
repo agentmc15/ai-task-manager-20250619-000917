@@ -14,3 +14,5 @@ powershelldocker exec clarity-ollama curl -s http://localhost:11434/api/embeddin
 Should return a JSON object with "embedding": [...768 floats...].
 
 curl.exe -s http://localhost:11434/api/embeddings -d '{\"model\":\"nomic-embed-text\",\"prompt\":\"hello world\"}'
+'{"model":"nomic-embed-text","prompt":"hello world"}' | curl.exe -s http://localhost:11434/api/embeddings -d '@-'
+Invoke-RestMethod -Uri http://localhost:11434/api/embeddings -Method Post -ContentType 'application/json' -Body '{"model":"nomic-embed-text","prompt":"hello world"}' | Select-Object -ExpandProperty embedding | Measure-Object
