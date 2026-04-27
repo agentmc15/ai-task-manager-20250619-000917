@@ -20,3 +20,6 @@ Invoke-RestMethod -Uri http://localhost:11434/api/embeddings -Method Post -Conte
 Invoke-RestMethod -Uri http://localhost:11434/api/embeddings -Method Post -ContentType 'application/json' -Body '{"model":"nomic-embed-text:latest","prompt":"hello world"}' | Select-Object -ExpandProperty embedding | Measure-Object
 
 Invoke-RestMethod -Uri http://localhost:11434/api/embed -Method Post -ContentType 'application/json' -Body '{"model":"nomic-embed-text","input":"hello world"}'
+docker exec clarity-ollama wget -qO- --post-data='{"model":"nomic-embed-text","prompt":"hello world"}' --header='Content-Type: application/json' http://localhost:11434/api/embeddings
+docker run --rm --network clarity-rewrite_clarity_network curlimages/curl -s -X POST http://clarity-ollama:11434/api/embeddings -H "Content-Type: application/json" -d '{"model":"nomic-embed-text","prompt":"hello world"}'
+
