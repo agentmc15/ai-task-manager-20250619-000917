@@ -37,3 +37,5 @@ docker exec clarity-db psql -U root -d clarity -c "\dt"
 docker exec clarity-db psql -U root -d clarity -c "SELECT 'project' AS t, COUNT(*) FROM project UNION ALL SELECT 'questionnaire', COUNT(*) FROM questionnaire;"
 
 Get-ChildItem -Recurse -Include *.py -Path backend | Select-String -Pattern "BU_CODE_MAP" -List
+
+Get-ChildItem -Recurse -Include *.py -Path backend | Select-String -Pattern "BU_CODE_MAP" -List
