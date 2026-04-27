@@ -32,3 +32,6 @@ docker exec clarity-ollama curl -s http://localhost:11434/api/embeddings -d '{"m
 docker exec clarity-db pg_dump -U root -d clarity -F c -f /tmp/clarity_pre_pgvector.dump
 docker cp clarity-db:/tmp/clarity_pre_pgvector.dump .\clarity_pre_pgvector.dump
 ls clarity_pre_pgvector.dump
+
+docker exec clarity-db psql -U root -d clarity -c "\dt"
+docker exec clarity-db psql -U root -d clarity -c "SELECT 'project' AS t, COUNT(*) FROM project UNION ALL SELECT 'questionnaire', COUNT(*) FROM questionnaire;"
