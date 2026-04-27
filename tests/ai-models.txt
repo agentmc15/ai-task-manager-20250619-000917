@@ -1,1 +1,14 @@
 https://huggingface.co/nomic-ai/nomic-embed-text-v1.5-GGUF/resolve/main/nomic-embed-text-v1.5.Q4_K_M.gguf
+
+1. Download the GGUF (still need to confirm — were you able to grab it from HuggingFace?)
+https://huggingface.co/nomic-ai/nomic-embed-text-v1.5-GGUF/resolve/main/nomic-embed-text-v1.5.Q4_K_M.gguf
+Save to projects\clarity-rewrite\models\nomic-embed-text-v1.5.Q4_K_M.gguf
+2. Create a second Modelfile
+Since Ollama's -f flag points to one file, we need a separate Modelfile for the embedding model. I'd name it Modelfile.embed. Contents — just one line:
+FROM ./nomic-embed-text-v1.5.Q4_K_M.gguf
+3. Create the model in Ollama
+powershelldocker exec -w /models clarity-ollama ollama create nomic-embed-text -f /models/Modelfile.embed
+docker exec clarity-ollama ollama list
+4. Smoke test the embedding endpoint
+powershelldocker exec clarity-ollama curl -s http://localhost:11434/api/embeddings -d '{\"model\":\"nomic-embed-text\",\"prompt\":\"hello world\"}'
+Should return a JSON object with "embedding": [...768 floats...].
