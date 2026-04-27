@@ -29,3 +29,6 @@ docker exec -u root clarity-ollama sh -c "apt-get update -qq && apt-get install 
 docker exec clarity-ollama curl -s http://localhost:11434/api/tags
 docker exec clarity-ollama curl -s http://localhost:11434/api/embeddings -d '{"model":"nomic-embed-text","prompt":"hello world"}'
 
+docker exec clarity-db pg_dump -U root -d clarity -F c -f /tmp/clarity_pre_pgvector.dump
+docker cp clarity-db:/tmp/clarity_pre_pgvector.dump .\clarity_pre_pgvector.dump
+ls clarity_pre_pgvector.dump
