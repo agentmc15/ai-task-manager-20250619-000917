@@ -23,3 +23,9 @@ Invoke-RestMethod -Uri http://localhost:11434/api/embed -Method Post -ContentTyp
 docker exec clarity-ollama wget -qO- --post-data='{"model":"nomic-embed-text","prompt":"hello world"}' --header='Content-Type: application/json' http://localhost:11434/api/embeddings
 docker run --rm --network clarity-rewrite_clarity_network curlimages/curl -s -X POST http://clarity-ollama:11434/api/embeddings -H "Content-Type: application/json" -d '{"model":"nomic-embed-text","prompt":"hello world"}'
 
+docker exec clarity-ollama ollama show nomic-embed-text
+
+docker exec -u root clarity-ollama sh -c "apt-get update -qq && apt-get install -y -qq curl"
+docker exec clarity-ollama curl -s http://localhost:11434/api/tags
+docker exec clarity-ollama curl -s http://localhost:11434/api/embeddings -d '{"model":"nomic-embed-text","prompt":"hello world"}'
+
