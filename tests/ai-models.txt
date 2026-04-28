@@ -48,3 +48,8 @@ docker compose -f docker-compose.production.yaml stop db
 docker compose -f docker-compose.production.yaml rm -f db
 docker compose -f docker-compose.production.yaml up -d db
 docker compose -f docker-compose.production.yaml logs --tail 30 db
+
+docker exec clarity-db psql -U root -d clarity -c "ALTER DATABASE clarity REFRESH COLLATION VERSION;"
+
+docker exec clarity-db psql -U root -d clarity -c "SELECT extname, extversion FROM pg_available_extensions WHERE name='vector';"
+docker exec clarity-db psql -U root -d clarity -c "SELECT COUNT(*) FROM project;"
