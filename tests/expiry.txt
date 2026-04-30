@@ -10,3 +10,5 @@ Get-ChildItem frontend/server -Recurse | Select-Object FullName
 
 Get-ChildItem -Recurse -Path frontend/server | Select-Object FullName
 Get-Content frontend/middleware/auth.ts
+
+Get-ChildItem -Recurse -Include *.ts,*.vue -Path frontend | Select-String -Pattern "getAuthHeaders" -List
