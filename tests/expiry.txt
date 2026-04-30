@@ -7,3 +7,6 @@ Get-Content frontend/composables/useAuth.ts
 Get-Content frontend/server/routes/auth/keycloak.ts -ErrorAction SilentlyContinue
 Get-Content frontend/server/api -Recurse -ErrorAction SilentlyContinue | Out-Null
 Get-ChildItem frontend/server -Recurse | Select-Object FullName
+
+Get-ChildItem -Recurse -Path frontend/server | Select-Object FullName
+Get-Content frontend/middleware/auth.ts
