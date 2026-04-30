@@ -12,3 +12,166 @@ Get-ChildItem -Recurse -Path frontend/server | Select-Object FullName
 Get-Content frontend/middleware/auth.ts
 
 Get-ChildItem -Recurse -Include *.ts,*.vue -Path frontend | Select-String -Pattern "getAuthHeaders" -List
+
+Got it. Code only, three edits + one new file.
+
+---
+
+**Edit 1** — `frontend/server/routes/auth/keycloak.get.ts`
+
+Find:
+```
+        roles: user.realm_access?.roles || [],
+      },
+      accessToken: tokens.access_token,
+    })
+    return sendRedirect(event, '/clara')
+```
+Replace:
+```
+        roles: user.realm_access?.roles || [],
+      },
+      accessToken: tokens.access_token,
+      refreshToken: tokens.refresh_token,
+      expiresAt: Date.now() + (tokens.expires_in * 1000),
+    })
+    return sendRedirect(event, '/clara')
+```
+
+---
+
+**Edit 2** — `frontend/server/routes/auth/sso/callback.get.ts`
+
+Same edit, identical find/replace as Edit 1. The two files have nearly identical handlers.
+
+---
+
+**Edit 3 (new file)** — `frontend/server/api/auth/refresh.post.ts`
+
+Create the file with this content:
+
+```typescript
+/**
+ * Token refresh endpoint.
+ * Reads the current session, swaps the refresh_token at Keycloak's /token
+ * endpoint, and updates the session with new tokens. Returns the new
+ * accessToken to the caller.
+ */
+export default defineEventHandler(async (event) => {
+  const session = await getUserSession(event)
+  const refreshToken = (session as any)?.refreshToken
+  if (!refreshToken) {
+    throw createError({ statusCode: 401, statusMessage: 'No refresh token in session' })
+  }
+
+  const config = useRuntimeConfig()
+
+  // Pull the right Keycloak config based on auth mode.
+  // These match what nuxt-auth-utils uses for the original OAuth flow.
+  const authMode = config.public.authMode
+  const isEnterprise = authMode === 'keycloak-enterprise'
+
+  const tokenUrl = isEnterprise
+    ? `${process.env.NUXT_OAUTH_KEYCLOAK_SERVER_URL}/realms/${process.env.NUXT_OAUTH_KEYCLOAK_REALM}/protocol/openid-connect/token`
+    : `${process.env.NUXT_OAUTH_KEYCLOAK_SERVER_URL}/realms/${process.env.NUXT_OAUTH_KEYCLOAK_REALM}/protocol/openid-connect/token`
+
+  const clientId = process.env.NUXT_OAUTH_KEYCLOAK_CLIENT_ID
+  const clientSecret = process.env.NUXT_OAUTH_KEYCLOAK_CLIENT_SECRET
+
+  try {
+    const body = new URLSearchParams({
+      grant_type: 'refresh_token',
+      refresh_token: refreshToken,
+      client_id: clientId || '',
+    })
+    if (clientSecret) body.append('client_secret', clientSecret)
+
+    const tokens = await $fetch<any>(tokenUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body.toString(),
+    })
+
+    await setUserSession(event, {
+      ...(session as any),
+      accessToken: tokens.access_token,
+      refreshToken: tokens.refresh_token || refreshToken,
+      expiresAt: Date.now() + (tokens.expires_in * 1000),
+    })
+
+    return { accessToken: tokens.access_token, expiresAt: Date.now() + (tokens.expires_in * 1000) }
+  } catch (err: any) {
+    console.error('Token refresh failed:', err?.data || err?.message || err)
+    await clearUserSession(event)
+    throw createError({ statusCode: 401, statusMessage: 'Token refresh failed' })
+  }
+})
+```
+
+Note the env var names — those are the conventions nuxt-auth-utils uses. If your `.env` uses different keys (you have `ENTERPRISE_KC_*` and `CLARITY_KC_*` patterns from earlier), the `process.env` refs in this file need to match what nuxt-auth-utils is actually reading. Check `nuxt.config.ts` — there's likely a runtimeConfig section that exposes these. Send a screenshot of `nuxt.config.ts` if you're not sure and I'll adjust the var names before you save the file.
+
+---
+
+**Edit 4** — `frontend/composables/useAuth.ts`
+
+Make `getAuthHeaders` async with refresh-on-near-expiry logic.
+
+Find:
+```
+  function getAuthHeaders(): Record<string, string> {
+    if (!isKeycloak) return {}
+
+    const token = (session.value as any)?.accessToken
+    if (token) {
+      return { Authorization: `Bearer ${token}` }
+    }
+    return {}
+  }
+```
+Replace:
+```
+  async function getAuthHeaders(): Promise<Record<string, string>> {
+    if (!isKeycloak) return {}
+
+    const sess = session.value as any
+    let token = sess?.accessToken
+    const expiresAt = sess?.expiresAt as number | undefined
+
+    // If token expires in less than 60s, refresh it silently.
+    if (token && expiresAt && (expiresAt - Date.now() < 60_000)) {
+      try {
+        const refreshed = await $fetch<{ accessToken: string }>('/api/auth/refresh', { method: 'POST' })
+        token = refreshed.accessToken
+      } catch (e) {
+        console.error('Silent token refresh failed; falling through with stale token', e)
+      }
+    }
+
+    if (token) {
+      return { Authorization: `Bearer ${token}` }
+    }
+    return {}
+  }
+```
+
+---
+
+**Edit 5** — `frontend/composables/useApi.ts:10`
+
+`getAuthHeaders` is now async, so the call site needs `await`. I don't know the exact context of that line. Open the file and look at line 10 — if it's destructuring like `const { getAuthHeaders, authMode } = useAuth()`, no edit needed there. The edit is wherever `getAuthHeaders()` is **called**, which is somewhere later in the file. Run:
+
+```powershell
+Get-Content frontend/composables/useApi.ts | Select-String "getAuthHeaders" -Context 2,2
+```
+
+Send a screenshot of that and I'll give you the exact replacement (it'll be `await getAuthHeaders()` instead of `getAuthHeaders()`, and the enclosing function needs to be async if it isn't already).
+
+---
+
+After all 5 edits, rebuild the frontend:
+
+```powershell
+docker compose -f docker-compose.production.yaml up -d --build clarity-frontend
+```
+
+Test plan: log in, leave the tab open ~4 minutes (just under 5min Keycloak idle), do an action that hits the API. Network tab should show a `POST /api/auth/refresh` followed by a successful API call. No login redirect.
