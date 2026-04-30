@@ -2,3 +2,8 @@ Get-ChildItem -Recurse -Include *.ts,*.vue,*.js -Path frontend | Select-String -
 
 
 Get-ChildItem -Recurse -Include *.py -Path backend | Select-String -Pattern "verify_token|decode_token|jwt.decode|HTTPBearer" -List
+
+Get-Content frontend/composables/useAuth.ts
+Get-Content frontend/server/routes/auth/keycloak.ts -ErrorAction SilentlyContinue
+Get-Content frontend/server/api -Recurse -ErrorAction SilentlyContinue | Out-Null
+Get-ChildItem frontend/server -Recurse | Select-Object FullName
