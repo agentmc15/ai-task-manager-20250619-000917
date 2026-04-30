@@ -175,3 +175,5 @@ docker compose -f docker-compose.production.yaml up -d --build clarity-frontend
 ```
 
 Test plan: log in, leave the tab open ~4 minutes (just under 5min Keycloak idle), do an action that hits the API. Network tab should show a `POST /api/auth/refresh` followed by a successful API call. No login redirect.
+
+docker compose -f docker-compose.production.yaml logs --tail=100 clarity-frontend | Select-String -Pattern "Token refresh|refresh"
