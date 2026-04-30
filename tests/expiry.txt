@@ -1,1 +1,4 @@
+Get-ChildItem -Recurse -Include *.ts,*.vue,*.js -Path frontend | Select-String -Pattern "keycloak|refresh_token|refreshToken|access_token|accessToken" -List | Select-Object -First 20
 
+
+Get-ChildItem -Recurse -Include *.py -Path backend | Select-String -Pattern "verify_token|decode_token|jwt.decode|HTTPBearer" -List
