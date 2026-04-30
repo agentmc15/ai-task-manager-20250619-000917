@@ -240,3 +240,9 @@ export default defineEventHandler(async (event) => {
   }
 })
 
+git add frontend/composables/useApi.ts
+git add frontend/composables/useAuth.ts
+git add frontend/server/routes/auth/keycloak.get.ts
+git add frontend/server/routes/auth/sso/callback.get.ts
+git add frontend/server/api/auth/refresh.post.ts
+git status
