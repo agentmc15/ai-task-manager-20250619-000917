@@ -75,3 +75,7 @@ docker compose -f docker-compose.production.yaml logs clarity-api | Select-Strin
 
 docker exec clarity-api grep -A2 "Upsert the questionnaire" /app/src/clarity/db/manager.py
 docker compose -f docker-compose.production.yaml logs clarity-api 2>&1 | Select-String -Pattern "Seeded|Updated|skipping seed|seed"
+
+docker exec clarity-db psql -U root -d clarity -c "SELECT jsonb_array_elements_text(q->'options') AS sbu_option FROM questionnaire, jsonb_array_elements(phases_json::jsonb->'phases') p, jsonb_array_elements(p->'questions') q WHERE q->>'id' = 'sbu_organization';"
+
+docker exec clarity-db psql -U root -d clarity -c "SELECT jsonb_object_keys(q->'optionsByParent') AS parent_key FROM questionnaire, jsonb_array_elements(phases_json::jsonb->'phases') p, jsonb_array_elements(p->'questions') q WHERE q->>'id' = '<Q9_ID>';"
