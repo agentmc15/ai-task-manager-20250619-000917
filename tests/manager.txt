@@ -68,3 +68,7 @@ async def seed_data(eng):
                 "Seeded questionnaire id=%s version=%s (%d phases)",
                 questionnaire.id, version, len(phases_raw),
             )
+
+
+docker compose -f docker-compose.production.yaml up -d --build clarity-api
+docker compose -f docker-compose.production.yaml logs clarity-api | Select-String -Pattern "questionnaire"
