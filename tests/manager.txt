@@ -72,3 +72,6 @@ async def seed_data(eng):
 
 docker compose -f docker-compose.production.yaml up -d --build clarity-api
 docker compose -f docker-compose.production.yaml logs clarity-api | Select-String -Pattern "questionnaire"
+
+docker exec clarity-api grep -A2 "Upsert the questionnaire" /app/src/clarity/db/manager.py
+docker compose -f docker-compose.production.yaml logs clarity-api 2>&1 | Select-String -Pattern "Seeded|Updated|skipping seed|seed"
