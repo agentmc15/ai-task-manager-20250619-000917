@@ -1,0 +1,70 @@
+async def seed_data(eng):
+    """Upsert the questionnaire data from seed/data.json on every startup.
+
+    The seed file is the source of truth for questionnaire definitions.
+    Any existing active row is overwritten so changes to data.json (added
+    cascade options, new questions, edited titles) propagate without
+    requiring manual reseeds. User data in `project.responses_json` is
+    untouched.
+    """
+    seed_path = Path(__file__).parent.parent.parent.parent / "seed" / "data.json"
+    if not seed_path.exists():
+        log.warning("Seed file not found: %s", seed_path)
+        return
+
+    with open(seed_path) as f:
+        raw = json.load(f)
+
+    # Navigate to the questionnaire data (handle nested structures)
+    q_data = raw.get("questionnaire", raw)
+    phases_raw = q_data.get("phases_json", q_data.get("phases", []))
+
+    if not phases_raw:
+        log.warning("No phases found in seed data")
+        return
+
+    # Normalize question types
+    for phase in phases_raw:
+        questions = phase.get("questions", phase.get("nodes", []))
+        for q in questions:
+            raw_type = q.get("type", "text")
+            q["type"] = QUESTION_TYPE_MAP.get(raw_type, raw_type)
+
+            # Normalize options
+            opts = q.get("options")
+            if isinstance(opts, str):
+                if opts.lower() == "none":
+                    q["options"] = None
+                else:
+                    q["options"] = [o.strip() for o in opts.split(",")]
+
+            # Handle yes-no -> choose-one with Yes/No options
+            if raw_type == "yes-no" and not q.get("options"):
+                q["options"] = ["Yes", "No"]
+
+    version = q_data.get("version", "1.0")
+
+    with Session(eng) as session:
+        existing = session.query(Questionnaire).filter_by(active=True).first()
+        if existing:
+            existing.version = version
+            existing.phases_json = phases_raw
+            session.commit()
+            session.refresh(existing)
+            log.info(
+                "Updated questionnaire id=%s version=%s (%d phases)",
+                existing.id, version, len(phases_raw),
+            )
+        else:
+            questionnaire = Questionnaire(
+                version=version,
+                active=True,
+                phases_json=phases_raw,
+            )
+            session.add(questionnaire)
+            session.commit()
+            session.refresh(questionnaire)
+            log.info(
+                "Seeded questionnaire id=%s version=%s (%d phases)",
+                questionnaire.id, version, len(phases_raw),
+            )
