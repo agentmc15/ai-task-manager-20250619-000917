@@ -1,1 +1,18 @@
+Final Product: Enable users to ask questions about in-progress questionnaire (EX: "what did I put for system owner?", "summarize my answers so far", "what's still missing?").
+Completed:
 
+pgvector enabled in Postgres (vector similarity search)
+nomic-embed-text embedding model packaged and registered in Ollama
+Modelfile and load scripts mirroring existing Phi-3 pattern
+
+To Do:
+
+Document/chunk tables in Postgres
+Embedding pipeline (chunk → embed → store)
+Document upload endpoints (PDF, Word, csv, text)
+RAG retrieval service (top-k semantic search scoped to project)
+Questionnaire-aware Q&A endpoint (combines uploaded docs + current responses)
+Frontend integration into existing CopilotChat sidebar
+"Use my answers" toggle so the AI grounds responses in the user's in-progress questionnaire
+
+User mid-questionnaire can ask the sidebar "based on Q3, what should I put for hosting environment?" and get a grounded answer pulling from both the uploaded and their existing answers.
